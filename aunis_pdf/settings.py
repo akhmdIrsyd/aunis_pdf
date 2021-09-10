@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'website',
     'widget_tweaks',
     'django_cleanup',
-    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [

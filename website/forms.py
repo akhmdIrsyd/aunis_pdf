@@ -24,4 +24,4 @@ class isi_kontrakForm(forms.ModelForm):
     id_kontraks = forms.CharField(widget=forms.HiddenInput(), required=False)
     class Meta:
         model = isi_kontrak
-        fields = ['id_kontraks','Code_Purchase', 'nama_barang','spesifikasi', 'tujuan', 'satuan', 'jumlah', 'harga', 'total']
+        fields = ['id_kontraks','Code_Purchase', 'nama_barang','spesifikasi', 'tujuan', 'satuan', 'jumlah', 'harga', 'total', 'status']

@@ -36,6 +36,8 @@ class isi_kontrak(models.Model):
     jumlah = models.CharField(max_length=50)
     harga = models.CharField(max_length=50)
     total = models.CharField(max_length=50)
+    total = models.CharField(max_length=50)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.Code_Purchase)

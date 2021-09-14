@@ -219,6 +219,7 @@ def Create_isikontrak(request,pk):
             isi_kontraks.jumlah = form.cleaned_data.get('jumlah')
             isi_kontraks.harga = form.cleaned_data.get('harga')
             isi_kontraks.total = form.cleaned_data.get('total')
+            isi_kontraks.status = form.cleaned_data.get('status')
             
             isi_kontraks.save()
             
@@ -245,6 +246,24 @@ def Update_isikontrak(request, pk):
             return redirect('dashboard')
     else:
         form = isi_kontrakForm(instance=data_isikontraks)
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': data_isikontraks
+    }
+    return render(request, 'website/form.html', context)
+
+@login_required(login_url='login')
+def Update_status(request, pk):
+    user = request.user
+    mail = user.email
+    data_isikontraks = isi_kontrak.objects.get(id=pk)
+    if data_isikontraks.status == False:
+        data_isikontraks.status = True
+        data_isikontraks.save()
+    elif data_isikontraks.status == True:
+        data_isikontraks.status = False
+        data_isikontraks.save()
     context = {
         'form': form,
         'mail': mail,

@@ -17,6 +17,7 @@ urlpatterns = [
     path('Delete_kontrak/<int:pk>/', views.Delete_kontrak, name='Delete_kontrak'),
     path('create_isikontrak/<int:pk>/', views.Create_isikontrak, name='create_isikontrak'),
     path('Update_isikontrak/<int:pk>/', views.Update_isikontrak, name='Update_isikontrak'),
+    path('Update_Update_status/<int:pk>/', views.Update_status, name='Update_Update_status'),
     path('Delete_isikontrak/<int:pk>/', views.Delete_isikontrak, name='Delete_isikontrak'),
     path('change_pass', views.Ganti_password, name='change_pass'),
 ]

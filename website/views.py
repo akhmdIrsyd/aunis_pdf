@@ -63,7 +63,7 @@ def read_pdf(files_pdf):
         df_total = df_total[[0, 1]]
         
        # df_data=df.drop_duplicates(subset=[3])
-        df_data=df_data[1:-3].reset_index(drop=True)
+        df_data=df[1:-3].reset_index(drop=True)
 
     df_data.columns = [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13]
     df_data = df_data[~df_data[0].str.contains("NO.")]
@@ -84,12 +84,12 @@ def read_pdf(files_pdf):
         df_data[12]=45
     if df_data[11].all() == '-' or df_data[11].all() == '--':
         df_data[11]=datetime.date.today()- datetime.timedelta(days=45)
-    df_data[13]=datetime.date.today()
-    if df_data[11].all() == '-' or df_data[11].all() == '--':
-        df_data[11]=datetime.date.today()
         df_data[13]=datetime.date.today()
-    df_data[11] = df_data[11].astype('datetime64[ns]')
-    df_data[13] = df_data[13].astype('datetime64[ns]')
+    
+    df_data[11] = df_data[11].astype('datetime64').dt.strftime('%m/%d/%y')
+    df_data[13] = df_data[13].astype('datetime64').dt.strftime('%m/%d/%y')
+    df_data[11] = pd.to_datetime(df_data[11]).dt.strftime('%Y-%m-%d')
+    df_data[13] = pd.to_datetime(df_data[13]).dt.strftime('%Y-%m-%d')
     df_data[6] = df_data[6].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
     df_data[7] = df_data[7].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
     df_data[8] = df_data[8].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
@@ -103,7 +103,7 @@ def read_pdf(files_pdf):
         df_data[9]=dfs
         df_data[2]=dfs[:4]
         df_data[10] = "AUNIS PRINT OFFSET"
-        df_data=df_data.sort_values(0)
+    df_data=df_data.sort_values(0)
     
     return df_data, df_total
 

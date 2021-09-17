@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import kontrak,isi_kontrak
-from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm
+from .models import kontrak,isi_kontrak, perusahaan
+from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.hashers import make_password
+import uuid
 # Create your views here.
 import tabula
 import pandas as pd
 import numpy as np
+import datetime
 import os
 from django.conf import settings
 
@@ -28,29 +30,81 @@ def read_pdf(files_pdf):
     df=table[0]
     df_total = df[-5:].reset_index(drop=True)
     if (len(df.columns)==7):
+        #df[7] = '-'
+        df_total=df[-5:].reset_index(drop=True)
         df_total = df_total[[0, 1]]
-        df['new_col_name']=df.index.map(str)
-        df['new_col_name2']='-'
-        df=df[['new_col_name','new_col_name2',0,1,2,3,4,5,6]]
+        df['no']=df.index.map(str)
+        df['code']='-'
+        df['perusahaan']='-'
+        df['nokontrak']='-'
+        df['suplier']='-'
+        df['tglorder']='-'
+        df['waktu']='-'
+        df['tglpenyerahan']='-'
+        df=df[['no','code','perusahaan',0,1,3,4,5,6,'nokontrak','suplier','tglorder','waktu','tglpenyerahan']]
+        df_data=df[1:-5].reset_index(drop=True)
     elif (len(df.columns)==8):
+        df_total=df[-5:].reset_index(drop=True)
         df_total = df_total[[0, 1]]
         df['new_col_name']='-'
-        df=df[[0,1,2,3,'new_col_name',4,5,6,7]]
+        df['perusahaan']='-'
+        df['nokontrak']='-'
+        df['suplier']='-'
+        df['tglorder']='-'
+        df['waktu']='-'
+        df['tglpenyerahan']='-'
+        df=df[[0,1,'perusahaan',2,3,4,5,6,7,'nokontrak','suplier','tglorder','waktu','tglpenyerahan']]
+        
+        #df_data=df.drop_duplicates(subset=[0])
+        df_data=df[1:-5].reset_index(drop=True)
+        #df_data[0] = df_data[0].astype(int)
+    elif (len(df.columns)==14):
+        df_total=df[-3:].reset_index(drop=True)
+        df_total = df_total[[0, 1]]
+        
+       # df_data=df.drop_duplicates(subset=[3])
+        df_data=df_data[1:-3].reset_index(drop=True)
 
-    df.columns = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    df_data = df[1:-5].reset_index(drop=True)
+    df_data.columns = [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13]
+    df_data = df_data[~df_data[0].str.contains("NO.")]
     f1 = lambda x: ' '.join(x.dropna())
-    c =[0,1,2,3,4,5,6,7]
+    c = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     d1 = dict.fromkeys(c, f1)
     d2 = dict.fromkeys(df_data.columns.difference(c), 'first')
     f = {**d1, **d2}
     df_data=df_data.groupby(df_data[0].ffill()).agg(f).reset_index(drop=True)
 
-    df_data[1] = df_data[1].apply(replace)
-    df_data[2] = df_data[2].apply(replace)
-    df_data[3] = df_data[3].apply(replace)
+    df_data[3]=df_data[3].apply(replace)
+    df_data[4]=df_data[4].apply(replace)
+    df_data[5]=df_data[5].apply(replace)
+    df_data[9]=df_data[9].apply(replace)
+    df_data[10]=df_data[10].apply(replace)
     df_data[0] = df_data[0].astype(int)
-    df_data = df_data.sort_values(0)
+    if df_data[12].all() == '-' :
+        df_data[12]=45
+    if df_data[11].all() == '-' or df_data[11].all() == '--':
+        df_data[11]=datetime.date.today()- datetime.timedelta(days=45)
+    df_data[13]=datetime.date.today()
+    if df_data[11].all() == '-' or df_data[11].all() == '--':
+        df_data[11]=datetime.date.today()
+        df_data[13]=datetime.date.today()
+    df_data[11] = df_data[11].astype('datetime64[ns]')
+    df_data[13] = df_data[13].astype('datetime64[ns]')
+    df_data[6] = df_data[6].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
+    df_data[7] = df_data[7].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
+    df_data[8] = df_data[8].str.replace(r'[a-zA-Z \n\,\.]','').astype(int)
+    if df_data[2].all() == '-' or df_data[9].all() == '-' or df_data[10].all() == '-':
+        tables = tabula.read_pdf(file,multiple_tables=False,pages=1, pandas_options={'header': None}, guess=False, lattice=False)
+        dfs = tables[0]
+        dfs = dfs.dropna(axis='columns')
+        dfs = dfs[dfs[1].str.contains("Nomor Kontrak")]
+        dfs=dfs[1].str.replace('Nomor Kontrak合同号:','').reset_index(drop=True)
+        dfs = dfs[0]
+        df_data[9]=dfs
+        df_data[2]=dfs[:4]
+        df_data[10] = "AUNIS PRINT OFFSET"
+        df_data=df_data.sort_values(0)
+    
     return df_data, df_total
 
 @login_required(login_url='login')
@@ -90,7 +144,7 @@ def dashboard(request):
 
 #list Pengumuman
 @login_required(login_url='login')
-def list_kontrak(request):
+def list_pdf(request):
     Data_kontrak = kontrak.objects.order_by("-tanggal")
     context = {
         'rows': Data_kontrak,
@@ -99,7 +153,7 @@ def list_kontrak(request):
 
 #detail Pengumuman
 @login_required(login_url='login')
-def kontrak_detail(request, pk):
+def pdf_detail(request, pk):
     Data_kontraks = kontrak.objects.get(id=pk)
     Data_isikontraks = isi_kontrak.objects.get(id_kontrak=Data_kontraks.id)
     context = {
@@ -110,15 +164,21 @@ def kontrak_detail(request, pk):
 
 
 @login_required(login_url='login')
-def Create_kontrak(request):
+def Create_pdf(request):
     user = request.user
     mail = user.email
+    kode = str(uuid.uuid4())
     if request.method == 'POST':
         form = KontrakForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            kode_kontrak = form.cleaned_data.get('kode')
-            Data_kontraks = kontrak.objects.get(kode=kode_kontrak)
+            pdf=kontrak()
+            pdf.file_pdf = form.cleaned_data.get('file_pdf')
+    
+            pdf.kode = kode
+            pdf.save()
+
+            #kode_kontrak = form.cleaned_data.get('kode')
+            Data_kontraks = kontrak.objects.get(kode=kode)
 
             files_pdf = Data_kontraks.file_pdf
             files_pdf = str(files_pdf)
@@ -130,13 +190,19 @@ def Create_kontrak(request):
                 isi_kontraks = isi_kontrak()
                 isi_kontraks.id_kontrak = Data_kontraks
                 isi_kontraks.Code_Purchase = df_data[1][i]
-                isi_kontraks.nama_barang = df_data[2][i]
-                isi_kontraks.spesifikasi = df_data[3][i]
-                isi_kontraks.tujuan = df_data[4][i]
+                isi_kontraks.no_kontrak = df_data[9][i]
+                isi_kontraks.nama_barang = df_data[3][i]
+                isi_kontraks.spesifikasi = df_data[4][i]
                 isi_kontraks.satuan = df_data[5][i]
                 isi_kontraks.jumlah = df_data[6][i]
-                isi_kontraks.harga = df_data[6][i]
-                isi_kontraks.total = df_data[7][i]
+                isi_kontraks.harga = df_data[7][i]
+                isi_kontraks.total = df_data[8][i]
+                Data_perusahaan = perusahaan.objects.get(kode_perusahaan=df_data[2][i])
+                isi_kontraks.id_perusahaan = Data_perusahaan
+                isi_kontraks.supplier = df_data[10][i]
+                isi_kontraks.tgl_order = df_data[11][i]
+                isi_kontraks.waktu = df_data[12][i]
+                isi_kontraks.tgl_penyerahan = df_data[13][i]
                 isi_kontraks.save()
             return redirect('dashboard')
     else:
@@ -149,36 +215,51 @@ def Create_kontrak(request):
 
 
 @login_required(login_url='login')
-def Update_kontrak(request, pk):
+def Update_pdf(request, pk):
     user = request.user
     mail = user.email
+    code = str(uuid.uuid4())
     data_kontraks = kontrak.objects.get(id=pk)
+    
     if request.method == 'POST':
         form = KontrakForm(request.POST, request.FILES, instance=data_kontraks)
         if form.is_valid():
+            isi_kontrak.objects.filter(id_kontrak=pk).delete()
+            form.save(commit=False)
+            
+            
+            #form.file_pdf = form.cleaned_data.get('file_pdf')
+
+            #form.kode = code
             form.save()
-            kode_kontrak = form.cleaned_data.get('kode')
-            Data_kontraks = kontrak.objects.get(kode=kode_kontrak)
+            #kode_pdf = form.cleaned_data.get('kode')
+            Data_pdf = kontrak.objects.get(id=pk)
 
-            delisi_kontraks = isi_kontrak.objects.get(id_kontrak=Data_kontraks.id)
-            delisi_kontraks.delete()
+            #delisi_kontraks = isi_kontrak.objects.get(id_kontrak=Data_kontraks.id)
+            #delisi_kontraks.delete()
 
-            files_pdf = Data_kontraks.file_pdf
+            files_pdf = Data_pdf.file_pdf
             files_pdf = str(files_pdf)
             #files_pdf = ','.join(Data_kontraks)
             df_data, df_total = read_pdf(files_pdf)
 
             for i in range(len(df_data)):
-                isi_kontraks = isi_kontrak()
-                isi_kontraks.id_kontrak = Data_kontraks
+                isi_kontraks=isi_kontrak()
+                isi_kontraks.id_kontrak = Data_pdf
                 isi_kontraks.Code_Purchase = df_data[1][i]
-                isi_kontraks.nama_barang = df_data[2][i]
-                isi_kontraks.spesifikasi = df_data[3][i]
-                isi_kontraks.tujuan = df_data[4][i]
+                isi_kontraks.no_kontrak = df_data[9][i]
+                isi_kontraks.nama_barang = df_data[3][i]
+                isi_kontraks.spesifikasi = df_data[4][i]
                 isi_kontraks.satuan = df_data[5][i]
                 isi_kontraks.jumlah = df_data[6][i]
-                isi_kontraks.harga = df_data[6][i]
-                isi_kontraks.total = df_data[7][i]
+                isi_kontraks.harga = df_data[7][i]
+                isi_kontraks.total = df_data[8][i]
+                Data_perusahaan = perusahaan.objects.get(kode_perusahaan=df_data[2][i])
+                isi_kontraks.id_perusahaan = Data_perusahaan
+                isi_kontraks.supplier = df_data[10][i]
+                isi_kontraks.tgl_order = df_data[11][i]
+                isi_kontraks.waktu = df_data[12][i]
+                isi_kontraks.tgl_penyerahan = df_data[13][i]
                 isi_kontraks.save()
             return redirect('dashboard')
     else:
@@ -192,7 +273,7 @@ def Update_kontrak(request, pk):
 
 
 @login_required(login_url='login')
-def Delete_kontrak(request, pk):
+def Delete_pdf(request, pk):
     data_kontraks = kontrak.objects.get(id=pk)
     data_kontraks.delete()
     return redirect('dashboard')
@@ -274,6 +355,73 @@ def Update_status(request, pk):
 
 @login_required(login_url='login')
 def Delete_isikontrak(request, pk):
-    data_isikontraks = isi_kontrak().objects.get(id=pk)
+    data_isikontraks = isi_kontrak.objects.get(id=pk)
     data_isikontraks.delete()
+    return redirect('dashboard')  
+
+#Perusahaan
+#list Perusahaan
+@login_required(login_url='login')
+def list_perusahaan(request):
+    Data_perusahaan = perusahaan.objects.all()
+    context = {
+        'rows': Data_perusahaan,
+    }
+    return render(request, 'website/dashboard.html', context)
+
+#detail Perusahaan
+@login_required(login_url='login')
+def perusahaan_detail(request, pk):
+    Data_perusahaan = kontrak.objects.get(id=pk)
+    Data_isikontraks = isi_kontrak.objects.get(id_perusahaan=Data_kontraks.id)
+    context = {
+        'rows': Data_kontraks,
+        'rows2': Data_isikontraks,
+    }
+    return render(request, 'website/dashboard.html', context)
+
+@login_required(login_url='login')
+def Create_perusahaan(request):
+    user = request.user
+    mail = user.email
+    if request.method == 'POST':
+        form = PerusahaanForm(request.POST)
+        if form.is_valid():
+            form = form.save()
+            
+            return redirect('dashboard')
+    else:
+        form = PerusahaanForm()
+    context = {
+        'form': form,
+        'mail': mail,
+    }
+    return render(request, 'website/form.html', context)
+
+
+@login_required(login_url='login')
+def Update_perusahaan(request, pk):
+    user = request.user
+    mail = user.email
+    data_perusahaan = Perusahaan.objects.get(id=pk)
+    if request.method == 'POST':
+        form = PerusahaanForm(request.POST, instance=data_perusahaan)
+        if form.is_valid():
+            form.save()
+
+            return redirect('dashboard')
+    else:
+        form = isi_kontrakForm(instance=data_isikontraks)
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': data_isikontraks
+    }
+    return render(request, 'website/form.html', context)
+
+
+@login_required(login_url='login')
+def Delete_perusahaan(request, pk):
+    data_perusahaan = perusahaan.objects.get(id=pk)
+    data_perusahaan.delete()
     return redirect('dashboard')

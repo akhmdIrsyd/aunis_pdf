@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import kontrak,isi_kontrak
+from .models import kontrak,isi_kontrak,perusahaan
 
 class Ganti_passForm(forms.ModelForm):
     new_password = forms.CharField(
@@ -18,10 +18,17 @@ class Ganti_passForm(forms.ModelForm):
 class KontrakForm(forms.ModelForm):
     class Meta:
         model = kontrak
+        fields = ['file_pdf']
+        #fields = '__all__'
+    
+
+class PerusahaanForm(forms.ModelForm):
+    class Meta:
+        model = perusahaan
         fields = '__all__'
 
 class isi_kontrakForm(forms.ModelForm):
     id_kontraks = forms.CharField(widget=forms.HiddenInput(), required=False)
     class Meta:
         model = isi_kontrak
-        fields = ['id_kontraks','Code_Purchase', 'nama_barang','spesifikasi', 'tujuan', 'satuan', 'jumlah', 'harga', 'total', 'status']
+        fields = ['id_kontraks','Code_Purchase','id_perusahaan', 'nama_barang','spesifikasi', 'satuan', 'jumlah', 'harga', 'total','no_kontrak', 'supplier', 'tgl_order', 'waktu', 'tgl_penyerahan','status']

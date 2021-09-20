@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import kontrak,isi_kontrak, perusahaan
-from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm
+from .models import kontrak,isi_kontrak, perusahaan, isi_kwitansi, kwitansi
+from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.hashers import make_password
@@ -295,11 +295,15 @@ def Create_isikontrak(request,pk):
             isi_kontraks.Code_Purchase = form.cleaned_data.get('Code_Purchase')
             isi_kontraks.nama_barang = form.cleaned_data.get('nama_barang')
             isi_kontraks.spesifikasi = form.cleaned_data.get('spesifikasi')
-            isi_kontraks.tujuan = form.cleaned_data.get('tujuan')
             isi_kontraks.satuan = form.cleaned_data.get('satuan')
             isi_kontraks.jumlah = form.cleaned_data.get('jumlah')
             isi_kontraks.harga = form.cleaned_data.get('harga')
             isi_kontraks.total = form.cleaned_data.get('total')
+            isi_kontraks.id_perusahaan = form.cleaned_data.get('id_perusahaan')
+            isi_kontraks.supplier = form.cleaned_data.get('supplier')
+            isi_kontraks.tgl_order = form.cleaned_data.get('tgl_order')
+            isi_kontraks.waktu = form.cleaned_data.get('waktu')
+            isi_kontraks.tgl_penyerahan = form.cleaned_data.get('tgl_penyerahan')
             isi_kontraks.status = form.cleaned_data.get('status')
             
             isi_kontraks.save()
@@ -373,10 +377,8 @@ def list_perusahaan(request):
 @login_required(login_url='login')
 def perusahaan_detail(request, pk):
     Data_perusahaan = kontrak.objects.get(id=pk)
-    Data_isikontraks = isi_kontrak.objects.get(id_perusahaan=Data_kontraks.id)
     context = {
-        'rows': Data_kontraks,
-        'rows2': Data_isikontraks,
+        'rows': Data_perusahaan,
     }
     return render(request, 'website/dashboard.html', context)
 
@@ -411,7 +413,7 @@ def Update_perusahaan(request, pk):
 
             return redirect('dashboard')
     else:
-        form = isi_kontrakForm(instance=data_isikontraks)
+        form = PerusahaanForm(instance=data_isikontraks)
     context = {
         'form': form,
         'mail': mail,
@@ -424,4 +426,131 @@ def Update_perusahaan(request, pk):
 def Delete_perusahaan(request, pk):
     data_perusahaan = perusahaan.objects.get(id=pk)
     data_perusahaan.delete()
+    return redirect('dashboard')
+
+#Kwitansi
+#list Kwitansi
+@login_required(login_url='login')
+def list_kwitansi(request):
+    Data_kwitansi = kwitansi.objects.all()
+    context = {
+        'rows': Data_kwitansi,
+    }
+    return render(request, 'website/dashboard.html', context)
+
+#detail Perusahaan
+@login_required(login_url='login')
+def kwitansi_detail(request, pk):
+    Data_kwitansi = kwitansi.objects.get(id=pk)
+    Data_isikwitansi = isi_kwitansi.objects.get(id_kwitansi=Data_kwitansi.id)
+    context = {
+        'rows': Data_kontraks,
+        'rows2': Data_isikontraks,
+    }
+    return render(request, 'website/dashboard.html', context)
+
+
+@login_required(login_url='login')
+def Create_kwitansi(request):
+    user = request.user
+    mail = user.email
+    if request.method == 'POST':
+        form = KwitansiForm(request.POST)
+        if form.is_valid():
+            form = form.save()
+
+            return redirect('dashboard')
+    else:
+        form = KwitansiForm()
+    context = {
+        'form': form,
+        'mail': mail,
+    }
+    return render(request, 'website/form.html', context)
+
+
+@login_required(login_url='login')
+def Update_Kwitansi(request, pk):
+    user = request.user
+    mail = user.email
+    data_kwitansi = kwitansi.objects.get(id=pk)
+    if request.method == 'POST':
+        form = KwitansiForm(request.POST, instance=data_kwitansi)
+        if form.is_valid():
+            form.save()
+
+            return redirect('dashboard')
+    else:
+        form = KwitansiForm(instance=data_kwitansi)
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': data_kwitansi
+    }
+    return render(request, 'website/form.html', context)
+
+
+@login_required(login_url='login')
+def Delete_kwitansi(request, pk):
+    data_kwitansi = kwitansi.objects.get(id=pk)
+    data_kwitansi.delete()
+    return redirect('dashboard')
+
+#isi kwitansi
+@login_required(login_url='login')
+def Create_isi_Kwitansi(request, pk):
+    user = request.user
+    mail = user.email
+    data_kwitansis = kwitansi.objects.get(id=pk)
+    if request.method == 'POST':
+        form = isi_KwitansiForm(request.POST)
+        if form.is_valid():
+            #form = form.save(commit=False)
+            isi_Kwitansis = isi_kwitansi()
+            isi_Kwitansis.id_kwitansi = data_kwitansis
+            isi_Kwitansis.nama_barang = form.cleaned_data.get('nama_barang')
+            isi_Kwitansis.spesifikasi = form.cleaned_data.get('spesifikasi')
+            isi_Kwitansis.satuan = form.cleaned_data.get('satuan')
+            harga=form.cleaned_data.get('harga')
+            jumlah=form.cleaned_data.get('jumlah')
+            total=harga*jumlah
+            isi_Kwitansis.harga = harga
+            isi_Kwitansis.jumlah = jumlah
+            isi_Kwitansis.total=total
+            isi_Kwitansis.save()
+
+            return redirect('dashboard')
+    else:
+        form = isi_KwitansiForm()
+    context = {
+        'form': form,
+        'mail': mail,
+    }
+    return render(request, 'website/form.html', context)
+
+
+@login_required(login_url='login')
+def Update_isi_Kwitansi(request, pk):
+    user = request.user
+    mail = user.email
+    data_isi_kwitansis = isi_kwitansi.objects.get(id=pk)
+    if request.method == 'POST':
+        form = isi_kontrakForm(request.POST, instance=data_isi_kwitansis)
+        if form.is_valid():
+            form.save()
+
+            return redirect('dashboard')
+    else:
+        form = isi_KwitansiForm(instance=data_isi_kwitansis)
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': data_isi_kwitansis
+    }
+    return render(request, 'website/form.html', context)
+
+@login_required(login_url='login')
+def Delete_isi_Kwitansi(request, pk):
+    data_isi_kwitansis = isi_kwitansi.objects.get(id=pk)
+    data_isi_kwitansis.delete()
     return redirect('dashboard')

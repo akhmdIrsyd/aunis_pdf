@@ -52,3 +52,25 @@ class isi_kontrak(models.Model):
 
     def __str__(self):
         return str(self.Code_Purchase)
+
+
+class kwitansi(models.Model):
+    KWITANSI_TYPE_CHOICES = (
+        (1, 'Siswa'),
+        (2, 'Panitia'),
+        (3, 'admin'),
+    )
+    kwitansi_type = models.PositiveIntegerField(choices=KWITANSI_TYPE_CHOICES, default=1)
+    kode_invoice = models.CharField(max_length=50, unique=True)
+    nama_perusahaan = models.CharField(max_length=50)
+    tanggal = models.DateField()
+
+
+class isi_kwitansi(models.Model):
+    id_kwitansi = models.ForeignKey(kwitansi, on_delete=models.CASCADE)
+    nama_barang = models.CharField(max_length=50)
+    spesifikasi = models.CharField(max_length=50)
+    satuan = models.CharField(max_length=50)
+    harga = models.IntegerField()
+    jumlah = models.IntegerField()
+    total = models.IntegerField()

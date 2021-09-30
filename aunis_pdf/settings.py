@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django_cleanup',
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,6 +68,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'slice_path': 'website.templatetags.slice_path'
+            }
         },
     },
 ]

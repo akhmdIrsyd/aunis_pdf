@@ -7,14 +7,16 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('login', LoginView.as_view(template_name='website/form.html'), name='login'),
+    path('', LoginView.as_view(template_name='login.html'), name='login'),
+    path('login', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('', views.dashboard, name='dashboard'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('list_pdf', views.list_pdf, name='list_pdf'),
     path('pdf_detail/<int:pk>/', views.pdf_detail, name='pdf_detail'),
     path('create_pdf', views.Create_pdf, name='create_pdf'),
-    path('Update_pdf/<int:pk>/', views.Update_pdf, name='Update_pdf'),
-    path('Delete_pdf/<int:pk>/', views.Delete_pdf, name='Delete_pdf'),
+    path('update_pdf/<int:pk>/', views.Update_pdf, name='Update_pdf'),
+    path('delete_pdf/<int:pk>/', views.Delete_pdf, name='Delete_pdf'),
     path('create_isikontrak/<int:pk>/', views.Create_isikontrak, name='create_isikontrak'),
     path('Update_isikontrak/<int:pk>/', views.Update_isikontrak, name='Update_isikontrak'),
     path('Update_Update_status/<int:pk>/', views.Update_status, name='Update_Update_status'),

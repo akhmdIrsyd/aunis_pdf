@@ -54,14 +54,14 @@ def read_pdf(files_pdf):
         df['waktu']='-'
         df['tglpenyerahan']='-'
         df=df[[0,1,'perusahaan',2,3,4,5,6,7,'nokontrak','suplier','tglorder','waktu','tglpenyerahan']]
-        
+
         #df_data=df.drop_duplicates(subset=[0])
         df_data=df[1:-5].reset_index(drop=True)
         #df_data[0] = df_data[0].astype(int)
     elif (len(df.columns)==14):
         df_total=df[-3:].reset_index(drop=True)
         df_total = df_total[[0, 1]]
-        
+
        # df_data=df.drop_duplicates(subset=[3])
         df_data=df[1:-3].reset_index(drop=True)
 
@@ -85,7 +85,7 @@ def read_pdf(files_pdf):
     if df_data[11].all() == '-' or df_data[11].all() == '--':
         df_data[11]=datetime.date.today()- datetime.timedelta(days=45)
         df_data[13]=datetime.date.today()
-    
+
     df_data[11] = df_data[11].astype('datetime64').dt.strftime('%m/%d/%y')
     df_data[13] = df_data[13].astype('datetime64').dt.strftime('%m/%d/%y')
     df_data[11] = pd.to_datetime(df_data[11]).dt.strftime('%Y-%m-%d')
@@ -104,8 +104,9 @@ def read_pdf(files_pdf):
         df_data[2]=dfs[:4]
         df_data[10] = "AUNIS PRINT OFFSET"
     df_data=df_data.sort_values(0)
-    
+
     return df_data, df_total
+
 
 @login_required(login_url='login')
 def Ganti_password(request):
@@ -131,7 +132,7 @@ def Ganti_password(request):
         'mail': mail,
         'form': form,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -140,16 +141,18 @@ def dashboard(request):
     context = {
         # 'rows': Data_siswa,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
+
 
 #list Pengumuman
 @login_required(login_url='login')
 def list_pdf(request):
-    Data_kontrak = kontrak.objects.order_by("-tanggal")
+    Data_kontrak = kontrak.objects.order_by("-date_upload")
     context = {
         'rows': Data_kontrak,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'list_kontrak.html', context)
+
 
 #detail Pengumuman
 @login_required(login_url='login')
@@ -160,7 +163,7 @@ def pdf_detail(request, pk):
         'rows': Data_kontraks,
         'rows2': Data_isikontraks,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 
 @login_required(login_url='login')
@@ -173,7 +176,7 @@ def Create_pdf(request):
         if form.is_valid():
             pdf=kontrak()
             pdf.file_pdf = form.cleaned_data.get('file_pdf')
-    
+
             pdf.kode = kode
             pdf.save()
 
@@ -184,8 +187,8 @@ def Create_pdf(request):
             files_pdf = str(files_pdf)
             #files_pdf = ','.join(Data_kontraks)
             df_data,df_total=read_pdf(files_pdf)
-            
-            
+
+
             for i in range(len(df_data)):
                 isi_kontraks = isi_kontrak()
                 isi_kontraks.id_kontrak = Data_kontraks
@@ -211,7 +214,7 @@ def Create_pdf(request):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -220,14 +223,14 @@ def Update_pdf(request, pk):
     mail = user.email
     code = str(uuid.uuid4())
     data_kontraks = kontrak.objects.get(id=pk)
-    
+
     if request.method == 'POST':
         form = KontrakForm(request.POST, request.FILES, instance=data_kontraks)
         if form.is_valid():
             isi_kontrak.objects.filter(id_kontrak=pk).delete()
             form.save(commit=False)
-            
-            
+
+
             #form.file_pdf = form.cleaned_data.get('file_pdf')
 
             #form.kode = code
@@ -269,7 +272,7 @@ def Update_pdf(request, pk):
         'mail': mail,
         'rows': data_kontraks
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -305,9 +308,9 @@ def Create_isikontrak(request,pk):
             isi_kontraks.waktu = form.cleaned_data.get('waktu')
             isi_kontraks.tgl_penyerahan = form.cleaned_data.get('tgl_penyerahan')
             isi_kontraks.status = form.cleaned_data.get('status')
-            
+
             isi_kontraks.save()
-            
+
             return redirect('dashboard')
     else:
         form = isi_kontrakForm()
@@ -315,7 +318,7 @@ def Create_isikontrak(request,pk):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -327,7 +330,7 @@ def Update_isikontrak(request, pk):
         form = isi_kontrakForm(request.POST, instance=data_isikontraks)
         if form.is_valid():
             form.save()
-           
+
             return redirect('dashboard')
     else:
         form = isi_kontrakForm(instance=data_isikontraks)
@@ -336,7 +339,7 @@ def Update_isikontrak(request, pk):
         'mail': mail,
         'rows': data_isikontraks
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 @login_required(login_url='login')
 def Update_status(request, pk):
@@ -354,14 +357,14 @@ def Update_status(request, pk):
         'mail': mail,
         'rows': data_isikontraks
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
 def Delete_isikontrak(request, pk):
     data_isikontraks = isi_kontrak.objects.get(id=pk)
     data_isikontraks.delete()
-    return redirect('dashboard')  
+    return redirect('dashboard')
 
 #Perusahaan
 #list Perusahaan
@@ -371,7 +374,7 @@ def list_perusahaan(request):
     context = {
         'rows': Data_perusahaan,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 #detail Perusahaan
 @login_required(login_url='login')
@@ -380,7 +383,7 @@ def perusahaan_detail(request, pk):
     context = {
         'rows': Data_perusahaan,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 @login_required(login_url='login')
 def Create_perusahaan(request):
@@ -390,7 +393,7 @@ def Create_perusahaan(request):
         form = PerusahaanForm(request.POST)
         if form.is_valid():
             form = form.save()
-            
+
             return redirect('dashboard')
     else:
         form = PerusahaanForm()
@@ -398,7 +401,7 @@ def Create_perusahaan(request):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -419,7 +422,7 @@ def Update_perusahaan(request, pk):
         'mail': mail,
         'rows': data_isikontraks
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -436,7 +439,7 @@ def list_kwitansi(request):
     context = {
         'rows': Data_kwitansi,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 #detail Perusahaan
 @login_required(login_url='login')
@@ -447,7 +450,7 @@ def kwitansi_detail(request, pk):
         'rows': Data_kontraks,
         'rows2': Data_isikontraks,
     }
-    return render(request, 'website/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 
 @login_required(login_url='login')
@@ -466,7 +469,7 @@ def Create_kwitansi(request):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -487,7 +490,7 @@ def Update_Kwitansi(request, pk):
         'mail': mail,
         'rows': data_kwitansi
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -526,7 +529,7 @@ def Create_isi_Kwitansi(request, pk):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 
 @login_required(login_url='login')
@@ -547,7 +550,7 @@ def Update_isi_Kwitansi(request, pk):
         'mail': mail,
         'rows': data_isi_kwitansis
     }
-    return render(request, 'website/form.html', context)
+    return render(request, 'form.html', context)
 
 @login_required(login_url='login')
 def Delete_isi_Kwitansi(request, pk):

@@ -19,7 +19,7 @@ def file_size(value):  # add this to some file where you can import it from
 class perusahaan(models.Model):
     kode_perusahaan = models.CharField(max_length=50, unique=True)
     nama_perusahaan = models.CharField(max_length=50)
-    
+
     def __str__(self):
         return str(self.kode_perusahaan)
 
@@ -56,9 +56,8 @@ class isi_kontrak(models.Model):
 
 class kwitansi(models.Model):
     KWITANSI_TYPE_CHOICES = (
-        (1, 'Siswa'),
-        (2, 'Panitia'),
-        (3, 'admin'),
+        (1, 'Kwitansi'),
+        (2, 'Nota')
     )
     kwitansi_type = models.PositiveIntegerField(choices=KWITANSI_TYPE_CHOICES, default=1)
     kode_invoice = models.CharField(max_length=50, unique=True)

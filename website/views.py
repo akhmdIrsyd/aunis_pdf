@@ -374,7 +374,7 @@ def list_perusahaan(request):
     context = {
         'rows': Data_perusahaan,
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'list_perusahaan.html', context)
 
 #detail Perusahaan
 @login_required(login_url='login')
@@ -383,7 +383,7 @@ def perusahaan_detail(request, pk):
     context = {
         'rows': Data_perusahaan,
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'detail_perusahaan.html', context)
 
 @login_required(login_url='login')
 def Create_perusahaan(request):
@@ -394,7 +394,7 @@ def Create_perusahaan(request):
         if form.is_valid():
             form = form.save()
 
-            return redirect('dashboard')
+            return redirect('list_perusahaan')
     else:
         form = PerusahaanForm()
     context = {
@@ -408,19 +408,19 @@ def Create_perusahaan(request):
 def Update_perusahaan(request, pk):
     user = request.user
     mail = user.email
-    data_perusahaan = Perusahaan.objects.get(id=pk)
+    data_perusahaan = perusahaan.objects.get(id=pk)
     if request.method == 'POST':
         form = PerusahaanForm(request.POST, instance=data_perusahaan)
         if form.is_valid():
             form.save()
 
-            return redirect('dashboard')
+            return redirect('list_perusahaan')
     else:
-        form = PerusahaanForm(instance=data_isikontraks)
+        form = PerusahaanForm(instance=data_perusahaan)
     context = {
         'form': form,
         'mail': mail,
-        'rows': data_isikontraks
+        'rows': data_perusahaan
     }
     return render(request, 'form.html', context)
 
@@ -429,7 +429,7 @@ def Update_perusahaan(request, pk):
 def Delete_perusahaan(request, pk):
     data_perusahaan = perusahaan.objects.get(id=pk)
     data_perusahaan.delete()
-    return redirect('dashboard')
+    return redirect('list_perusahaan')
 
 #Kwitansi
 #list Kwitansi

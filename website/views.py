@@ -207,7 +207,7 @@ def Create_pdf(request):
                 isi_kontraks.waktu = df_data[12][i]
                 isi_kontraks.tgl_penyerahan = df_data[13][i]
                 isi_kontraks.save()
-            return redirect('dashboard')
+            return redirect('list_pdf')
     else:
         form = KontrakForm()
     context = {
@@ -264,7 +264,7 @@ def Update_pdf(request, pk):
                 isi_kontraks.waktu = df_data[12][i]
                 isi_kontraks.tgl_penyerahan = df_data[13][i]
                 isi_kontraks.save()
-            return redirect('dashboard')
+            return redirect('list_pdf')
     else:
         form = KontrakForm(instance=data_kontraks)
     context = {
@@ -279,7 +279,7 @@ def Update_pdf(request, pk):
 def Delete_pdf(request, pk):
     data_kontraks = kontrak.objects.get(id=pk)
     data_kontraks.delete()
-    return redirect('dashboard')
+    return redirect('list_pdf')
 
 
 #ISI KONTRAK

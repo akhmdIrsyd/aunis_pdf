@@ -16,14 +16,15 @@
     />
     <meta name="robots" content="noindex,nofollow" />
     <title>Matrix Admin Lite Free Versions Template by WrapPixel</title>
+    {% load static %}
     <!-- Favicon icon -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
-    <link href="static/dist/css/style.min.css" rel="stylesheet" />
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -64,13 +65,13 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="#">
               <!-- Logo icon -->
               <b class="logo-icon ps-2">
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                  src="static/assets/images/logo-icon.png"
+                  src="{% static 'assets/images/logo-icon.png' %}"
                   alt="homepage"
                   class="light-logo"
                   width="25"
@@ -81,7 +82,7 @@
               <span class="logo-text ms-2">
                 <!-- dark Logo text -->
                 <img
-                  src="static/assets/images/logo-text.png"
+                  src="{% static 'assets/images/logo-text.png' %}"
                   alt="homepage"
                   class="light-logo"
                 />
@@ -266,7 +267,7 @@
                   aria-expanded="false"
                 >
                   <img
-                    src="static/assets/images/users/1.jpg"
+                    src="{% static 'assets/images/users/1.jpg' %}"
                     alt="user"
                     class="rounded-circle"
                     width="31"
@@ -358,17 +359,17 @@
     <!-- All Jquery -->
     {% block footer %}
     <!-- ============================================================== -->
-    <script src="static/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="static/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js '%}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="static/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js '%}"></script>
     <!--Wave Effects -->
-    <script src="static/dist/js/waves.js"></script>
+    <script src="{% static 'dist/js/waves.js '%}"></script>
     <!--Menu sidebar -->
-    <script src="static/dist/js/sidebarmenu.js"></script>
+    <script src="{% static 'dist/js/sidebarmenu.js '%}"></script>
     <!--Custom JavaScript -->
-    <script src="static/dist/js/custom.min.js"></script>
+    <script src="{% static 'dist/js/custom.min.js '%}"></script>
 
 
     {% block extrascript %}{% endblock %}

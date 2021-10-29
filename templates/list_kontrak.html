@@ -60,17 +60,17 @@
               {% load slice_path %}
               {% for row in rows %}
               <tr>
-                 <td>{{ forloop.counter }}-{{row.id}}</td>
+                 <td>{{ forloop.counter }}-{{row.pk}}</td>
                  <td>{{ row.file_pdf | slice_path }}</td>
                  <td>{{ row.date_upload }}</td>
                  <td align="center">
                    <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
                      <i class="me-2 mdi mdi-eye"></i> Lihat
                    </button>
-                   <a href="{% url 'update_pdf' %}/30" class="btn btn-sm btn-warning m-1" role="button">
+                   <a href="{% url 'Update_pdf' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
                      <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
                    </a>
-                   <a href="" class="hapus btn btn-sm btn-danger m-1" role="button">
+                   <a href="" data-id="{{row.pk}}" class="hapus btn btn-sm btn-danger m-1" role="button">
                      <i class="me-2 mdi mdi-delete"></i> Hapus
                    </a>
                    <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
@@ -144,7 +144,8 @@
 <script type="text/javascript">
 $('.hapus').click(function(){
   event.preventDefault()
-  let url = $(this).attr('href')
+  let id = $(this).attr('data-id');
+  let url = 'Delete_pdf/'+id
   console.log(url);
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {

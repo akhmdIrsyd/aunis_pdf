@@ -60,13 +60,16 @@
               {% load slice_path %}
               {% for row in rows %}
               <tr>
-                 <td>{{ forloop.counter }}-{{row.pk}}</td>
+                 <td>{{ forloop.counter }}</td>
                  <td>{{ row.file_pdf | slice_path }}</td>
                  <td>{{ row.date_upload }}</td>
                  <td align="center">
                    <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
-                     <i class="me-2 mdi mdi-eye"></i> Lihat
+                     <i class="me-2 mdi mdi-file"></i> Dokumen
                    </button>
+                   <a href="{% url 'pdf_detail' pk=row.pk %}" class="btn btn-sm btn-success text-white m-1" role="button">
+                     <i class="me-2 mdi mdi-link"></i> Detail
+                   </a>
                    <a href="{% url 'Update_pdf' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
                      <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
                    </a>

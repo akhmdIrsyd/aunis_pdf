@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .models import kontrak,isi_kontrak, perusahaan, isi_kwitansi, kwitansi
@@ -157,13 +158,30 @@ def list_pdf(request):
 #detail Pengumuman
 @login_required(login_url='login')
 def pdf_detail(request, pk):
-    Data_kontraks = kontrak.objects.get(id=pk)
-    Data_isikontraks = isi_kontrak.objects.get(id_kontrak=Data_kontraks.id)
+    #Data_kontraks = kontrak.objects.get(id=pk)
+    Data_kontrak = kontrak.objects.filter(id=pk)[0]
+
+    Data_isikontraks = isi_kontrak.objects.filter(id_kontrak=pk)
+    Data_isikontraks.update(status=False)
+    
+    list_of_id_for_action = None
+    list_of_obj = []
+    data_selected = []
+    
+    if request.method == 'POST':
+        list_of_id_for_action = request.POST.getlist('items')
+        list_of_obj = isi_kontrak.objects.filter(pk__in=list_of_id_for_action)
+        list_of_obj.update(status=True)
+        data_selected = list(list_of_obj.values_list('id', flat=True))
+
+    print(list_of_id_for_action)
     context = {
-        'rows': Data_kontraks,
-        'rows2': Data_isikontraks,
+        'rows': Data_isikontraks,
+        'doc': Data_kontrak,
+        'print': data_selected
     }
-    return render(request, 'dashboard.html', context)
+    # return render(request, 'test.html', context)
+    return render(request, 'detail_kontrak.html', context)
 
 
 @login_required(login_url='login')
@@ -352,12 +370,12 @@ def Update_status(request, pk):
     elif data_isikontraks.status == True:
         data_isikontraks.status = False
         data_isikontraks.save()
+    next = request.POST.get('next', '/')
     context = {
-        'form': form,
         'mail': mail,
-        'rows': data_isikontraks
+        'data_isikontraks': data_isikontraks
     }
-    return render(request, 'form.html', context)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @login_required(login_url='login')
@@ -447,8 +465,8 @@ def kwitansi_detail(request, pk):
     Data_kwitansi = kwitansi.objects.get(id=pk)
     Data_isikwitansi = isi_kwitansi.objects.get(id_kwitansi=Data_kwitansi.id)
     context = {
-        'rows': Data_kontraks,
-        'rows2': Data_isikontraks,
+        'rows': 1,
+        'rows2': 2,
     }
     return render(request, 'dashboard.html', context)
 

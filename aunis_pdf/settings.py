@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'website',
     'widget_tweaks',
     'django_cleanup',
+    'django.contrib.humanize'
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'

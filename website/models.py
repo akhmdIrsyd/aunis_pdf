@@ -19,6 +19,8 @@ def file_size(value):  # add this to some file where you can import it from
 class perusahaan(models.Model):
     kode_perusahaan = models.CharField(max_length=50, unique=True)
     nama_perusahaan = models.CharField(max_length=50)
+    alamat = models.TextField(max_length=255, blank=True, null=True, default='')
+    npwp = models.CharField(max_length=50, blank=True, null=True, default='')
 
     def __str__(self):
         return str(self.kode_perusahaan)
@@ -37,8 +39,8 @@ class isi_kontrak(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)
     no_kontrak = models.CharField(max_length=50)
     Code_Purchase = models.CharField(max_length=50)
-    nama_barang = models.CharField(max_length=50)
-    spesifikasi = models.CharField(max_length=50)
+    nama_barang = models.CharField(max_length=255)
+    spesifikasi = models.CharField(max_length=255)
     satuan = models.CharField(max_length=50)
     jumlah = models.IntegerField()
     harga = models.IntegerField()
@@ -51,7 +53,7 @@ class isi_kontrak(models.Model):
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.Code_Purchase)
+        return str(self.pk)
 
 
 class kwitansi(models.Model):

@@ -53,6 +53,8 @@
                 <th>No.</th>
                 <th>Kode Perusahaan</th>
                 <th>Nama Perusahaan</th>
+                <th>Alamat</th>
+                <th>NPWP</th>
                 <th width="25%" colspan="2" style="text-align:center">Aksi</th>
               </tr>
             </thead>
@@ -63,6 +65,8 @@
                  <td>{{ forloop.counter }}</td>
                  <td>{{ row.kode_perusahaan }}</td>
                  <td>{{ row.nama_perusahaan }}</td>
+                 <td>{{ row.alamat }}</td>
+                 <td>{{ row.npwp }}</td>
                  <td align="center">
                    <!-- <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
                      <i class="me-2 mdi mdi-eye"></i> Lihat

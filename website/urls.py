@@ -20,6 +20,7 @@ urlpatterns = [
     path('create_isikontrak/<int:pk>/', views.Create_isikontrak, name='create_isikontrak'),
     path('Update_isikontrak/<int:pk>/', views.Update_isikontrak, name='Update_isikontrak'),
     path('Update_Update_status/<int:pk>/', views.Update_status, name='Update_Update_status'),
+    path('Update_status/<int:pk>/', views.Update_status, name='Update_status'), #ini
     path('Delete_isikontrak/<int:pk>/', views.Delete_isikontrak, name='Delete_isikontrak'),
     path('list_perusahaan', views.list_perusahaan, name='list_perusahaan'),
     path('perusahaan_detail/<int:pk>/', views.perusahaan_detail, name='perusahaan_detail'),

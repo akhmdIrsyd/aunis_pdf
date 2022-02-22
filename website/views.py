@@ -162,7 +162,7 @@ def pdf_detail(request, pk):
     Data_kontrak = kontrak.objects.filter(id=pk)[0]
 
     Data_isikontraks = isi_kontrak.objects.filter(id_kontrak=pk)
-    Data_isikontraks.update(status=False)
+    # Data_isikontraks.update(status=False)
     
     list_of_id_for_action = None
     list_of_obj = []

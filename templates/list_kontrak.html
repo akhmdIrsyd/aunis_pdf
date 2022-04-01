@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Daftar Kontrak</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Daftar Kontrak
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="navbar-nav float-start me-auto">
+              <h5 class="card-title mb-0">Daftar Kontrak</h5>
+            </div>
+            <div class="navbar-nav float-end">
+              <a href="{% url 'create_pdf' %}" class="btn btn-sm btn-primary">
+                <i class="me-2 mdi mdi-plus"></i> Upload Kontrak
+              </a>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Dokumen</th>
+                <th>Tanggal Upload</th>
+                <th width="25%" colspan="2" style="text-align:center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% load slice_path %}
+              {% for row in rows %}
+              <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ row.file_pdf | slice_path }}</td>
+                 <td>{{ row.date_upload }}</td>
+                 <td align="center">
+                   <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
+                     <i class="me-2 mdi mdi-file"></i> Dokumen
+                   </button>
+                   <a href="{% url 'pdf_detail' pk=row.pk %}" class="btn btn-sm btn-success text-white m-1" role="button">
+                     <i class="me-2 mdi mdi-link"></i> Detail
+                   </a>
+                   <a href="{% url 'list_SJalan' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
+                     <i class="me-2 mdi mdi-lead-pencil"></i> Surat Jalan
+                   </a>
+                   <a href="{% url 'Update_pdf' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
+                     <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
+                   </a>
+                   <a href="" data-id="{{row.pk}}" class="hapus btn btn-sm btn-danger m-1" role="button">
+                     <i class="me-2 mdi mdi-delete"></i> Hapus
+                   </a>
+                   <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
+                      <embed src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf" />
+                  </object> -->
+                 </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="view_kontrak" tabindex="-1" aria-labelledby="kontrak_label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kontrak_label">Nama Kontrak</h5>
+          <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <iframe src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" style="height:60vh"></iframe>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Container fluid  -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- footer -->
+  <!-- ============================================================== -->
+  <footer class="footer text-center">
+    All Rights Reserved by Matrix-admin. Designed and Developed by
+    <a href="https://www.wrappixel.com">WrapPixel</a>.
+  </footer>
+  <!-- ============================================================== -->
+  <!-- End footer -->
+  <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+{% endblock %}
+
+{% block extrascript %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+$('.hapus').click(function(){
+  event.preventDefault()
+  let id = $(this).attr('data-id');
+  let url = 'Delete_pdf/'+id
+  console.log(url);
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-md btn-success m-2 py-2 px-4',
+      cancelButton: 'btn btn-md btn-danger m-2 py-2 px-4'
+    },
+    buttonsStyling: false
+  })
+
+  swalWithBootstrapButtons.fire({
+    title: 'Apakah anda ingin menghapus data?',
+    text: "Data yang telah dihapus tidak dapat dikembalikan!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Ya!',
+    cancelButtonText: 'Batal',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      swalWithBootstrapButtons.fire(
+        'Dihapus!',
+        'Data anda telah dihapus!',
+        'success'
+      )
+      window.location = url
+    }
+    return false;
+  })
+});
+
+$('.harga').text(function() {
+  return number_format($(this).text())
+});
+
+function number_format(num) {
+  num = num.replace(/[^0-9.]/g, '');
+  var str = num.toString().replace("", ""),
+      parts = false,
+      output = [],
+      i = 1,
+      formatted = null;
+  if (str.indexOf(".") > 0) {
+      parts = str.split(".");
+      str = parts[0];
+  }
+  str = str.split("").reverse();
+  for (var j = 0, len = str.length; j < len; j++) {
+      if (str[j] != ",") {
+          output.push(str[j]);
+          if (i % 3 == 0 && j < (len - 1)) {
+              output.push(",");
+          }
+          i++;
+      }
+  }
+  formatted = output.reverse().join("");
+  // return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+  return ("" + formatted + "");
+};
+</script>
+{% endblock %}

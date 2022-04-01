@@ -1,0 +1,49 @@
+<form method="POST" action="">
+  {% csrf_token %}
+<table class="table">
+<thead>
+<tr>
+  <th>No.</th>
+  <th>Nama Dokumen</th>
+  <th>Tanggal Upload</th>
+  <th width="25%" colspan="2" style="text-align:center">Aksi</th>
+</tr>
+</thead>
+<tbody>
+  
+{% load slice_path %}
+{% for row in rows %}
+<tr>
+   <td>{{ forloop.counter }}-{{row.pk}}</td>
+   <td>{{ row.nama_barang}}</td>
+   <td>{{ row.satuan }}</td>
+   <td align="center">
+       
+      {% if row.status == False %}
+          <a href="{% url 'Update_status' pk=row.pk  %}?next={{ request.path|urlencode }}" ><button class="btn bg-blue"  type="button11" name="button11">
+                                                      aktif</i></button></a>
+      {% elif row.status == True %}
+          <a href="{% url 'Update_status' pk=row.pk %}?next={{ request.path|urlencode }}" ><button class="btn bg-blue"  type="button11" name="button11">
+                                                  nonaktif</i></button></a>
+      {% endif %}
+     
+     <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
+        <embed src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf" />
+    </object> -->
+   </td>
+   <td align="center">
+      <input type="checkbox" value='{{row.id}}' 
+       name='for_action' id='for_action' {% if row.status %} checked{% endif %}>
+      <label for="vehicle1"> I have a bike</label><br>
+      
+   </td>
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+<input type="submit" value="Save">
+</form>

@@ -1,8 +1,8 @@
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
-from .models import kontrak, isi_kontrak, perusahaan, isi_kwitansi, kwitansi, SJalan, isi_SJalan
-from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm, SJalanForm, Isi_SJalanForm
+from .models import kontrak, isi_kontrak, perusahaan, isi_kwitansi, kwitansi, SJalan, isi_SJalan, SuratJ
+from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm, SJalanForm, Isi_SJalanForm, SuratJForm
 from django.db.models import Count
 
 from django.contrib.auth.decorators import login_required, permission_required
@@ -718,3 +718,122 @@ def detail_isiSJalan(request, pk):
         'pk':pk
     }
     return render(request, 'detail_sjalan.html', context)
+
+
+@login_required(login_url='login')
+def Create_SuratJ(request, pk):
+    user = request.user
+    mail = user.email
+    pk = pk
+    data_kontraks = kontrak.objects.get(id=pk)
+    isikontrakss = isi_kontrak.objects.filter(id_kontrak=data_kontraks)
+    id_isikontrak = request.POST.getlist('id_isikontrak')
+    jumlah = request.POST.getlist('jumlah')
+    nomor_dos = request.POST.getlist('nomor_dos')
+    
+    
+    if request.method == 'POST':
+        form = SJalanForm(request.POST)
+        
+        if form.is_valid():
+            
+            SJalans = SJalan()
+            SJalans.id_kontrak = data_kontraks
+            SJalans.no_surat = form.cleaned_data.get('no_surat')
+            SJalans.pemesan = form.cleaned_data.get('pemesan')
+            SJalans.no_hp = form.cleaned_data.get('no_hp')
+            SJalans.tanggal = form.cleaned_data.get('tanggal')
+            SJalans.save()
+
+            data_SJalans = SJalan.objects.get(no_surat=form.cleaned_data.get('no_surat'))
+            for i in range(len(id_isikontrak)):
+                isi_SJalans = isi_SJalan()
+                isi_SJalans.id_SJalan = data_SJalans
+                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
+                isi_SJalans.id_isikontrak = isikontrak
+                isi_SJalans.jumlah = jumlah[i]
+                isi_SJalans.nomor_dos = nomor_dos[i]
+                isi_SJalans.save()
+            return redirect('dashboard')
+            #return HttpResponse('Success')
+    else:
+        form = SJalanForm()
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': isikontrakss,
+        'pk': pk
+    }
+    return render(request, 'form_surat.html', context)
+
+
+@login_required(login_url='login')
+def Update_SuratJ(request, pk):
+    user = request.user
+    mail = user.email
+    pk = pk
+    data_isiSJalans = isi_SJalan.objects.filter(id_SJalan=pk)
+    
+    
+    data_SJalans = SJalan.objects.get(id=pk)
+    isikontrakss = isi_kontrak.objects.filter(id_kontrak=data_SJalans.id_kontrak)
+    id_isikontrak = request.POST.getlist('id_isikontrak')
+    jumlah = request.POST.getlist('jumlah')
+    nomor_dos = request.POST.getlist('nomor_dos')
+    if request.method == 'POST':
+        form = SJalanForm(request.POST, instance=data_SJalans)
+
+        if form.is_valid():    
+            SJalans = SJalan()
+            SJalans.id_kontrak = data_SJalans.id_kontrak
+            SJalans.no_surat = request.POST.get('no_surat')
+            SJalans.pemesan = form.cleaned_data.get('pemesan')
+            SJalans.no_hp = form.cleaned_data.get('no_hp')
+            SJalans.tanggal = form.cleaned_data.get('tanggal')
+            data_SJalans.delete()
+            data_isiSJalans.delete()
+            SJalans.save()
+
+            data_SJalans = SJalan.objects.get(no_surat=request.POST.get('no_surat'))
+            for i in range(len(id_isikontrak)):
+                isi_SJalans = isi_SJalan()
+                isi_SJalans.id_SJalan = data_SJalans
+                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
+                isi_SJalans.id_isikontrak = isikontrak
+                isi_SJalans.jumlah = jumlah[i]
+                isi_SJalans.nomor_dos = nomor_dos[i]
+                isi_SJalans.save()
+            return redirect('dashboard')
+            #return HttpResponse('Success')
+    else:
+        form = SJalanForm()
+    context = {
+        'form': form,
+        'mail': mail,
+        'rows': isikontrakss, 
+        'rows1': data_isiSJalans,
+        'data_SJalans': data_SJalans,
+        'pk': pk
+    }
+    return render(request, 'form_suratUpdate.html', context)
+
+
+@login_required(login_url='login')
+def detail_SuratJ(request, pk):
+    pk = pk
+    data_isiSJalans = isi_SJalan.objects.filter(id_SJalan=pk)
+    data_SJalans = SJalan.objects.get(id=pk)
+    context = {
+
+        'rows': data_SJalans,
+        'rows1': data_isiSJalans,
+        'pk': pk
+    }
+    return render(request, 'detail_sjalan.html', context)
+
+
+@login_required(login_url='login')
+def Delete_SuratJ(request, pk):
+    data_SuratJ = SuratJ.objects.get(id=pk)
+    data_SuratJ.delete()
+    return redirect('dashboard')

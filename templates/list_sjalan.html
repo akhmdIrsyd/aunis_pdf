@@ -42,7 +42,7 @@
               <h5 class="card-title mb-0">Daftar Kontrak</h5>
             </div>
             <div class="navbar-nav float-end">
-              <a href="{% url 'Create_sjalan' pk=pk %}" class="btn btn-sm btn-primary">
+              <a href="{% url 'Create_SuratJ' pk=pk %}" class="btn btn-sm btn-primary">
                 <i class="me-2 mdi mdi-plus"></i> Tambah Surat
               </a>
             </div>
@@ -67,13 +67,13 @@
                    <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
                      <i class="me-2 mdi mdi-file"></i> Dokumen
                    </button>
-                   <a href="{% url 'detail_isiSJalan' pk=row.id %}" class="btn btn-sm btn-success text-white m-1" role="button">
+                   <a href="{% url 'detail_SuratJ' pk=row.id %}" class="btn btn-sm btn-success text-white m-1" role="button">
                      <i class="me-2 mdi mdi-link"></i> Detail
                    </a>
-                   <a href="{% url 'Update_sjalan' pk=row.id %}" class="btn btn-sm btn-warning m-1" role="button">
+                   <a href="{% url 'Update_SuratJ' pk=row.id %}" class="btn btn-sm btn-warning m-1" role="button">
                      <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
                    </a>
-                   <a href="" data-id="{{row.id}}" class="hapus btn btn-sm btn-danger m-1" role="button">
+                   <a href="{% url 'Delete_SJalan' pk=row.id %}" class="hapus btn btn-sm btn-danger m-1" role="button">
                      <i class="me-2 mdi mdi-delete"></i> Hapus
                    </a>
                    <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
@@ -148,7 +148,7 @@
 $('.hapus').click(function(){
   event.preventDefault()
   let id = $(this).attr('data-id');
-  let url = 'Delete_pdf/'+id
+  let url = 'Delete_SJalan/'+id
   console.log(url);
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {

@@ -47,5 +47,9 @@ urlpatterns = [
     path('Create_isiSJalan/<int:pk>/', views.Create_isiSJalan, name='Create_isiSJalan'),
     path('Update_isiSJalan/<str:pk>/', views.Update_isiSJalan, name='Update_isiSJalan'),
     path('Delete_isiSJalan/<str:pk>/', views.Delete_isiSJalan, name='Delete_isiSJalan'),
+     #Surat_jalan 
+    path('Create_SuratJ/<int:pk>/', views.Create_SuratJ, name='Create_SuratJ'),
+    path('Update_SuratJ/<int:pk>/', views.Update_SuratJ, name='Update_SuratJ'),
+    path('detail_SuratJ/<int:pk>/', views.detail_SuratJ, name='detail_SuratJ'),
     path('change_pass', views.Ganti_password, name='change_pass'),
 ]

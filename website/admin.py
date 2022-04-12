@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import kontrak, isi_kontrak, perusahaan, kwitansi, isi_kwitansi, SJalan, isi_SJalan
+from .models import kontrak, isi_kontrak, perusahaan, kwitansi, isi_kwitansi, SJalan, isi_SJalan, SuratJ
 
 # Register your models here.
 admin.site.register(kontrak)
@@ -11,3 +11,5 @@ admin.site.register(SJalan)
 admin.site.register(isi_SJalan)
 admin.site.register(kwitansi)
 admin.site.register(isi_kwitansi)
+
+admin.site.register(SuratJ)

@@ -42,9 +42,7 @@
               <h5 class="card-title mb-0">Daftar Kontrak</h5>
             </div>
             <div class="navbar-nav float-end">
-              <a href="{% url 'Create_isiSJalan' pk=pk %}" class="btn btn-sm btn-primary">
-                <i class="me-2 mdi mdi-plus"></i> Tambah
-              </a>
+              
             </div>
           </div>
           <table class="table">
@@ -57,26 +55,16 @@
               </tr>
             </thead>
             <tbody>
+              no surat: {{rows.no_surat}}
               {% load slice_path %}
-              {% for row in rows %}
+              {% for row1 in rows1 %}
               <tr>
                  <td>{{ forloop.counter }}</td>
-                 <td>{{ row.id_isikontrak.nama_barang }}</td>
-                 <td>{{ row.nomor_dos }}</td>
-                 <td>{{ row.jumlah }}</td>
+                 <td>{{ row1.id_isikontrak.nama_barang }}</td>
+                 <td>{{ row1.nomor_dos }}</td>
+                 <td>{{ row1.jumlah }}</td>
                  <td align="center">
-                   <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
-                     <i class="me-2 mdi mdi-file"></i> Dokumen
-                   </button>
-                   <a href="{% url 'pdf_detail' pk=row.pk %}" class="btn btn-sm btn-success text-white m-1" role="button">
-                     <i class="me-2 mdi mdi-link"></i> Detail
-                   </a>
-                   <a href="{% url 'Update_isiSJalan' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
-                     <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
-                   </a>
-                   <a href="" data-id="{{row.pk}}" class="hapus btn btn-sm btn-danger m-1" role="button">
-                     <i class="me-2 mdi mdi-delete"></i> Hapus
-                   </a>
+                   
                    <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
                       <embed src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf" />
                   </object> -->

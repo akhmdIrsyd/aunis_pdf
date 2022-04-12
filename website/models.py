@@ -79,7 +79,7 @@ class isi_kwitansi(models.Model):
 
 class SJalan(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)
-    no_surat = models.CharField(max_length=50)
+    no_surat = models.CharField(max_length=50, unique=True)
     pemesan = models.CharField(max_length=50)
     no_hp = models.CharField(max_length=50)
     tanggal = models.DateField()
@@ -90,6 +90,17 @@ class SJalan(models.Model):
 
 class isi_SJalan(models.Model):
     id_SJalan = models.ForeignKey(SJalan, on_delete=models.CASCADE)
+    id_isikontrak = models.ForeignKey(isi_kontrak, on_delete=models.CASCADE)
+    jumlah = models.IntegerField()
+    nomor_dos = models.IntegerField()
+
+
+class SuratJ(models.Model):
+    id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)
+    no_surat = models.CharField(max_length=50)
+    pemesan = models.CharField(max_length=50)
+    no_hp = models.CharField(max_length=50)
+    tanggal = models.DateField()
     id_isikontrak = models.ForeignKey(isi_kontrak, on_delete=models.CASCADE)
     jumlah = models.IntegerField()
     nomor_dos = models.IntegerField()

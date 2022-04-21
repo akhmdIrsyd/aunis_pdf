@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<body>
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+
+  {{ form.source.errors }}
+  {{ form.source }}
+
+  <table border="1">
+
+      <tr>
+        <th>{{ form.id_isikontrak.label_tag }}</th>
+        <td>
+       
+         <select id="id_isikontrak" name="id_isikontrak" required id="id_id_isikontrak">
+        {% for row in rows %}
+       
+        <option id="{{ row.id }}" value="{{ row.id }}">{{ row.nama_barang }}</option>
+        {% endfor %}
+        </select>
+
+
+        </td>
+      </tr>
+
+      
+      
+      <tr>
+        <th>{{ form.jumlah.label_tag }}</th>
+        <td>
+          {{ form.jumlah.errors }}
+          {{ form.jumlah }}
+          <br />
+          {{ form.jumlah.help_text }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>{{ form.nomor_dos.label_tag }}</th>
+        <td>
+          {{ form.nomor_dos.errors }}
+          {{ form.nomor_dos }}
+          <br />
+          {{ form.nomor_dos.help_text }}
+        </td>
+      </tr>
+
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+
+
+
+</body>
+<script type="text/javascript">
+ $(document).ready(function() {
+     $('#id_isikontrak').select2({
+      placeholder: 'Pilih barang',
+      allowClear: true
+     });
+ });
+</script>
+
+{% endblock %}
+
+{% block extrascript %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+
+{% comment %} <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> {% endcomment %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script> 
+{% endblock %}
+

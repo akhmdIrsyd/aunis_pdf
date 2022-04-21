@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Detail Surat Jalan</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <a href="{% url 'list_pdf' %}">Daftar Kontrak</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <a href="{% url 'list_SJalan' pk=uk %}">Daftar Surat Jalan</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Detail
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="navbar-nav float-start me-auto">
+              <h5 class="card-title mb-0">Detail Surat Jalan - <b>{{rows.no_surat}}</b></h5>
+            </div>
+            <div class="navbar-nav float-end me-auto">
+              <button class="btn btn-primary"><i class="me-2 mdi mdi-printer"></i>Cetak</button>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NO.<br>ORDER</th>
+                <th>JENIS BARANG</th>
+                <th colspan="2">JUMLAH PESANAN BUKU</th>
+                <th>NOMOR DOS / KOLI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% load slice_path %}
+              {% for row1 in rows1 %}
+              <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ row1.id_isikontrak.nama_barang }}</td>
+                 <td style="text-align:right">{{ row1.jumlah }}</td>
+                 <td>pcs</td>
+                 <td style="text-align:center">{{ row1.nomor_dos }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+    <div id="form_cetak">
+      <style>
+        #print_invoice{
+          /* display: block; */
+          box-sizing: border-box;
+        }
+
+        #print_detail{
+          padding: 15px;
+          /* border: 1px solid #000; */
+        }
+      </style>
+
+      <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#print_modal" id="print_btn" hidden>
+        <i class="me-2 mdi mdi-file"></i> Print
+      </button>
+
+      <div class="modal fade" id="print_modal" tabindex="-1" aria-labelledby="print_modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="kontrak_label">Cetak Invoice</h5>
+              <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="print_invoice">
+              <div class="row" style="width:100%; padding: 20px;">
+                <div style="width:100%;">
+                  <div style="width:40%; float:left; font-size: 11px;">
+                    <b>
+                      <h3>Rachmatia</h3>
+                      <span>JL. MANUNGGAL LR. MEOHAI, RT.23 RW.11 ANDUONOHU, POASIA</span> <br>
+                      <span>KOTA KENDARI, 93232</span> <br>
+                      <span>HP. 0812 4144 6384</span> <br>
+                    </b>
+                  </div>
+                  <div style="float: right; font-size: 11px;">
+                    <table style="right:0">
+                      <tr>
+                        <td><b>No</b></td>
+                        <td><b>: </b></td>
+                        <td><b id="SET_NO"></b></td>
+                      </tr>
+                      <tr>
+                        <td><b>Tanggal</b></td>
+                        <td><b>: </b></td>
+                        <td><b id="SET_TGL"></b></td>
+                      </tr>
+                      <tr>
+                        <td><b>NPWP</b></td>
+                        <td><b>: </b></td>
+                        <td><b id="SET_NPWP"></b></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <br>
+                <div style="width:100%;">
+                  <h3><center>INVOICE</center></h3>
+                  <span><b>DITUJUKAN KEPADA: </b></span><br>
+                  <span><b id="SET_NAMA_PERUSAHAAN" style="font-size:24px">PT. NAMA PERUSAHAAN</b></span><br>
+                  <span><b id="SET_ALAMAT_PERUSAHAAN" style="font-size:10px">ALAMAT PERUSAHAAN</b></span><br>
+                  <span><b style="font-size:10px">NPWP : </b><b id="SET_NPWP_PERUSAHAAN" style="font-size:10px">NPWP PERUSAHAAN</b></span><br>
+                </div>
+                <div style="width:100%; margin-top:15px;">
+                  <table style="width:100%;" id="print_detail" border="1" class="table table-bordered">
+                    <thead style="font-size:10px; text-align: center;">
+                      <tr>
+                        <td>NO.</td>
+                        <td>CODE PURCHASE</td>
+                        <td>NAMA BARANG</td>
+                        <td>SATUAN</td>
+                        <td>JUMLAH</td>
+                        <td>HARGA SATUAN (RP.)</td>
+                        <td>JUMLAH (RP.)</td>
+                      </tr>
+                    </thead>
+                    {% comment %} {% for row in rows %}
+                      {% if row.pk in print %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ row.Code_Purchase }}</td>
+                        <td>{{ row.nama_barang }}</td>
+                        <td>{{ row.satuan }}</td>
+                        <td style="text-align:right">{{ row.jumlah }}</td>
+                        <td style="text-align:right">{{ row.harga | intcomma }}</td>
+                        <td style="text-align:right">
+                          {{ row.total | intcomma }}
+                          <input type="hidden" name="total_row[]" value="{{row.total}}">
+                        </td>
+                      </tr>
+                      {% endif %}
+                    {% endfor %} {% endcomment %}
+                    <tr>
+                      <td style="text-align:center;" colspan="5"><b>TOTAL</b></td>
+                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
+                      <td style="text-align:right" id="SET_FOOT_TOTAL">{{total}}</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center;" colspan="5"><b>PPN 10%</b></td>
+                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
+                      <td style="text-align:right" id="SET_FOOT_PPN"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center;" colspan="5"><b>TOTAL TERMASUK PPN 10%</b></td>
+                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
+                      <td style="text-align:right" id="SET_FOOT_TOTAL_PPN"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" id="SET_FOOT_TERBILANG">TERBILANG</td>
+                    </tr>
+                  </table>
+                  <table style="width:100%;">
+                    <tr>
+                      <td style="width:25%"></td>
+                      <td style="width:30%"></td>
+                      <td>
+                        <center>
+                          <b>
+                            TOKO AUNIS PRINT OFFSET
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <u>RAHMATIA</u>
+                          </b>
+                          <br>
+                          PIMPINAN
+                        </center>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <form action="" method="POST">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              </form>
+              <button type="button" class="btn btn-primary" onClick="printDiv('print_invoice')">Cetak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Container fluid  -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- footer -->
+  <!-- ============================================================== -->
+  <footer class="footer text-center">
+    All Rights Reserved by Matrix-admin. Designed and Developed by
+    <a href="https://www.wrappixel.com">WrapPixel</a>.
+  </footer>
+  <!-- ============================================================== -->
+  <!-- End footer -->
+  <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+{% endblock %}
+
+{% block extrascript %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+$('.hapus').click(function(){
+  event.preventDefault()
+  let id = $(this).attr('data-id');
+  let url = 'Delete_isiSJalan/'+id
+  console.log(url);
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-md btn-success m-2 py-2 px-4',
+      cancelButton: 'btn btn-md btn-danger m-2 py-2 px-4'
+    },
+    buttonsStyling: false
+  })
+
+  swalWithBootstrapButtons.fire({
+    title: 'Apakah anda ingin menghapus data?',
+    text: "Data yang telah dihapus tidak dapat dikembalikan!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Ya!',
+    cancelButtonText: 'Batal',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      swalWithBootstrapButtons.fire(
+        'Dihapus!',
+        'Data anda telah dihapus!',
+        'success'
+      )
+      window.location = url
+    }
+    return false;
+  })
+});
+
+$('.harga').text(function() {
+  return number_format($(this).text())
+});
+
+function number_format(num) {
+  num = num.replace(/[^0-9.]/g, '');
+  var str = num.toString().replace("", ""),
+      parts = false,
+      output = [],
+      i = 1,
+      formatted = null;
+  if (str.indexOf(".") > 0) {
+      parts = str.split(".");
+      str = parts[0];
+  }
+  str = str.split("").reverse();
+  for (var j = 0, len = str.length; j < len; j++) {
+      if (str[j] != ",") {
+          output.push(str[j]);
+          if (i % 3 == 0 && j < (len - 1)) {
+              output.push(",");
+          }
+          i++;
+      }
+  }
+  formatted = output.reverse().join("");
+  // return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+  return ("" + formatted + "");
+};
+</script>
+{% endblock %}

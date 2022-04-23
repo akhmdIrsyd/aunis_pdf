@@ -1,1 +1,1 @@
-web: gunicorn siswa_baru.wsgi --log-file -
+web: gunicorn aunis_pdf.wsgi --log-file -

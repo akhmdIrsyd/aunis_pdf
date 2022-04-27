@@ -458,7 +458,7 @@ def list_kwitansi(request):
     context = {
         'rows': Data_kwitansi,
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'list_kwitansi.html', context)
 
 #detail Perusahaan
 @login_required(login_url='login')
@@ -488,7 +488,7 @@ def Create_kwitansi(request):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'form.html', context)
+    return render(request, 'form_kwitansi.html', context)
 
 
 @login_required(login_url='login')

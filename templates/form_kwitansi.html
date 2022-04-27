@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
+{% load widget_tweaks %}
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -10,13 +11,13 @@
   <div class="page-breadcrumb">
     <div class="row">
       <div class="col-12 d-flex no-block align-items-center">
-        <h4 class="page-title">Dashboard</h4>
+        <h4 class="page-title">Data Kwitansi</h4>
         <div class="ms-auto text-end">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">
-                Dashboard
+                Data Kwitansi
               </li>
             </ol>
           </nav>
@@ -39,61 +40,46 @@
         <div class="card">
           <div class="card-body">
             <div class="navbar-nav float-start me-auto">
-              <h5 class="card-title mb-0">Dashboard</h5>
-            </div>
-            <div class="navbar-nav float-end">
+              <h5 class="card-title mb-0">Data Kwitansi</h5>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>New Orders</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  <p>Bounce Rate</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>44</h3>
-                  <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>65</h3>
-                  <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-              </div>
+          <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="modal-header">
+              <h3 class="modal-title">Tambah Data Kwitansi</h3>
+
             </div>
 
-          </div>
+            <div class="modal-body">
+
+              <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+
+              {% for field in form %}
+                <div class="form-group">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% render_field field class="form-control" placeholder=field.label %}
+                  <div class="{% if field.errors %} invalid{% endif %}">
+                    {% for error in field.errors %}
+                      <p class="help-block">{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="modal-footer">
+              <a type="button" href="{% url 'list_kwitansi' %}" class="btn btn-secondary float-end mb-3 mx-1">
+                Batal
+              </a>
+              <button type="submit" class="submit-btn btn btn-primary float-end mb-3 mx-1">Simpan</button>
+            </div>
+
+          </form>
         </div>
       </div>
     </div>
@@ -125,8 +111,14 @@
 <!-- ============================================================== -->
 <!-- End Page wrapper  -->
 <!-- ============================================================== -->
+
 {% endblock %}
 
-{% block extrascript %}
 
+{% block extrascript %}
+<script>
+  $('textarea').attr('rows', 3);
+
+  $('input[name="tanggal"]').attr('type', 'date');
+</script>
 {% endblock %}

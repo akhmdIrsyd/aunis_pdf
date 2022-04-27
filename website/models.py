@@ -57,13 +57,13 @@ class isi_kontrak(models.Model):
 
 
 class kwitansi(models.Model):
-    KWITANSI_TYPE_CHOICES = (
-        (1, 'Kwitansi'),
-        (2, 'Nota')
-    )
-    kwitansi_type = models.PositiveIntegerField(choices=KWITANSI_TYPE_CHOICES, default=1)
-    kode_invoice = models.CharField(max_length=50, unique=True)
-    nama_perusahaan = models.CharField(max_length=50)
+    # KWITANSI_TYPE_CHOICES = (
+    #     (1, 'Kwitansi'),
+    #     (2, 'Nota')
+    # )
+    # kwitansi_type = models.PositiveIntegerField(choices=KWITANSI_TYPE_CHOICES, default=1)
+    # kode_invoice = models.CharField(max_length=50, unique=True)
+    penerima = models.CharField(max_length=50)
     tanggal = models.DateField()
 
 
@@ -74,7 +74,6 @@ class isi_kwitansi(models.Model):
     satuan = models.CharField(max_length=50)
     harga = models.IntegerField()
     jumlah = models.IntegerField()
-    total = models.IntegerField()
 
 
 class SJalan(models.Model):

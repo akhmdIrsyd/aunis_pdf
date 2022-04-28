@@ -454,7 +454,7 @@ def Delete_perusahaan(request, pk):
 #list Kwitansi
 @login_required(login_url='login')
 def list_kwitansi(request):
-    Data_kwitansi = kwitansi.objects.all()
+    Data_kwitansi = kwitansi.objects.all().order_by('-tanggal')
     context = {
         'rows': Data_kwitansi,
     }
@@ -477,6 +477,9 @@ def Create_kwitansi(request):
     user = request.user
     mail = user.email
     id_isikontrak = request.POST.getlist('id_isikontrak')
+    satuans = request.POST.getlist('satuan')
+    jumlahs = request.POST.getlist('jumlah')
+    hargas = request.POST.getlist('harga')
     isikontrakss = isi_kontrak.objects.all()
     
     if request.method == 'POST':
@@ -491,11 +494,14 @@ def Create_kwitansi(request):
             kwitansis.save()
 
             data_kwitansis = kwitansi.objects.get(no_kwitansi=form.cleaned_data.get('no_kwitansi'))
-            for i in range(len(id_isikontrak)):
+            for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
                 isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
                 isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.satuan = satuans[i]
+                isi_kwitansis.jumlah = jumlahs[i]
+                isi_kwitansis.harga = hargas[i]
                 isi_kwitansis.save()
             return redirect('/list_kwitansi')
             #return HttpResponse('Success')
@@ -520,8 +526,9 @@ def Update_Kwitansi(request, pk):
     data_kwitansis = kwitansi.objects.get(id=pk)
     isikontrakss = isi_kontrak.objects.all()
     id_isikontrak = request.POST.getlist('id_isikontrak')
-    jumlah = request.POST.getlist('jumlah')
-    nomor_dos = request.POST.getlist('nomor_dos')
+    satuans = request.POST.getlist('satuan')
+    jumlahs = request.POST.getlist('jumlah')
+    hargas = request.POST.getlist('harga')
     if request.method == 'POST':
         form = KwitansiForm(request.POST, instance=data_kwitansis)
 
@@ -535,11 +542,15 @@ def Update_Kwitansi(request, pk):
             kwitansis.save()
 
             data_kwitansis = kwitansi.objects.get(no_kwitansi=request.POST.get('no_kwitansi'))
-            for i in range(len(id_isikontrak)):
+            for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
                 isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
                 isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.satuan = satuans[i]
+                isi_kwitansis.jumlah = jumlahs[i]
+                isi_kwitansis.harga = hargas[i]
                 isi_kwitansis.save()
             return redirect('/list_kwitansi')
             #return HttpResponse('Success')

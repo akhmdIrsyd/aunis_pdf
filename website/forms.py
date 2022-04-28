@@ -42,7 +42,7 @@ class KwitansiForm(forms.ModelForm):
 class isi_KwitansiForm(forms.ModelForm):
     class Meta:
         model = isi_kwitansi
-        fields = ['id_isikontrak']
+        fields = ['id_isikontrak','satuan','jumlah','harga']
 
 
 class SJalanForm(forms.ModelForm):

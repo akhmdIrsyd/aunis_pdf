@@ -71,6 +71,9 @@ class kwitansi(models.Model):
 class isi_kwitansi(models.Model):
     id_kwitansi = models.ForeignKey(kwitansi, on_delete=models.CASCADE)
     id_isikontrak = models.ForeignKey(isi_kontrak, on_delete=models.CASCADE)
+    satuan = models.CharField(max_length=50)
+    jumlah = models.IntegerField(blank=True, null=True)
+    harga = models.IntegerField(blank=True, null=True)
 
 class SJalan(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)

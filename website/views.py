@@ -476,17 +476,35 @@ def kwitansi_detail(request, pk):
 def Create_kwitansi(request):
     user = request.user
     mail = user.email
+    id_isikontrak = request.POST.getlist('id_isikontrak')
+    isikontrakss = isi_kontrak.objects.all()
+    
     if request.method == 'POST':
         form = KwitansiForm(request.POST)
+        
         if form.is_valid():
-            form = form.save()
+            
+            kwitansis = kwitansi()
+            kwitansis.no_kwitansi = form.cleaned_data.get('no_kwitansi')
+            kwitansis.penerima = form.cleaned_data.get('penerima')
+            kwitansis.tanggal = form.cleaned_data.get('tanggal')
+            kwitansis.save()
 
-            return redirect('list_kwitansi')
+            data_kwitansis = kwitansi.objects.get(no_kwitansi=form.cleaned_data.get('no_kwitansi'))
+            for i in range(len(id_isikontrak)):
+                isi_kwitansis = isi_kwitansi()
+                isi_kwitansis.id_kwitansi = data_kwitansis
+                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
+                isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.save()
+            return redirect('/list_kwitansi')
+            #return HttpResponse('Success')
     else:
         form = KwitansiForm()
     context = {
         'form': form,
         'mail': mail,
+        'rows': isikontrakss,
     }
     return render(request, 'form_kwitansi.html', context)
 
@@ -495,21 +513,48 @@ def Create_kwitansi(request):
 def Update_Kwitansi(request, pk):
     user = request.user
     mail = user.email
-    data_kwitansi = kwitansi.objects.get(id=pk)
+    pk = pk
+    data_isi_kwitansis = isi_kwitansi.objects.filter(id_kwitansi=pk)
+    
+    
+    data_kwitansis = kwitansi.objects.get(id=pk)
+    isikontrakss = isi_kontrak.objects.all()
+    id_isikontrak = request.POST.getlist('id_isikontrak')
+    jumlah = request.POST.getlist('jumlah')
+    nomor_dos = request.POST.getlist('nomor_dos')
     if request.method == 'POST':
-        form = KwitansiForm(request.POST, instance=data_kwitansi)
-        if form.is_valid():
-            form.save()
+        form = KwitansiForm(request.POST, instance=data_kwitansis)
 
-            return redirect('list_kwitansi')
+        if form.is_valid():    
+            kwitansis = kwitansi()
+            kwitansis.no_kwitansi = form.cleaned_data.get('no_kwitansi')
+            kwitansis.penerima = form.cleaned_data.get('penerima')
+            kwitansis.tanggal = form.cleaned_data.get('tanggal')
+            data_kwitansis.delete()
+            data_isi_kwitansis.delete()
+            kwitansis.save()
+
+            data_kwitansis = kwitansi.objects.get(no_kwitansi=request.POST.get('no_kwitansi'))
+            for i in range(len(id_isikontrak)):
+                isi_kwitansis = isi_kwitansi()
+                isi_kwitansis.id_kwitansi = data_kwitansis
+                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
+                isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.save()
+            return redirect('/list_kwitansi')
+            #return HttpResponse('Success')
     else:
-        form = KwitansiForm(instance=data_kwitansi)
+        form = KwitansiForm()
+    #print(data_isiSJalans.query)
     context = {
         'form': form,
         'mail': mail,
-        'rows': data_kwitansi
+        'rows': isikontrakss, 
+        'rows1': data_isi_kwitansis,
+        'data_kwitansis': data_kwitansis,
+        'pk': pk
     }
-    return render(request, 'form.html', context)
+    return render(request, 'form_kwitansiUpdate.html', context)
 
 
 @login_required(login_url='login')

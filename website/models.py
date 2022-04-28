@@ -63,18 +63,14 @@ class kwitansi(models.Model):
     # )
     # kwitansi_type = models.PositiveIntegerField(choices=KWITANSI_TYPE_CHOICES, default=1)
     # kode_invoice = models.CharField(max_length=50, unique=True)
+    no_kwitansi = models.CharField(max_length=50, unique=True)
     penerima = models.CharField(max_length=50)
     tanggal = models.DateField()
 
 
 class isi_kwitansi(models.Model):
     id_kwitansi = models.ForeignKey(kwitansi, on_delete=models.CASCADE)
-    nama_barang = models.CharField(max_length=50)
-    spesifikasi = models.CharField(max_length=50)
-    satuan = models.CharField(max_length=50)
-    harga = models.IntegerField()
-    jumlah = models.IntegerField()
-
+    id_isikontrak = models.ForeignKey(isi_kontrak, on_delete=models.CASCADE)
 
 class SJalan(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)

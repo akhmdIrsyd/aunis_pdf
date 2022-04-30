@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+{% block extrastyle %}
+    {% load static %}
+    <link href="{% static 'box-stat.css' %}" rel="stylesheet" type="text/css"> />
+{% endblock %}
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -36,63 +40,62 @@
     <!-- ============================================================== -->
     <div class="row">
       <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="navbar-nav float-start me-auto">
-              <h5 class="card-title mb-0">Dashboard</h5>
-            </div>
-            <div class="navbar-nav float-end">
+        <div class="row bg-white p-4">
+          <div class="col-md-3 col-sm-3">
+            <div class="stat-box stat-box-small blue">
+              <div class="stat-icon">
+                <span class="icon" aria-hidden="true">
+                  <i class="mdi mdi-file-check"></i>
+                </span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-label-top">Jumlah Kontrak</span>
+                <p>&nbsp;</p>
+                <b class="stat-num" style="">{{tot_kontrak}}</b>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>New Orders</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
+          <div class="col-md-3 col-sm-3">
+            <div class="stat-box stat-box-small green">
+              <div class="stat-icon">
+                <span class="icon icon-coin-dollar" aria-hidden="true">
+                  <i class="mdi mdi-bank"></i>
+                </span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-label-top">Daftar Perusahaan</span>
+                <p>&nbsp;</p>
+                <b class="stat-num" style="">{{tot_perusahaan}}</b>
               </div>
             </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  <p>Bounce Rate</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
+          </div>
+          <div class="col-md-3 col-sm-3">
+            <div class="stat-box stat-box-small orange">
+              <div class="stat-icon">
+                <span class="icon icon-coin-dollar" aria-hidden="true">
+                  <i class="mdi mdi-cash-multiple"></i>
+                </span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-label-top">Jumlah Kwitansi</span>
+                <p>&nbsp;</p>
+                <b class="stat-num" style="">{{tot_kwitansi}}</b>                
               </div>
             </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>44</h3>
-                  <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
+          </div>
+          <div class="col-md-3 col-sm-3" style="padding-right: 0px;">
+            <div class="stat-box stat-box-small purple">
+              <div class="stat-icon">
+                <span class="icon icon-coin-dollar" aria-hidden="true">
+                  <i class="mdi mdi-walk"></i>
+                </span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-label-top">Surat Jalan</i></span>
+                <p>&nbsp;</p>
+                <b class="stat-num" style="">{{tot_suratjalan}}</b>
               </div>
             </div>
-            
-            <div class="col-lg-3 col-6">
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>65</h3>
-                  <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

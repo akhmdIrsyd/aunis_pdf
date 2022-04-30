@@ -139,9 +139,15 @@ def Ganti_password(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    # Data_siswa = data_siswa.objects.all()
+    tot_kontrak = kontrak.objects.count()
+    tot_perusahaan = perusahaan.objects.count()
+    tot_suratjalan = SJalan.objects.count()
+    tot_kwitansi = kwitansi.objects.count()
     context = {
-        # 'rows': Data_siswa,
+        'tot_kontrak' : tot_kontrak,
+        'tot_perusahaan' : tot_perusahaan,
+        'tot_suratjalan' : tot_suratjalan,
+        'tot_kwitansi' : tot_kwitansi
     }
     return render(request, 'dashboard.html', context)
 

@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Detail Surat Jalan</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {% comment %} <a href="{% url 'list_pdf' %}">Daftar Kontrak</a> {% endcomment %}
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {% comment %} <a href="{% url 'list_SJalan' pk=uk %}">Daftar Surat Jalan</a> {% endcomment %}
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Detail
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="navbar-nav float-start me-auto">
+              <h5 class="card-title mb-0">Detail Surat Jalan - <b>{{rows.no_surat}}</b></h5>
+            </div>
+            <div class="navbar-nav float-end me-auto">
+              <button class="btn btn-primary" id="printBtn"><i class="me-2 mdi mdi-printer"></i>Cetak</button>
+            </div>
+          </div>
+          {% for row in rows %}
+            {{row}}
+          {% endfor %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NO.<br>ORDER</th>
+                <th>JENIS BARANG</th>
+                <th colspan="2">JUMLAH PESANAN BUKU</th>
+                <th>NOMOR DOS / KOLI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% load slice_path %}
+              {% comment %} {% for row1 in rows %}
+              <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ row1.id_isikontrak.nama_barang }}</td>
+                 <td style="text-align:right">{{ row1.jumlah }}</td>
+                 <td>pcs</td>
+                 <td style="text-align:center">{{ row1.nomor_dos }}</td>
+              </tr>
+              {% endfor %} {% endcomment %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+
+    <div id="print_area" style="width: 100%;" class="d-none">
+      <div class="text-center" style="text-align: center">
+        <h1>
+          <b>UD. AUNIS PRINT & OFFSET</b>
+        </h1>
+        <span>Jl. Manunggal Lr. Meohai No. 8 Anduonohu Kota Kendari</span> <br>
+        <span>Hp. 0852 4151 2849 E-mail: annisyahelf@gmail.com</span>
+        <hr style="height:5px; border-top:1px solid black; border-bottom:2px solid black;">
+        <h2>NOTA PENGIRIMAN BARANG</h2>
+      </div>
+      <div>
+        <table style="width:100%">
+          <tr>
+            <td style="width:10%">Nomor</td>
+            {% comment %} <td>: {{rows.no_surat}}</td> {% endcomment %}
+          </tr>
+          <tr>
+            <td style="width:10%">Pemesan</td>
+            {% comment %} <td>: <b>{{rows.pemesan}}</b></td> {% endcomment %}
+          </tr>
+          <tr>
+            <td style="width:10%">HP</td>
+            {% comment %} <td>: {{rows.no_hp}}</td> {% endcomment %}
+          </tr>
+        </table>
+      </div>
+      <table class="table table-responsive table-bordered" border="1" cellspacing="0" style="width: 100%">
+        <thead>
+          <tr>
+            <th style="text-align:center">NO.<br>ORDER</th>
+            <th style="text-align:center">JENIS BARANG</th>
+            <th style="text-align:center" colspan="2">JUMLAH<br>PESANAN BUKU</th>
+            <th style="text-align:center">NOMOR DOS / KOLI</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% load slice_path %}
+          {% comment %} {% for row1 in rows1 %}
+          <tr>
+              <td align="center" valign="">{{ forloop.counter }}</td>
+              <td>{{ row1.id_isikontrak.nama_barang }}</td>
+              <td style="text-align:right" padding="1px">{{ row1.jumlah }}</td>
+              <td padding="1px">pcs</td>
+              <td style="text-align:center">{{ row1.nomor_dos }}</td>
+          </tr>
+          {% endfor %} {% endcomment %}
+        </tbody>
+      </table>
+      <br>
+      <table style="width:100%">
+        <tr>
+          <td align="center">&nbsp;</td>
+          <td style="width:40%" align="center">&nbsp;</td>
+          {% comment %} <td align="center" id="Set_tgl">{{ rows.tanggal }}</td> {% endcomment %}
+        </tr>
+        <tr>
+          <td align="center">
+            Yang Menyerahkan
+            <br>
+            <br>
+            <br>
+            <b><u>ANNISYAH</u></b>
+            <br>
+            (Nama Terang)
+          </td>
+          <td style="width:40%" align="center">&nbsp;</td>
+          <td align="center">
+            Yang Menerima
+            <br>
+            <br>
+            <br>
+            <b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></b>
+            <br>
+            (Nama Terang)
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Container fluid  -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- footer -->
+  <!-- ============================================================== -->
+  <footer class="footer text-center">
+    All Rights Reserved by Matrix-admin. Designed and Developed by
+    <a href="https://www.wrappixel.com">WrapPixel</a>.
+  </footer>
+  <!-- ============================================================== -->
+  <!-- End footer -->
+  <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+{% endblock %}
+
+{% block extrascript %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#Set_tgl').html(function(){
+    let v = $(this).html().replace(/[^a-z 0-9]/gi,'').split(' ');
+    let d = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let dx = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    return `Kendari, ${v[1]} ${dx[d.indexOf(v[0])]} ${v[2]}`;
+  });
+
+  $('#printBtn').click(function(){
+    console.log('print');var divContents = document.getElementById("print_area").innerHTML;  
+       var printWindow = window.open('', '', 'height=600,width=900');  
+       printWindow.document.write('<html><head><title>Print DIV Content</title>');  
+       printWindow.document.write('</head><body >');  
+       printWindow.document.write(divContents);  
+       printWindow.document.write('</body></html>');  
+       printWindow.document.close();  
+       printWindow.print();  
+  })
+})
+</script>
+{% endblock %}

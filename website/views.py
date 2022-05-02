@@ -470,12 +470,15 @@ def list_kwitansi(request):
 @login_required(login_url='login')
 def kwitansi_detail(request, pk):
     Data_kwitansi = kwitansi.objects.get(id=pk)
-    Data_isikwitansi = isi_kwitansi.objects.get(id_kwitansi=Data_kwitansi.id)
+    print(Data_kwitansi)
+    # Data_kontrak = kontrak.objects.filter(id=pk)
+    
+    # Data_isikwitansi = isi_kwitansi.objects.get(id_kwitansi=Data_kwitansi.id)
     context = {
-        'rows': 1,
-        'rows2': 2,
+        'rows': Data_kwitansi,
+        # 'rows2': Data_isikwitansi,
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'detail_kwitansi.html', context)
 
 
 @login_required(login_url='login')

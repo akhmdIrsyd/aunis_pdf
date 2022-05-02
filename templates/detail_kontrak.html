@@ -145,9 +145,11 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="kontrak_label">Cetak Invoice</h5>
-              <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <form action="" method="POST">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </form>
             </div>
             <div class="modal-body" id="print_invoice">
               <div class="row" style="width:100%; padding: 20px;">
@@ -204,7 +206,7 @@
                     {% for row in rows %}
                       {% if row.pk in print %}
                       <tr>
-                        <td>{{ forloop.counter }}</td>
+                        <td class="counter">{{ forloop.counter }}</td>
                         <td>{{ row.Code_Purchase }}</td>
                         <td>{{ row.nama_barang }}</td>
                         <td>{{ row.satuan }}</td>
@@ -261,7 +263,7 @@
             </div>
             <div class="modal-footer">
               <form action="" method="POST">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
               </form>
               <button type="button" class="btn btn-primary" onClick="printDiv('print_invoice')">Cetak</button>
             </div>
@@ -320,6 +322,10 @@ $(document).ready(function(){
     $('#SET_NPWP').html("15.753.202.9-811.000")
 
     $('#print_btn').click();
+
+    $('.counter').each(function(i){
+      $(this).html(i+1);
+    })
   }
 });
 

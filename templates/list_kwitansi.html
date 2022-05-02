@@ -60,21 +60,24 @@
               {% load slice_path %}
               {% for row in rows %}
               <tr>
-                 <td>{{ forloop.counter }}</td>
+                 <td>{{ forloop.counter }} {{row.id}}</td>
                  <td>{{ row.penerima }}</td>
                  <td>{{ row.tanggal }}</td>
                  <td align="center">
-                   <!-- <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
-                     <i class="me-2 mdi mdi-eye"></i> Lihat
-                   </button> -->
-                   <a href="{% url 'Update_kwitansi' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
-                     <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
-                   </a>
-                   <a href="" data-id="{{row.pk}}" class="hapus btn btn-sm btn-danger m-1" role="button">
-                     <i class="me-2 mdi mdi-delete"></i> Hapus
-                   </a>
-                   <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
-                      <embed src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf" />
+                  <!-- <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
+                    <i class="me-2 mdi mdi-eye"></i> Lihat
+                  </button> -->
+                  <a href="{% url 'kwitansi_detail' pk=row.id %}" class="btn btn-sm btn-success text-white m-1" role="button">
+                    <i class="me-2 mdi mdi-link"></i> Detail
+                  </a>
+                  <a href="{% url 'Update_kwitansi' pk=row.pk %}" class="btn btn-sm btn-warning m-1" role="button">
+                    <i class="me-2 mdi mdi-lead-pencil"></i> Ubah
+                  </a>
+                  <a href="" data-id="{{row.pk}}" class="hapus btn btn-sm btn-danger m-1" role="button">
+                    <i class="me-2 mdi mdi-delete"></i> Hapus
+                  </a>
+                  <!-- <object data="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf">
+                    <embed src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" type="application/pdf" />
                   </object> -->
                  </td>
               </tr>

@@ -469,14 +469,31 @@ def list_kwitansi(request):
 #detail Perusahaan
 @login_required(login_url='login')
 def kwitansi_detail(request, pk):
-    Data_kwitansi = kwitansi.objects.get(id=pk)
-    print(Data_kwitansi)
+    Data_kwitansi = kwitansi.objects.filter(id=pk)
     # Data_kontrak = kontrak.objects.filter(id=pk)
+    Data_isikwitansi = isi_kwitansi.objects.filter(id_kwitansi=pk)
+    list_namabarang=[]
+    for kwitansis in Data_isikwitansi:
+        nama_barang = kwitansis.id_isikontrak.nama_barang
+        list_namabarang.append(nama_barang)
     
-    # Data_isikwitansi = isi_kwitansi.objects.get(id_kwitansi=Data_kwitansi.id)
+    df = pd.DataFrame.from_records(Data_isikwitansi.values())
+    df['total']=df['jumlah']*df['harga']
+    df['nama_barang']=list_namabarang
+    total=df['total'].sum()
+    pajak=total*0.11
+    totalall=total+pajak
+    
+    
+    df=df.values.tolist()
+    #print(Data_isiKontrak)
     context = {
         'rows': Data_kwitansi,
-        # 'rows2': Data_isikwitansi,
+        'rows2': df,
+        'total':total,
+        'pajak':pajak,
+        'totalall':totalall,
+        
     }
     return render(request, 'detail_kwitansi.html', context)
 

@@ -52,30 +52,35 @@
             </div>
           </div>
           {% for row in rows %}
-            {{row}}
+            {{row.no_kwitansi}}
           {% endfor %}
           <table class="table">
             <thead>
               <tr>
                 <th>NO.<br>ORDER</th>
                 <th>JENIS BARANG</th>
-                <th colspan="2">JUMLAH PESANAN BUKU</th>
-                <th>NOMOR DOS / KOLI</th>
+                <th colspan="2">JUMLAH</th>
+                <th>HARGA</th>
+                <th>TOTAL</th>
               </tr>
             </thead>
             <tbody>
-              {% load slice_path %}
-              {% comment %} {% for row1 in rows %}
+              {% for row2 in rows2 %}
               <tr>
                  <td>{{ forloop.counter }}</td>
-                 <td>{{ row1.id_isikontrak.nama_barang }}</td>
-                 <td style="text-align:right">{{ row1.jumlah }}</td>
-                 <td>pcs</td>
-                 <td style="text-align:center">{{ row1.nomor_dos }}</td>
+                 <td>{{ row2.7 }}</td>
+                 <td style="text-align:right">{{ row2.4 }}</td>
+                 <td>{{ row2.3 }}</td>
+                 <td style="text-align:center">{{ row2.5 }}</td>
+                 <td>{{ row2.6 }}</td>
               </tr>
-              {% endfor %} {% endcomment %}
+              {% endfor %}
             </tbody>
           </table>
+          
+            Total:{{total}}</br>
+            Pajak:{{pajak}}</br>
+            Total Keseluruhan:{{totalall}}
         </div>
       </div>
     </div>

@@ -61,3 +61,9 @@ class SuratJForm(forms.ModelForm):
     class Meta:
         model = SuratJ
         fields = ['no_surat', 'pemesan', 'no_hp', 'tanggal','id_isikontrak', 'jumlah', 'nomor_dos']
+
+class isi_kontrakFormM(forms.ModelForm):
+    id_kontraks = forms.CharField(widget=forms.HiddenInput(), required=False)
+    class Meta:
+        model = isi_kontrak
+        fields = ['id_kontraks','Code_Purchase','id_perusahaan', 'nama_barang','spesifikasi', 'satuan', 'jumlah', 'harga', 'total','no_kontrak', 'tgl_order', 'waktu', 'tgl_penyerahan']

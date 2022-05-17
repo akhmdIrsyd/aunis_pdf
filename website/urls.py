@@ -52,4 +52,6 @@ urlpatterns = [
     path('Update_SuratJ/<int:pk>/<int:uk>', views.Update_SuratJ, name='Update_SuratJ'),
     path('detail_SuratJ/<int:pk>/<int:uk>', views.detail_SuratJ, name='detail_SuratJ'),
     path('change_pass', views.Ganti_password, name='change_pass'),
+    #kontrak_manual
+    path('Create_kontrakManual', views.Create_kontrakManual, name='Create_kontrakManual'),
 ]

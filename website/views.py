@@ -486,13 +486,13 @@ def kwitansi_detail(request, pk):
     
     
     df=df.values.tolist()
-    #print(Data_isiKontrak)
+    # print(Data_kwitansi[0])
     context = {
-        'rows': Data_kwitansi,
+        'rows': Data_kwitansi[0],
         'rows2': df,
         'total':total,
         'pajak':pajak,
-        'totalall':totalall,
+        'totalall':int(totalall),
         
     }
     return render(request, 'detail_kwitansi.html', context)

@@ -10,16 +10,13 @@
   <div class="page-breadcrumb">
     <div class="row">
       <div class="col-12 d-flex no-block align-items-center">
-        <h4 class="page-title">Detail Surat Jalan</h4>
+        <h4 class="page-title">Detail Kwitansi</h4>
         <div class="ms-auto text-end">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">
-                {% comment %} <a href="{% url 'list_pdf' %}">Daftar Kontrak</a> {% endcomment %}
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">
-                {% comment %} <a href="{% url 'list_SJalan' pk=uk %}">Daftar Surat Jalan</a> {% endcomment %}
+                <a href="{% url 'list_kwitansi' %}">Daftar Kwitansi</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 Detail
@@ -45,15 +42,12 @@
         <div class="card">
           <div class="card-body">
             <div class="navbar-nav float-start me-auto">
-              <h5 class="card-title mb-0">Detail Surat Jalan - <b>{{rows.no_surat}}</b></h5>
+              <h5 class="card-title mb-0">Detail Kwitansi - <b>{{rows.penerima}} </b></h5>
             </div>
             <div class="navbar-nav float-end me-auto">
               <button class="btn btn-primary" id="printBtn"><i class="me-2 mdi mdi-printer"></i>Cetak</button>
             </div>
           </div>
-          {% for row in rows %}
-            {{row.no_kwitansi}}
-          {% endfor %}
           <table class="table">
             <thead>
               <tr>
@@ -65,22 +59,33 @@
               </tr>
             </thead>
             <tbody>
+              {% load humanize %}
               {% for row2 in rows2 %}
               <tr>
-                 <td>{{ forloop.counter }}</td>
+                 <td style="text-align:center">{{ forloop.counter }}</td>
                  <td>{{ row2.7 }}</td>
                  <td style="text-align:right">{{ row2.4 }}</td>
                  <td>{{ row2.3 }}</td>
-                 <td style="text-align:center">{{ row2.5 }}</td>
-                 <td>{{ row2.6 }}</td>
+                 <td style="text-align:right">{{ row2.5 | intcomma }}</td>
+                 <td style="text-align:right">{{ row2.6 | intcomma }}</td>
               </tr>
               {% endfor %}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" style="text-align:center"><b>TOTAL</b></td>
+                <td style="text-align:right"><b>{{ total | intcomma }}</b></td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align:center"><b>PPN (11%)</b></td>
+                <td style="text-align:right"><b>{{ total | intcomma }}</b></td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align:center"><b>TOTAL TERMASUK PPN (11%)</b></td>
+                <td style="text-align:right"><b>{{ totalall | intcomma }}</b></td>
+              </tr>
+            </tfoot>
           </table>
-          
-            Total:{{total}}</br>
-            Pajak:{{pajak}}</br>
-            Total Keseluruhan:{{totalall}}
         </div>
       </div>
     </div>
@@ -103,74 +108,45 @@
         <span>Jl. Manunggal Lr. Meohai No. 8 Anduonohu Kota Kendari</span> <br>
         <span>Hp. 0852 4151 2849 E-mail: annisyahelf@gmail.com</span>
         <hr style="height:5px; border-top:1px solid black; border-bottom:2px solid black;">
-        <h2>NOTA PENGIRIMAN BARANG</h2>
+        <h2>KWITANSI</h2>
       </div>
-      <div>
-        <table style="width:100%">
-          <tr>
-            <td style="width:10%">Nomor</td>
-            {% comment %} <td>: {{rows.no_surat}}</td> {% endcomment %}
-          </tr>
-          <tr>
-            <td style="width:10%">Pemesan</td>
-            {% comment %} <td>: <b>{{rows.pemesan}}</b></td> {% endcomment %}
-          </tr>
-          <tr>
-            <td style="width:10%">HP</td>
-            {% comment %} <td>: {{rows.no_hp}}</td> {% endcomment %}
-          </tr>
-        </table>
-      </div>
-      <table class="table table-responsive table-bordered" border="1" cellspacing="0" style="width: 100%">
+      <table style="width:100%" border="1" cellspacing="0">
         <thead>
           <tr>
-            <th style="text-align:center">NO.<br>ORDER</th>
-            <th style="text-align:center">JENIS BARANG</th>
-            <th style="text-align:center" colspan="2">JUMLAH<br>PESANAN BUKU</th>
-            <th style="text-align:center">NOMOR DOS / KOLI</th>
+            <th>NO.<br>ORDER</th>
+            <th>NAMA BARANG</th>
+            <th colspan="2">JUMLAH</th>
+            <th>HARGA</th>
+            <th>TOTAL</th>
           </tr>
         </thead>
         <tbody>
-          {% load slice_path %}
-          {% comment %} {% for row1 in rows1 %}
+          {% load humanize %}
+          {% for row2 in rows2 %}
           <tr>
-              <td align="center" valign="">{{ forloop.counter }}</td>
-              <td>{{ row1.id_isikontrak.nama_barang }}</td>
-              <td style="text-align:right" padding="1px">{{ row1.jumlah }}</td>
-              <td padding="1px">pcs</td>
-              <td style="text-align:center">{{ row1.nomor_dos }}</td>
+             <td style="text-align:center">{{ forloop.counter }}</td>
+             <td>{{ row2.7 }}</td>
+             <td style="text-align:right; border-right: none !important;">{{ row2.4 }}</td>
+             <td>{{ row2.3 }}</td>
+             <td style="text-align:right;">{{ row2.5 | intcomma }}</td>
+             <td style="text-align:right">{{ row2.6 | intcomma }}</td>
           </tr>
-          {% endfor %} {% endcomment %}
+          {% endfor %}
         </tbody>
-      </table>
-      <br>
-      <table style="width:100%">
-        <tr>
-          <td align="center">&nbsp;</td>
-          <td style="width:40%" align="center">&nbsp;</td>
-          {% comment %} <td align="center" id="Set_tgl">{{ rows.tanggal }}</td> {% endcomment %}
-        </tr>
-        <tr>
-          <td align="center">
-            Yang Menyerahkan
-            <br>
-            <br>
-            <br>
-            <b><u>ANNISYAH</u></b>
-            <br>
-            (Nama Terang)
-          </td>
-          <td style="width:40%" align="center">&nbsp;</td>
-          <td align="center">
-            Yang Menerima
-            <br>
-            <br>
-            <br>
-            <b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></b>
-            <br>
-            (Nama Terang)
-          </td>
-        </tr>
+        <tfoot>
+          <tr>
+            <td colspan="5" style="text-align:center"><b>TOTAL</b></td>
+            <td style="text-align:right"><b>{{ total | intcomma }}</b></td>
+          </tr>
+          <tr>
+            <td colspan="5" style="text-align:center"><b>PPN (11%)</b></td>
+            <td style="text-align:right"><b>{{ total | intcomma }}</b></td>
+          </tr>
+          <tr>
+            <td colspan="5" style="text-align:center"><b>TOTAL TERMASUK PPN (11%)</b></td>
+            <td style="text-align:right"><b>{{ totalall | intcomma }}</b></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
 
@@ -206,6 +182,8 @@ $(document).ready(function(){
 
     return `Kendari, ${v[1]} ${dx[d.indexOf(v[0])]} ${v[2]}`;
   });
+
+  $('th').css('text-align', 'center');
 
   $('#printBtn').click(function(){
     console.log('print');var divContents = document.getElementById("print_area").innerHTML;  

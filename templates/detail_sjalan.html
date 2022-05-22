@@ -56,7 +56,8 @@
               <tr>
                 <th>NO.<br>ORDER</th>
                 <th>JENIS BARANG</th>
-                <th colspan="2">JUMLAH PESANAN BUKU</th>
+                <th>JUMLAH</th>
+                <th>SATUAN</th>
                 <th>NOMOR DOS / KOLI</th>
               </tr>
             </thead>
@@ -66,7 +67,7 @@
               <tr>
                  <td>{{ forloop.counter }}</td>
                  <td>{{ row1.id_isikontrak.nama_barang }}</td>
-                 <td style="text-align:right">{{ row1.jumlah }}</td>
+                 <td style="text-align:center">{{ row1.jumlah }}</td>
                  <td>pcs</td>
                  <td style="text-align:center">{{ row1.nomor_dos }}</td>
               </tr>
@@ -108,7 +109,7 @@
             <td>: <b>{{rows.pemesan}}</b></td>
           </tr>
           <tr>
-            <td style="width:10%">HP</td>
+            <td style="width:10%">No. Kontrak</td>
             <td>: {{rows.no_hp}}</td>
           </tr>
         </table>
@@ -118,7 +119,8 @@
           <tr>
             <th style="text-align:center">NO.<br>ORDER</th>
             <th style="text-align:center">JENIS BARANG</th>
-            <th style="text-align:center" colspan="2">JUMLAH<br>PESANAN BUKU</th>
+            <th style="text-align:center">JUMLAH</th>
+            <th style="text-align:center">SATUAN</th>
             <th style="text-align:center">NOMOR DOS / KOLI</th>
           </tr>
         </thead>
@@ -128,8 +130,8 @@
           <tr>
               <td align="center" valign="">{{ forloop.counter }}</td>
               <td>{{ row1.id_isikontrak.nama_barang }}</td>
-              <td style="text-align:right" padding="1px">{{ row1.jumlah }}</td>
-              <td padding="1px">pcs</td>
+              <td style="text-align:center" padding="1px">{{ row1.jumlah }}</td>
+              <td style="text-align:center">pcs</td>
               <td style="text-align:center">{{ row1.nomor_dos }}</td>
           </tr>
           {% endfor %}

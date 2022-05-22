@@ -2,7 +2,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from .models import kontrak, isi_kontrak, perusahaan, isi_kwitansi, kwitansi, SJalan, isi_SJalan, SuratJ
-from .forms import Ganti_passForm, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm, SJalanForm, Isi_SJalanForm, SuratJForm
+from .forms import Ganti_passForm,isi_kontrakFormM, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm, SJalanForm, Isi_SJalanForm, SuratJForm
 from django.db.models import Count
 
 from django.contrib.auth.decorators import login_required, permission_required
@@ -929,3 +929,63 @@ def Delete_SuratJ(request, pk):
     data_SuratJ.delete()
     return redirect('/list_SJalan/'+str(pk))
 
+@login_required(login_url='login')
+def Create_kontrakManual(request):
+    list_perusahaans = perusahaan.objects.all()
+    kode = str(uuid.uuid4())
+    Code_Purchases = request.POST.getlist('Code_Purchase')
+    no_kontraks = request.POST.getlist('no_kontrak')
+    nama_barangs = request.POST.getlist('nama_barang')
+    spesifikasis = request.POST.getlist('spesifikasi')
+    satuans = request.POST.getlist('satuan')
+    jumlahs = request.POST.getlist('jumlah')
+    hargas = request.POST.getlist('harga')
+    totals = request.POST.getlist('total')
+    id_perusahaan = request.POST.getlist('id_perusahaan')
+    suppliers = request.POST.getlist('supplier')
+    tgl_orders = request.POST.getlist('tgl_order')
+    waktus = request.POST.getlist('waktu')
+    tgl_penyerahans = request.POST.getlist('tgl_penyerahan')
+    #status = request.POST.getlist('status')
+
+    if request.method == 'POST':
+        form = isi_kontrakFormM(request.POST)
+
+        if form.is_valid():    
+            pdf=kontrak()
+            pdf.file_pdf = '-'
+            pdf.kode = kode
+            pdf.save()
+            #kode_kontrak = form.cleaned_data.get('kode')
+            Data_kontraks = kontrak.objects.get(kode=kode)
+            for i in range(len(tgl_penyerahans)):
+
+                isi_kontraks=isi_kontrak()
+                isi_kontraks.id_kontrak = Data_kontraks
+                isi_kontraks.no_kontrak=no_kontraks[i]
+                isi_kontraks.Code_Purchase = Code_Purchases[i]
+                isi_kontraks.nama_barang = nama_barangs[i]
+                isi_kontraks.spesifikasi = spesifikasis[i]
+                isi_kontraks.satuan = satuans[i]
+                isi_kontraks.jumlah = jumlahs[i]
+                isi_kontraks.harga = hargas[i]
+                isi_kontraks.total = totals[i]
+                perusahaans = perusahaan.objects.filter(id=id_perusahaan[i])
+                isi_kontraks.id_perusahaan = perusahaans[i]
+                isi_kontraks.supplier = "AUNIS PRINT OFFSET"
+                isi_kontraks.tgl_order = tgl_orders[i]
+                isi_kontraks.waktu = waktus[i]
+                isi_kontraks.tgl_penyerahan = tgl_penyerahans[i]
+                #isi_kontraks.status = status[i]
+
+                isi_kontraks.save()
+                
+            return redirect('list_pdf')
+                #return HttpResponse('Success')
+    else:
+        form = isi_kontrakFormM()
+        
+    context = {
+        'rows': list_perusahaans
+    }
+    return render(request, 'form_kontrak.html', context)

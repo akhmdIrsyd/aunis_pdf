@@ -62,7 +62,7 @@
               <tr>
                  <td>{{ forloop.counter }}</td>
                  <td>{{ row.penerima }}</td>
-                 <td>{{ row.tanggal }}</td>
+                 <td>{{ row.tanggal|date:"d/m/Y"  }}</td>
                  <td align="center">
                   <!-- <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
                     <i class="me-2 mdi mdi-eye"></i> Lihat

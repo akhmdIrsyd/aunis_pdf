@@ -947,13 +947,13 @@ def Create_kontrakManual(request):
     waktus = request.POST.getlist('waktu')
     tgl_penyerahans = request.POST.getlist('tgl_penyerahan')
     #status = request.POST.getlist('status')
-
+    file_pdfs = request.POST.get('file_pdf')
     if request.method == 'POST':
         form = isi_kontrakFormM(request.POST)
 
         if form.is_valid():    
             pdf=kontrak()
-            pdf.file_pdf = '-'
+            pdf.file_pdf = "uploads/"+file_pdfs
             pdf.kode = kode
             pdf.save()
             #kode_kontrak = form.cleaned_data.get('kode')

@@ -62,58 +62,58 @@
                     </div>
                     <hr/>
                     <div class="row">
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-2">
                         <label for="Satuan">Code Purchase</label>
                         <input type="text" name="Code_Purchase" class="form-control" id="Code_Purchase" placeholder="Code Purchase">
                       </div>
                       <div class="form-group col-md-1">
-                        <label for="Satuan">no_kontrak</label>
-                        <input type="text" name="no_kontrak" class="form-control" id="no_kontrak" placeholder="no kontrak">
+                        <label for="Satuan">No Kontrak</label>
+                        <input type="text" name="no_kontrak" class="form-control" id="no_kontrak" placeholder="No Kontrak">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="Satuan">Nama Barang</label>
+                        <input type="text" name="nama_barang" class="form-control" id="nama_barang" placeholder="Nama Barang">
                       </div>
                       <div class="form-group col-md-1">
-                        <label for="Satuan">nama_barang</label>
-                        <input type="text" name="nama_barang" class="form-control" id="nama_barang" placeholder="nama_barang">
+                        <label for="Satuan">Spesifikasi</label>
+                        <input type="text" name="spesifikasi" class="form-control" id="spesifikasi" placeholder="Spesifikasi">
                       </div>
                       <div class="form-group col-md-1">
-                        <label for="Satuan">spesifikasi</label>
-                        <input type="text" name="spesifikasi" class="form-control" id="spesifikasi" placeholder="spesifikasi">
+                        <label for="Satuan">Satuan</label>
+                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
                       </div>
                       <div class="form-group col-md-1">
-                        <label for="Satuan">satuan</label>
-                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="satuan">
+                        <label for="Satuan">Jumlah</label>
+                        <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
                       </div>
-                      <div class="form-group col-md-1">
-                        <label for="Satuan">jumlah</label>
-                        <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="jumlah">
+                      <div class="form-group col-md-2">
+                        <label for="Satuan">Harga</label>
+                        <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
                       </div>
-                      <div class="form-group col-md-1">
-                        <label for="Satuan">harga</label>
-                        <input type="number" name="harga" class="form-control" id="harga" placeholder="harga">
-                      </div>
-                      <div class="form-group col-md-1">
-                        <label for="Satuan">total</label>
-                        <input type="number" name="total" class="form-control" id="total" placeholder="total">
+                      <div class="form-group col-md-2">
+                        <label for="Satuan">Total</label>
+                        <input type="number" name="total" class="form-control" id="total" placeholder="Total" readonly>
                       </div>
                       <div class="form-group col-md-6">
                         <label for="id_perusahaan">Nama Perusahaan</label>
                         <select id="id_perusahaan" class="form-control zxc" name="id_perusahaan" required style="width:100%">
                           {% for row in rows %}
-                            <option id="{{ row.id }}" value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
+                            <option value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
                           {% endfor %}
                         </select>
                       </div>
                       
-                      <div class="form-group col-md-1">
-                        <label for="jumlah">tgl_order</label>
-                        <input type="text" name="tgl_order" class="form-control" id="tgl_order" placeholder="tgl order">
+                      <div class="form-group col-md-2">
+                        <label for="jumlah">Tgl Order</label>
+                        <input type="date" name="tgl_order" class="form-control" id="tgl_order" placeholder="Tgl Order">
                       </div>
-                      <div class="form-group col-md-1">
-                        <label for="harga">waktu</label>
-                        <input type="number" name="waktu" class="form-control" id="waktu" placeholder="waktu">
+                      <div class="form-group col-md-2">
+                        <label for="harga">Waktu</label>
+                        <input type="text" name="waktu" class="form-control" id="waktu" placeholder="Waktu">
                       </div>
-                      <div class="form-group col-md-1">
-                        <label for="harga">tgl_penyerahan</label>
-                        <input type="text" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="tgl penyerahan">
+                      <div class="form-group col-md-2">
+                        <label for="harga">Tgl Penyerahan</label>
+                        <input type="date" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="Tgl Penyerahan">
                       </div>
                     </div>
                     {% comment %} <div class="row">
@@ -183,6 +183,13 @@
     <script type="text/javascript">
         // add row
     $(document).ready(function() {
+        $('#harga, #jumlah').keyup(function() {
+          var jumlah = $('#jumlah').val() ?? 0;
+          var harga = $('#harga').val() ?? 0;
+          var total = jumlah * harga;
+          $('#total').val(total);
+        });          
+
             var max_fields      = 10; //maximum input boxes allowed
             var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
             var add_button      = $(".add_field_button"); //Add button ID
@@ -196,22 +203,59 @@
                     let uid = Math.random().toString(16).slice(2);
                     $(wrapper).append(`
                       <div class="row">
+                        <div class="form-group col-md-2">
+                          <label for="Satuan">Code Purchase</label>
+                          <input type="text" name="Code_Purchase" class="form-control" id="Code_Purchase" placeholder="Code Purchase">
+                        </div>
+                        <div class="form-group col-md-1">
+                          <label for="Satuan">No Kontrak</label>
+                          <input type="text" name="no_kontrak" class="form-control" id="no_kontrak" placeholder="No Kontrak">
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="Satuan">Nama Barang</label>
+                          <input type="text" name="nama_barang" class="form-control" id="nama_barang" placeholder="Nama Barang">
+                        </div>
+                        <div class="form-group col-md-1">
+                          <label for="Satuan">Spesifikasi</label>
+                          <input type="text" name="spesifikasi" class="form-control" id="spesifikasi" placeholder="Spesifikasi">
+                        </div>
+                        <div class="form-group col-md-1">
+                          <label for="Satuan">Satuan</label>
+                          <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
+                        </div>
+                        <div class="form-group col-md-1">
+                          <label for="Satuan">Jumlah</label>
+                          <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="Satuan">Harga</label>
+                          <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="Satuan">Total</label>
+                          <input type="number" name="total" class="form-control" id="total" placeholder="Total" readonly>
+                        </div>
                         <div class="form-group col-md-6">
-                          <select id="id_isikontrak${uid}" class="form-control" name="id_isikontrak" style="width:100%" required>
+                          <label for="id_perusahaan${uid}">Nama Perusahaan</label>
+                          <select id="id_perusahaan${uid}" class="form-control zxc" name="id_perusahaan" required style="width:100%">
                             {% for row in rows %}
-                              <option id="{{ row.id }}" value="{{ row.id }}">{{ row.nama_barang }}</option>
+                              <option value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
                             {% endfor %}
                           </select>
                         </div>
-                        <div class="form-group col-md-1">
-                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
-                      </div>
-                      <div class="form-group col-md-1">
-                        <input type="text" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
-                      </div>
-                      <div class="form-group col-md-1">
-                        <input type="text" name="harga" class="form-control" id="harga" placeholder="Harga">
-                      </div> 
+                        
+                        <div class="form-group col-md-2">
+                          <label for="jumlah">Tgl Order</label>
+                          <input type="date" name="tgl_order" class="form-control" id="tgl_order" placeholder="Tgl Order">
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="harga">Waktu</label>
+                          <input type="text" name="waktu" class="form-control" id="waktu" placeholder="Waktu">
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="harga">Tgl Penyerahan</label>
+                          <input type="date" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="Tgl Penyerahan">
+                        </div>
                         <div class="form-group col-md-1">
                           <a href="#" class="remove_field btn btn-sm btn-danger"><i class="mdi mdi-close"></i></a>
                         </div>

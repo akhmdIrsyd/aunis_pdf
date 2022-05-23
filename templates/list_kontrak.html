@@ -42,12 +42,14 @@
               <h5 class="card-title mb-0">Daftar Kontrak</h5>
             </div>
             <div class="navbar-nav float-end">
-              <a href="{% url 'Create_kontrakManual' %}" class="btn btn-sm btn-primary">
-                <i class="me-2 mdi mdi-plus"></i> Buat Kontrak
-              </a>
-              <a href="{% url 'create_pdf' %}" class="btn btn-sm btn-primary">
-                <i class="me-2 mdi mdi-plus"></i> Upload Kontrak
-              </a>
+              <div class="comment-footer">
+                <a href="{% url 'Create_kontrakManual' %}" class="btn btn-sm btn-info">
+                  <i class="me-2 mdi mdi-plus"></i> Buat Kontrak
+                </a>
+                <a href="{% url 'create_pdf' %}" class="btn btn-sm btn-primary">
+                  <i class="me-2 mdi mdi-upload"></i> Upload Kontrak
+                </a>
+              </div>
             </div>
           </div>
           <table class="table">

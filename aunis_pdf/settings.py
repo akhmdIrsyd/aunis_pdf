@@ -73,7 +73,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries': {
-                'slice_path': 'website.templatetags.slice_path'
+                'slice_path': 'website.templatetags.helpers',
+                'po_number': 'website.templatetags.helpers',
+                'if_null': 'website.templatetags.helpers'
             }
         },
     },

@@ -11,13 +11,16 @@
   <div class="page-breadcrumb">
     <div class="row">
       <div class="col-12 d-flex no-block align-items-center">
-        <h4 class="page-title">Data Kwitansi</h4>
+        <h4 class="page-title">Tambah Data Kontrak</h4>
         <div class="ms-auto text-end">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">
-                <a href="{% url 'list_kwitansi' %}">Daftar Kwitansi</a>
+                <a href="{% url 'list_pdf' %}">Daftar Kontrak</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Tambah Data
               </li>
             </ol>
           </nav>
@@ -40,26 +43,27 @@
         <div class="card">
           <div class="card-body">
             <div class="navbar-nav float-start me-auto">
-              <h5 class="card-title mb-0">Data Kwitansi</h5>
+              <h5 class="card-title mb-0">Data Kontrak</h5>
             </div>
           </div>
           <form method="post" action="" enctype="multipart/form-data">
               <div class="card-body">
-                <h4 class="card-title">Tambah Data</h4>
+                {% comment %} <h4 class="card-title">&nbsp;</h4> {% endcomment %}
                   {% csrf_token %}
                   
                   {% comment %} {{ form }} {% endcomment %}
                  
+                  <div class="input_fields_wrap">
+                    <div class="row">
+                      <div class="form-group">
+                        <label for="Satuan" class="col-md-2">Nama Kontrak</label>
+                        <input type="text" name="file_pdf" class="form-control col-md-10" id="file_pdf" placeholder="Nama Kontrak">
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="input_fields_wrap">
                     <div class="card-body">
-                      <div class="navbar-nav float-start me-auto">
-                        <h5 class="card-title mb-0">Daftar Barang</b></h5>
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="Satuan">Nama Kontrak</label>
-                        <input type="text" name="file_pdf" class="form-control" id="file_pdf" placeholder="Nama Kontrak">
-                      </div>
                       <div class="navbar-nav float-end">
                         <button class="add_field_button btn btn-sm btn-primary"><i class="mdi mdi-plus"></i> Tambah Kolom</button>
                       </div>

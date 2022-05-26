@@ -157,13 +157,15 @@
                   <h3><center>INVOICE</center></h3>
                   <div style="width:40%; float:left; font-size: 12px;">
                     <b>
-                      <span>No Kontrak : </span> <br>
-                      <span>No. PO : </span> <br><br><br>
+                      {% load po_number %}
+                      {% load if_null %}
+                      <span id="z1">No Kontrak : {{ info.no_kontrak }} </span> <br>
+                      <span id="z2">No. PO : {{ info.no_kontrak | po_number }} </span> <br><br><br>
                       
                       <span><b>Pembeli: </b></span><br>
-                      <span><b id="SET_NAMA_PERUSAHAAN" style="font-size:15px">PT. NAMA PERUSAHAAN</b></span><br>
-                      <span><b id="SET_ALAMAT_PERUSAHAAN" style="font-size:12px">ALAMAT PERUSAHAAN</b></span><br>
-                      <span><b style="font-size:12px">NPWP : </b><b id="SET_NPWP_PERUSAHAAN" style="font-size:12px">NPWP PERUSAHAAN</b></span><br>
+                      <span><b id="SET_NAMA_PERUSAHAAN" style="font-size:15px">{{perus.nama_perusahaan | if_null}}</b></span><br>
+                      <span><b id="SET_ALAMAT_PERUSAHAAN" style="font-size:12px">{{perus.alamat | if_null}}</b></span><br>
+                      <span><b style="font-size:12px">NPWP : </b><b id="SET_NPWP_PERUSAHAAN" style="font-size:12px">{{perus.npwp | if_null}}</b></span><br>
                     </b>
                   </div>
                   <div style="float: right; font-size: 12px;">
@@ -208,8 +210,8 @@
                         <td>JUMLAH (RP.)</td>
                       </tr>
                     </thead>
-                    {% for row in rows %}
-                      {% if row.pk in print %}
+                    {% for row in print %}
+                      {% comment %} {% if row.pk in print %} {% endcomment %}
                       <tr>
                         <td class="counter">{{ forloop.counter }}</td>
                         <td>{{ row.Code_Purchase }}</td>
@@ -222,7 +224,7 @@
                           <input type="hidden" name="total_row[]" value="{{row.total}}">
                         </td>
                       </tr>
-                      {% endif %}
+                      {% comment %} {% endif %} {% endcomment %}
                     {% endfor %}
                     <tr>
                       <td style="text-align:center;" colspan="5"><b>TOTAL</b></td>
@@ -230,12 +232,12 @@
                       <td style="text-align:right" id="SET_FOOT_TOTAL">{{total}}</td>
                     </tr>
                     <tr>
-                      <td style="text-align: center;" colspan="5"><b>PPN 10%</b></td>
+                      <td style="text-align: center;" colspan="5"><b>PPN 11%</b></td>
                       <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
                       <td style="text-align:right" id="SET_FOOT_PPN"></td>
                     </tr>
                     <tr>
-                      <td style="text-align: center;" colspan="5"><b>TOTAL TERMASUK PPN 10%</b></td>
+                      <td style="text-align: center;" colspan="5"><b>TOTAL TERMASUK PPN 11%</b></td>
                       <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
                       <td style="text-align:right" id="SET_FOOT_TOTAL_PPN"></td>
                     </tr>
@@ -345,7 +347,7 @@ $('#print_btn').click(function(){
     return parseInt(a) + parseInt(b);
   }, 0);
 
-  let ppn = (total*10)/100
+  let ppn = (total*11)/100
 
   $('#SET_FOOT_TOTAL').html(`<b>${intComma(total)}</b>`);
   $('#SET_FOOT_PPN').html(`<b>${intComma(ppn)}</b>`);

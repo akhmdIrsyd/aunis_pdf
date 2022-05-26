@@ -174,18 +174,25 @@ def pdf_detail(request, pk):
     list_of_id_for_action = None
     list_of_obj = []
     data_selected = []
+    pr = []
     
     if request.method == 'POST':
         list_of_id_for_action = request.POST.getlist('items')
         list_of_obj = isi_kontrak.objects.filter(pk__in=list_of_id_for_action)
         list_of_obj.update(status=True)
         data_selected = list(list_of_obj.values_list('id', flat=True))
+        pr = Data_isikontraks.filter(id__in=list_of_id_for_action)
 
-    print(list_of_id_for_action)
+    info = pr.first()
+
+    px = perusahaan.objects.get(kode_perusahaan=info.id_perusahaan)
+
     context = {
         'rows': Data_isikontraks,
         'doc': Data_kontrak,
-        'print': data_selected
+        'print': pr,
+        'info': info,
+        'perus': px
     }
     # return render(request, 'test.html', context)
     return render(request, 'detail_kontrak.html', context)

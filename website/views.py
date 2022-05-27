@@ -15,6 +15,7 @@ import numpy as np
 import datetime
 import os
 from django.conf import settings
+import re
 
 def replace(string: str) -> str:
     if '\r' in string:
@@ -103,7 +104,9 @@ def read_pdf(files_pdf):
         dfs=dfs[1].str.replace('Nomor Kontrak合同号:','').reset_index(drop=True)
         dfs = dfs[0]
         df_data[9]=dfs
-        df_data[2]=dfs[:4]
+        initial_pr=dfs[:4]
+        
+        df_data[2]=" ".join(re.findall("[a-zA-Z]+", initial_pr))
         df_data[10] = "AUNIS PRINT OFFSET"
     df_data=df_data.sort_values(0)
 
@@ -176,17 +179,20 @@ def pdf_detail(request, pk):
     data_selected = []
     pr = []
     
+    px=[]
+    info=[]
     if request.method == 'POST':
         list_of_id_for_action = request.POST.getlist('items')
         list_of_obj = isi_kontrak.objects.filter(pk__in=list_of_id_for_action)
         list_of_obj.update(status=True)
         data_selected = list(list_of_obj.values_list('id', flat=True))
         pr = Data_isikontraks.filter(id__in=list_of_id_for_action)
-
-    info = pr.first()
-
-    px = perusahaan.objects.get(kode_perusahaan=info.id_perusahaan)
-
+        
+        info = pr.first()
+    #print(info)
+        px = perusahaan.objects.get(kode_perusahaan=info.id_perusahaan)
+    #px="ss"
+    #print(px)
     context = {
         'rows': Data_isikontraks,
         'doc': Data_kontrak,
@@ -480,13 +486,13 @@ def kwitansi_detail(request, pk):
     # Data_kontrak = kontrak.objects.filter(id=pk)
     Data_isikwitansi = isi_kwitansi.objects.filter(id_kwitansi=pk)
     list_namabarang=[]
-    for kwitansis in Data_isikwitansi:
-        nama_barang = kwitansis.id_isikontrak.nama_barang
-        list_namabarang.append(nama_barang)
+    #for kwitansis in Data_isikwitansi:
+    #    nama_barang = kwitansis.id_isikontrak.nama_barang
+    #    list_namabarang.append(nama_barang)
     
     df = pd.DataFrame.from_records(Data_isikwitansi.values())
     df['total']=df['jumlah']*df['harga']
-    df['nama_barang']=list_namabarang
+    #df['nama_barang']=list_namabarang
     total=df['total'].sum()
     pajak=total*0.11
     totalall=total+pajak
@@ -530,8 +536,7 @@ def Create_kwitansi(request):
             for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
-                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
-                isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.id_isikontrak = id_isikontrak[i]
                 isi_kwitansis.satuan = satuans[i]
                 isi_kwitansis.jumlah = jumlahs[i]
                 isi_kwitansis.harga = hargas[i]
@@ -578,9 +583,7 @@ def Update_Kwitansi(request, pk):
             for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
-                isikontrak = isi_kontrak.objects.get(id=id_isikontrak[i])
-                isi_kwitansis.id_isikontrak = isikontrak
-                isi_kwitansis.id_isikontrak = isikontrak
+                isi_kwitansis.id_isikontrak = id_isikontrak[i]
                 isi_kwitansis.satuan = satuans[i]
                 isi_kwitansis.jumlah = jumlahs[i]
                 isi_kwitansis.harga = hargas[i]

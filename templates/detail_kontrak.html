@@ -47,7 +47,7 @@
                 <h5 class="card-title mb-0">Isi Kontrak : <b>{{doc | slice_path}}</b> </h5>
               </div>
               <div class="navbar-nav float-end me-auto">
-                <button class="btn btn-primary"><i class="me-2 mdi mdi-printer"></i>Cetak</button>
+                <button class="btn btn-primary" id="before_print_action" disabled><i class="me-2 mdi mdi-printer"></i>Cetak</button>
               </div>
             </div>
             <div class="table">
@@ -336,6 +336,18 @@ $(document).ready(function(){
       $(this).html(i+1);
     })
   }
+
+  $('input[type=checkbox]').change(function(){
+    let x = 0;
+    $('input[type=checkbox]:checked').each(function(i){
+      $('#before_print_action').attr('disabled', false)
+      x++;
+    })
+    
+    if(x==0)
+      $('#before_print_action').attr('disabled', true)
+  })
+
 });
 
 $('#print_btn').click(function(){

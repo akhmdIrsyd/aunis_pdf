@@ -119,168 +119,6 @@
       </div>
     </form>
 
-
-    {% if print %}
-      <style>
-        #print_invoice{
-          /* display: block; */
-          box-sizing: border-box;
-        }
-
-        #print_detail{
-          padding: 15px;
-          /* border: 1px solid #000; */
-        }
-      </style>
-
-
-      <input type="hidden" name="print" id="print" value="{{print}}" />
-      
-      <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#print_modal" id="print_btn" hidden>
-        <i class="me-2 mdi mdi-file"></i> Print
-      </button>
-
-      <div class="modal fade" id="print_modal" tabindex="-1" aria-labelledby="print_modal_label" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="kontrak_label">Cetak Invoice</h5>
-              <form action="" method="POST">
-                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </form>
-            </div>
-            <div class="modal-body" id="print_invoice">
-              <div class="row" style="width:100%; padding: 5px;">
-                <div style="width:100%;">
-                  <h3><center>INVOICE</center></h3>
-                  <div style="width:40%; float:left; font-size: 12px;">
-                    <b>
-                      {% load po_number %}
-                      {% load if_null %}
-                      <span id="z1">No Kontrak : {{ info.no_kontrak }} </span> <br>
-                      <span id="z2">No. PO : {{ info.no_kontrak | po_number }} </span> <br><br><br>
-                      
-                      <span><b>Pembeli: </b></span><br>
-                      <span><b id="SET_NAMA_PERUSAHAAN" style="font-size:15px">{{perus.nama_perusahaan | if_null}}</b></span><br>
-                      <span><b id="SET_ALAMAT_PERUSAHAAN" style="font-size:12px">{{perus.alamat | if_null}}</b></span><br>
-                      <span><b style="font-size:12px">NPWP : </b><b id="SET_NPWP_PERUSAHAAN" style="font-size:12px">{{perus.npwp | if_null}}</b></span><br>
-                    </b>
-                  </div>
-                  <div style="float: right; font-size: 12px;">
-                    <table style="right:0">
-                      <tr>
-                        <td><b>No</b></td>
-                        <td><b>: </b></td>
-                        <td><b id="SET_NO"></b></td>
-                      </tr>
-                      <tr>
-                        <td><b>Tanggal</b></td>
-                        <td><b>: </b></td>
-                        <td><b id="SET_TGL"></b></td>
-                      </tr>
-                      <tr>
-                        <td><b>NPWP</b></td>
-                        <td><b>: </b></td>
-                        <td><b id="SET_NPWP"></b></td>
-                      </tr>
-                    </table>
-                    <b>
-                      <br>
-                      <span>Penjual : </span> <br>
-                      <span><b style="font-size:15px">Rachmatia</b></span><br>
-                      <span>JL. MANUNGGAL LR. MEOHAI, RT.23 RW.11<br> ANDUONOHU, POASIA</span> <br>
-                      <span>KOTA KENDARI, 93232</span> <br>
-                      <span>HP. 0812 4144 6384</span> <br>
-                    </b>
-                  </div>
-                </div>
-                <br>
-                <div style="width:100%; margin-top:15px;">
-                  <table style="width:100%;" id="print_detail" border="1" class="table table-bordered">
-                    <thead style="font-size:10px; text-align: center;">
-                      <tr>
-                        <td>NO.</td>
-                        <td>CODE PURCHASE</td>
-                        <td>NAMA BARANG</td>
-                        <td>SATUAN</td>
-                        <td>JUMLAH</td>
-                        <td>HARGA SATUAN (RP.)</td>
-                        <td>JUMLAH (RP.)</td>
-                      </tr>
-                    </thead>
-                    {% for row in print %}
-                      {% comment %} {% if row.pk in print %} {% endcomment %}
-                      <tr>
-                        <td class="counter">{{ forloop.counter }}</td>
-                        <td>{{ row.Code_Purchase }}</td>
-                        <td>{{ row.nama_barang }}</td>
-                        <td>{{ row.satuan }}</td>
-                        <td style="text-align:right">{{ row.jumlah }}</td>
-                        <td style="text-align:right">{{ row.harga | intcomma }}</td>
-                        <td style="text-align:right">
-                          {{ row.total | intcomma }}
-                          <input type="hidden" name="total_row[]" value="{{row.total}}">
-                        </td>
-                      </tr>
-                      {% comment %} {% endif %} {% endcomment %}
-                    {% endfor %}
-                    <tr>
-                      <td style="text-align:center;" colspan="5"><b>TOTAL</b></td>
-                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
-                      <td style="text-align:right" id="SET_FOOT_TOTAL">{{total}}</td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: center;" colspan="5"><b>PPN 11%</b></td>
-                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
-                      <td style="text-align:right" id="SET_FOOT_PPN"></td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: center;" colspan="5"><b>TOTAL TERMASUK PPN 11%</b></td>
-                      <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td>
-                      <td style="text-align:right" id="SET_FOOT_TOTAL_PPN"></td>
-                    </tr>
-                    <tr>
-                      <td colspan="7" id="SET_FOOT_TERBILANG">TERBILANG</td>
-                    </tr>
-                  </table>
-                  <table style="width:100%;">
-                    <tr>
-                      <td style="width:25%"></td>
-                      <td style="width:30%"></td>
-                      <td>
-                        <center>
-                          <b>
-                            TOKO AUNIS PRINT OFFSET
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <u>RAHMATIA</u>
-                          </b>
-                          <br>
-                          PIMPINAN
-                        </center>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <form action="" method="POST">
-                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-              </form>
-              <button type="button" class="btn btn-primary" onClick="printDiv('print_invoice')">Cetak</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -306,6 +144,168 @@
   <!-- End footer -->
   <!-- ============================================================== -->
 </div>
+
+
+{% if print %}
+<style>
+  #print_invoice{
+    /* display: block; */
+    box-sizing: border-box;
+  }
+
+  #print_detail{
+    padding: 15px;
+    /* border: 1px solid #000; */
+  }
+</style>
+
+
+<input type="hidden" name="print" id="print" value="{{print}}" />
+
+<button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#print_modal" id="print_btn" hidden>
+  <i class="me-2 mdi mdi-file"></i> Print
+</button>
+
+<div class="modal fade" id="print_modal" tabindex="-1" aria-labelledby="print_modal_label" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kontrak_label">Cetak Invoice</h5>
+        <form action="" method="POST">
+          <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </form>
+      </div>
+      <div class="modal-body" id="print_invoice">
+        <div class="row" style="width:100%; padding: 5px;">
+          <div style="width:100%;">
+            <h3><center>INVOICE</center></h3>
+            <div style="width:40%; float:left; font-size: 12px;">
+              <b>
+                {% load po_number %}
+                {% load if_null %}
+                <span id="z1">No Kontrak : {{ info.no_kontrak }} </span> <br>
+                <span id="z2">No. PO : {{ info.no_kontrak | po_number }} </span> <br><br><br>
+                
+                <span><b>Pembeli: </b></span><br>
+                <span><b id="SET_NAMA_PERUSAHAAN" style="font-size:15px">{{perus.nama_perusahaan | if_null}}</b></span><br>
+                <span><b id="SET_ALAMAT_PERUSAHAAN" style="font-size:12px">{{perus.alamat | if_null}}</b></span><br>
+                <span><b style="font-size:12px">NPWP : </b><b id="SET_NPWP_PERUSAHAAN" style="font-size:12px">{{perus.npwp | if_null}}</b></span><br>
+              </b>
+            </div>
+            <div style="float: right; font-size: 12px;">
+              <table style="right:0">
+                <tr>
+                  <td><b>No</b></td>
+                  <td><b>: </b></td>
+                  <td><b id="SET_NO"></b></td>
+                </tr>
+                <tr>
+                  <td><b>Tanggal</b></td>
+                  <td><b>: </b></td>
+                  <td><b id="SET_TGL"></b></td>
+                </tr>
+                <tr>
+                  <td><b>NPWP</b></td>
+                  <td><b>: </b></td>
+                  <td><b id="SET_NPWP"></b></td>
+                </tr>
+              </table>
+              <b>
+                <br>
+                <span>Penjual : </span> <br>
+                <span><b style="font-size:15px">Rachmatia</b></span><br>
+                <span>JL. MANUNGGAL LR. MEOHAI, RT.23 RW.11<br> ANDUONOHU, POASIA</span> <br>
+                <span>KOTA KENDARI, 93232</span> <br>
+                <span>HP. 0812 4144 6384</span> <br>
+              </b>
+            </div>
+          </div>
+          <br>
+          <div style="width:100%; margin-top:15px;">
+            <table style="width:100%;" id="print_detail" border="1" class="table table-bordered">
+              <thead style="font-size:10px; text-align: center;">
+                <tr>
+                  <td>NO.</td>
+                  <td>CODE PURCHASE</td>
+                  <td>NAMA BARANG</td>
+                  <td>SATUAN</td>
+                  <td>JUMLAH</td>
+                  <td>HARGA SATUAN (RP.)</td>
+                  <td style="width:15%">JUMLAH (RP.)</td>
+                </tr>
+              </thead>
+              {% for row in print %}
+                {% comment %} {% if row.pk in print %} {% endcomment %}
+                <tr>
+                  <td class="counter">{{ forloop.counter }}</td>
+                  <td>{{ row.Code_Purchase }}</td>
+                  <td>{{ row.nama_barang }}</td>
+                  <td>{{ row.satuan }}</td>
+                  <td style="text-align:right">{{ row.jumlah }}</td>
+                  <td style="text-align:right">{{ row.harga | intcomma }}</td>
+                  <td style="text-align:right">
+                    {{ row.total | intcomma }}
+                    <input type="hidden" name="total_row[]" value="{{row.total}}">
+                  </td>
+                </tr>
+                {% comment %} {% endif %} {% endcomment %}
+              {% endfor %}
+              <tr>
+                <td style="text-align:center;" colspan="6"><b>TOTAL</b></td>
+                {% comment %} <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td> {% endcomment %}
+                <td style="text-align:right" id="SET_FOOT_TOTAL">{{total}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;" colspan="6"><b>PPN 11%</b></td>
+                {% comment %} <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td> {% endcomment %}
+                <td style="text-align:right" id="SET_FOOT_PPN"></td>
+              </tr>
+              <tr>
+                <td style="text-align: center;" colspan="6"><b>TOTAL TERMASUK PPN 11%</b></td>
+                {% comment %} <td style="text-align:right; border-right: 1px white solid;"><b>Rp.</b></td> {% endcomment %}
+                <td style="text-align:right" id="SET_FOOT_TOTAL_PPN"></td>
+              </tr>
+              <tr>
+                <td colspan="7" id="SET_FOOT_TERBILANG">TERBILANG</td>
+              </tr>
+            </table>
+            <table style="width:100%;">
+              <tr>
+                <td style="width:25%"></td>
+                <td style="width:30%"></td>
+                <td>
+                  <center>
+                    <b>
+                      TOKO AUNIS PRINT OFFSET
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <u>RAHMATIA</u>
+                    </b>
+                    <br>
+                    PIMPINAN
+                  </center>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <form action="" method="POST">
+          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </form>
+        <button type="button" class="btn btn-primary" onClick="printDiv('print_invoice')">Cetak</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 <!-- ============================================================== -->
 <!-- End Page wrapper  -->
 <!-- ============================================================== -->
@@ -361,9 +361,9 @@ $('#print_btn').click(function(){
 
   let ppn = (total*11)/100
 
-  $('#SET_FOOT_TOTAL').html(`<b>${intComma(total)}</b>`);
-  $('#SET_FOOT_PPN').html(`<b>${intComma(ppn)}</b>`);
-  $('#SET_FOOT_TOTAL_PPN').html(`<b>${intComma(total+ppn)}</b>`);
+  $('#SET_FOOT_TOTAL').html(`<b>Rp.&emsp; ${intComma(total)}</b>`);
+  $('#SET_FOOT_PPN').html(`<b>Rp.&emsp;&emsp; ${intComma(ppn)}</b>`);
+  $('#SET_FOOT_TOTAL_PPN').html(`<b>Rp.&emsp; ${intComma(total+ppn)}</b>`);
   $('#SET_FOOT_TERBILANG').html(`TERBILANG : <b>${terbilang(total+ppn)}</b>`);
 
 });

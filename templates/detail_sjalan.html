@@ -204,7 +204,7 @@ $(document).ready(function(){
   $('#printBtn').click(function(){
     console.log('print');var divContents = document.getElementById("print_area").innerHTML;  
        var printWindow = window.open('', '', 'height=600,width=900');  
-       printWindow.document.write('<html><head><title>Print DIV Content</title>');  
+       printWindow.document.write('<html><head><title></title>');  
        printWindow.document.write('</head><body >');  
        printWindow.document.write(divContents);  
        printWindow.document.write('</body></html>');  

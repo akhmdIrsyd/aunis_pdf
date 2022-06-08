@@ -23,7 +23,7 @@ class perusahaan(models.Model):
     npwp = models.CharField(max_length=50, blank=True, null=True, default='')
 
     def __str__(self):
-        return str(self.kode_perusahaan)
+        return str(self.nama_perusahaan)
 
 class kontrak(models.Model):
     file_pdf = models.FileField(upload_to=_upload_path, blank=True, null=True, validators=[FileExtensionValidator(['pdf']), file_size])
@@ -55,6 +55,10 @@ class isi_kontrak(models.Model):
     def __str__(self):
         return str(self.nama_barang)
 
+class Satuan_barang(models.Model):
+    nama_satuan = models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.nama_satuan)
 
 class kwitansi(models.Model):
     # KWITANSI_TYPE_CHOICES = (
@@ -71,14 +75,14 @@ class kwitansi(models.Model):
 class isi_kwitansi(models.Model):
     id_kwitansi = models.ForeignKey(kwitansi, on_delete=models.CASCADE)
     id_isikontrak = models.CharField(max_length=50)
-    satuan = models.CharField(max_length=50)
+    satuan = models.ForeignKey(Satuan_barang, on_delete=models.CASCADE,blank=True, null=True)
     jumlah = models.IntegerField(blank=True, null=True)
     harga = models.IntegerField(blank=True, null=True)
 
 class SJalan(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)
     no_surat = models.CharField(max_length=50, unique=True)
-    pemesan = models.CharField(max_length=50)
+    pemesan = models.ForeignKey(perusahaan, on_delete=models.CASCADE)
     no_hp = models.CharField(max_length=50)
     tanggal = models.DateField()
 
@@ -96,9 +100,11 @@ class isi_SJalan(models.Model):
 class SuratJ(models.Model):
     id_kontrak = models.ForeignKey(kontrak, on_delete=models.CASCADE)
     no_surat = models.CharField(max_length=50)
-    pemesan = models.CharField(max_length=50)
+    pemesan =  models.ForeignKey(perusahaan, on_delete=models.CASCADE)
     no_hp = models.CharField(max_length=50)
     tanggal = models.DateField()
     id_isikontrak = models.ForeignKey(isi_kontrak, on_delete=models.CASCADE)
     jumlah = models.IntegerField()
     nomor_dos = models.IntegerField()
+
+

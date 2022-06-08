@@ -47,7 +47,10 @@
               <div class="card-body">
                 <h4 class="card-title">Tambah Data</h4>
                   {% csrf_token %}
-                  
+                    {{ form1.non_field_errors }}
+
+                    {{ form1.source.errors }}
+                    {{ form1.source }}
                   {% comment %} {{ form }} {% endcomment %}
                   <div class="row">
                     {% for field in form %}
@@ -80,8 +83,9 @@
                       </div>
                       <div class="form-group col-md-1">
                         <label for="Satuan">Satuan</label>
-                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
+                        {{ form1.satuan }}
                       </div>
+                      
                       <div class="form-group col-md-1">
                         <label for="jumlah">Jumlah</label>
                         <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
@@ -174,8 +178,8 @@
                         <div class="form-group col-md-6">
                           <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang">
                         </div>
-                        <div class="form-group col-md-1">
-                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
+                      <div class="form-group col-md-1">
+                        {{ form1.satuan }}
                       </div>
                       <div class="form-group col-md-1">
                         <input type="text" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">

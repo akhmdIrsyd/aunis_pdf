@@ -68,7 +68,7 @@
                  <td>{{ forloop.counter }}</td>
                  <td>{{ row1.id_isikontrak.nama_barang }}</td>
                  <td style="text-align:center">{{ row1.jumlah }}</td>
-                 <td>pcs</td>
+                 <td>{{ row1.id_isikontrak.satuan }}</td>
                  <td style="text-align:center">{{ row1.nomor_dos }}</td>
               </tr>
               {% endfor %}
@@ -131,7 +131,7 @@
               <td align="center" valign="">{{ forloop.counter }}</td>
               <td>{{ row1.id_isikontrak.nama_barang }}</td>
               <td style="text-align:center" padding="1px">{{ row1.jumlah }}</td>
-              <td style="text-align:center">pcs</td>
+              <td style="text-align:center">{{ row1.id_isikontrak.satuan }}</td>
               <td style="text-align:center">{{ row1.nomor_dos }}</td>
           </tr>
           {% endfor %}

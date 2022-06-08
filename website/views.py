@@ -1,7 +1,7 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
-from .models import kontrak, isi_kontrak, perusahaan, isi_kwitansi, kwitansi, SJalan, isi_SJalan, SuratJ
+from .models import kontrak, isi_kontrak, perusahaan, isi_kwitansi, kwitansi, SJalan, isi_SJalan, SuratJ, Satuan_barang
 from .forms import Ganti_passForm,isi_kontrakFormM, KontrakForm, isi_kontrakForm, PerusahaanForm, isi_KwitansiForm, KwitansiForm, SJalanForm, Isi_SJalanForm, SuratJForm
 from django.db.models import Count
 
@@ -16,6 +16,7 @@ import datetime
 import os
 from django.conf import settings
 import re
+
 
 def replace(string: str) -> str:
     if '\r' in string:
@@ -474,6 +475,7 @@ def Delete_perusahaan(request, pk):
 @login_required(login_url='login')
 def list_kwitansi(request):
     Data_kwitansi = kwitansi.objects.all().order_by('-tanggal')
+    
     context = {
         'rows': Data_kwitansi,
     }
@@ -485,6 +487,7 @@ def kwitansi_detail(request, pk):
     Data_kwitansi = kwitansi.objects.filter(id=pk)
     # Data_kontrak = kontrak.objects.filter(id=pk)
     Data_isikwitansi = isi_kwitansi.objects.filter(id_kwitansi=pk)
+
     list_namabarang=[]
     #for kwitansis in Data_isikwitansi:
     #    nama_barang = kwitansis.id_isikontrak.nama_barang
@@ -521,23 +524,40 @@ def Create_kwitansi(request):
     hargas = request.POST.getlist('harga')
     isikontrakss = isi_kontrak.objects.all()
     
+
+    kwitansis=kwitansi.objects.all()
+    kwitansiss=kwitansi.objects.values_list('no_kwitansi', flat=True)
+    
+    kwitansiss=np.array(kwitansiss)
+    kwitansiss=kwitansiss.astype(str)
+    jumlah_kwitansi=kwitansi.objects.count()+1
+    
+    tahun= datetime.date.today().year
+    if jumlah_kwitansi not in kwitansiss:
+         kode='AUNIS/K/'+str(tahun)+'/'+str(jumlah_kwitansi)
+    else:
+        kode='AUNIS/K/'+str(tahun)+'/'+str(kwitansiss.min()+1)
+    print(kode)
+    
     if request.method == 'POST':
         form = KwitansiForm(request.POST)
+        form1 = isi_KwitansiForm(request.POST)
         
         if form.is_valid():
             
             kwitansis = kwitansi()
-            kwitansis.no_kwitansi = form.cleaned_data.get('no_kwitansi')
+            kwitansis.no_kwitansi = kode
             kwitansis.penerima = form.cleaned_data.get('penerima')
             kwitansis.tanggal = form.cleaned_data.get('tanggal')
             kwitansis.save()
 
-            data_kwitansis = kwitansi.objects.get(no_kwitansi=form.cleaned_data.get('no_kwitansi'))
+            data_kwitansis = kwitansi.objects.get(no_kwitansi=kode)
             for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
                 isi_kwitansis.id_isikontrak = id_isikontrak[i]
-                isi_kwitansis.satuan = satuans[i]
+                satuan = Satuan_barang.objects.get(id=satuans[i])
+                isi_kwitansis.satuan = satuan
                 isi_kwitansis.jumlah = jumlahs[i]
                 isi_kwitansis.harga = hargas[i]
                 isi_kwitansis.save()
@@ -545,8 +565,10 @@ def Create_kwitansi(request):
             #return HttpResponse('Success')
     else:
         form = KwitansiForm()
+        form1 = isi_KwitansiForm(request.POST)
     context = {
         'form': form,
+        'form1': form1,
         'mail': mail,
         'rows': isikontrakss,
     }
@@ -569,22 +591,24 @@ def Update_Kwitansi(request, pk):
     hargas = request.POST.getlist('harga')
     if request.method == 'POST':
         form = KwitansiForm(request.POST, instance=data_kwitansis)
+        form1 = isi_KwitansiForm(request.POST, instance=data_kwitansis)
 
         if form.is_valid():    
             kwitansis = kwitansi()
-            kwitansis.no_kwitansi = form.cleaned_data.get('no_kwitansi')
+            kwitansis.no_kwitansi = data_kwitansis.no_kwitansi
             kwitansis.penerima = form.cleaned_data.get('penerima')
             kwitansis.tanggal = form.cleaned_data.get('tanggal')
             data_kwitansis.delete()
             data_isi_kwitansis.delete()
             kwitansis.save()
 
-            data_kwitansis = kwitansi.objects.get(no_kwitansi=request.POST.get('no_kwitansi'))
+            data_kwitansis = kwitansi.objects.get(no_kwitansi=data_kwitansis.no_kwitansi)
             for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
                 isi_kwitansis.id_kwitansi = data_kwitansis
                 isi_kwitansis.id_isikontrak = id_isikontrak[i]
-                isi_kwitansis.satuan = satuans[i]
+                satuan = Satuan_barang.objects.get(id=satuans[i])
+                isi_kwitansis.satuan = satuan
                 isi_kwitansis.jumlah = jumlahs[i]
                 isi_kwitansis.harga = hargas[i]
                 isi_kwitansis.save()
@@ -592,9 +616,11 @@ def Update_Kwitansi(request, pk):
             #return HttpResponse('Success')
     else:
         form = KwitansiForm()
+        form1 = isi_KwitansiForm()
     #print(data_isiSJalans.query)
     context = {
         'form': form,
+        'form1': form1,
         'mail': mail,
         'rows': isikontrakss, 
         'rows1': data_isi_kwitansis,
@@ -825,7 +851,20 @@ def Create_SuratJ(request, pk):
     id_isikontrak = request.POST.getlist('id_isikontrak')
     jumlah = request.POST.getlist('jumlah')
     nomor_dos = request.POST.getlist('nomor_dos')
+
+    surJ=SJalan.objects.values_list('no_surat', flat=True)
     
+    surJ=np.array(surJ)
+    surJ=surJ.astype(str)
+    tahun= datetime.date.today().year
+    print(tahun)
+    jumlah_SuratJ=SJalan.objects.filter(tanggal__year = tahun).count()+1
+
+    if jumlah_SuratJ not in surJ:
+        kode='AUNIS/SJ/'+str(tahun)+'/'+str(jumlah_SuratJ)
+    else:
+        kode='AUNIS/SJ/'+str(tahun)+'/'+str(surJ.min()+1)
+    print(kode)
     
     if request.method == 'POST':
         form = SJalanForm(request.POST)
@@ -834,13 +873,13 @@ def Create_SuratJ(request, pk):
             
             SJalans = SJalan()
             SJalans.id_kontrak = data_kontraks
-            SJalans.no_surat = form.cleaned_data.get('no_surat')
+            SJalans.no_surat = kode
             SJalans.pemesan = form.cleaned_data.get('pemesan')
             SJalans.no_hp = form.cleaned_data.get('no_hp')
             SJalans.tanggal = form.cleaned_data.get('tanggal')
             SJalans.save()
 
-            data_SJalans = SJalan.objects.get(no_surat=form.cleaned_data.get('no_surat'))
+            data_SJalans = SJalan.objects.get(no_surat=kode)
             for i in range(len(id_isikontrak)):
                 isi_SJalans = isi_SJalan()
                 isi_SJalans.id_SJalan = data_SJalans
@@ -882,7 +921,7 @@ def Update_SuratJ(request, pk, uk):
         if form.is_valid():    
             SJalans = SJalan()
             SJalans.id_kontrak = data_SJalans.id_kontrak
-            SJalans.no_surat = request.POST.get('no_surat')
+            SJalans.no_surat = data_SJalans.no_surat
             SJalans.pemesan = form.cleaned_data.get('pemesan')
             SJalans.no_hp = form.cleaned_data.get('no_hp')
             SJalans.tanggal = form.cleaned_data.get('tanggal')
@@ -963,7 +1002,7 @@ def Create_kontrakManual(request):
 
         if form.is_valid():    
             pdf=kontrak()
-            pdf.file_pdf = "uploads/"+file_pdfs
+            pdf.file_pdf = "uploads/"+kode+".pdf"
             pdf.kode = kode
             pdf.save()
             #kode_kontrak = form.cleaned_data.get('kode')

@@ -37,18 +37,21 @@ class isi_kontrakForm(forms.ModelForm):
 class KwitansiForm(forms.ModelForm):
     class Meta:
         model = kwitansi
-        fields = '__all__'
+        fields = ['penerima','tanggal']
 
 class isi_KwitansiForm(forms.ModelForm):
     class Meta:
         model = isi_kwitansi
         fields = ['id_isikontrak','satuan','jumlah','harga']
+        widgets = {
+            'satuan': forms.Select(attrs={'class':'form-control'}),
+        }
 
 
 class SJalanForm(forms.ModelForm):
     class Meta:
         model = SJalan
-        fields = ['no_surat', 'pemesan', 'no_hp', 'tanggal']
+        fields = ['pemesan', 'no_hp', 'tanggal']
 
 
 class Isi_SJalanForm(forms.ModelForm):

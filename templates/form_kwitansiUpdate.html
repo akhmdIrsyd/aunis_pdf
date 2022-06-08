@@ -97,7 +97,7 @@
                       </div>
                       <div class="form-group col-md-1">
                         {% if forloop.counter == 1 %} <label for="inputCity">Satuan</label> {% endif %}
-                        <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan" value={{row1.satuan}}>
+                        {{ form1.satuan }}
                       </div>
                       <div class="form-group col-md-1">
                         {% if forloop.counter == 1 %} <label for="nomor_dos">Jumlah</label> {% endif %}
@@ -198,15 +198,10 @@
                     $(wrapper).append(`
                       <div class="row">
                         <div class="form-group col-md-6">
-                          <select id="id_isikontrak${uid}" data-select2-id="${uid}" class="form-control zxc" style="width:100%" name="id_isikontrak" required>
-                            <option id="ayy" selected disabled>-- Pilih Barang --</option>
-                            {% for row in rows %}
-                              <option id="{{ row.id }}" value="{{ row.id }}">{{ row.nama_barang }}</option>
-                            {% endfor %}
-                          </select>
+                          <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang" >
                         </div>
                         <div class="form-group col-md-1">
-                        <input type="text" name="Satuan" class="form-control" id="Satuan" placeholder="Satuan">
+                        {{ form1.satuan }}
                       </div>
                       <div class="form-group col-md-1">
                         <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">

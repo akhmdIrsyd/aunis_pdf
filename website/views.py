@@ -492,11 +492,14 @@ def kwitansi_detail(request, pk):
     #for kwitansis in Data_isikwitansi:
     #    nama_barang = kwitansis.id_isikontrak.nama_barang
     #    list_namabarang.append(nama_barang)
-    
+    satuan_isikwitansi=pd.DataFrame.from_records(Data_isikwitansi.values('satuan__nama_satuan'))
     df = pd.DataFrame.from_records(Data_isikwitansi.values())
+    
     df['total']=df['jumlah']*df['harga']
+    df['nama_satuan']=satuan_isikwitansi
     #df['nama_barang']=list_namabarang
     total=df['total'].sum()
+    print(df['nama_satuan'])
     pajak=total*0.11
     totalall=total+pajak
     
@@ -528,15 +531,24 @@ def Create_kwitansi(request):
     kwitansis=kwitansi.objects.all()
     kwitansiss=kwitansi.objects.values_list('no_kwitansi', flat=True)
     
-    kwitansiss=np.array(kwitansiss)
-    kwitansiss=kwitansiss.astype(str)
-    jumlah_kwitansi=kwitansi.objects.count()+1
+    kwitansissw=np.array(kwitansiss)
+    kwitansiss=kwitansissw.astype(str)
     
     tahun= datetime.date.today().year
-    if jumlah_kwitansi not in kwitansiss:
-         kode='AUNIS/K/'+str(tahun)+'/'+str(jumlah_kwitansi)
+    jumlah_kwitansi=kwitansi.objects.filter(tanggal__year = tahun).count()+1
+    a=[]
+    for nomor in kwitansiss:
+        nomor=nomor.split('/',4)[3]
+        a.append(nomor)
+    a.append(0)
+    a=np.array(a)
+    a=a.astype(int)
+    
+    if jumlah_kwitansi not in a :
+        kode='AUNIS/K/'+str(tahun)+'/'+str(jumlah_kwitansi)
     else:
-        kode='AUNIS/K/'+str(tahun)+'/'+str(kwitansiss.min()+1)
+        kode=min(set(range(max(a) + 2)) - set(a))
+        kode='AUNIS/K/'+str(tahun)+'/'+str(kode)
     print(kode)
     
     if request.method == 'POST':
@@ -581,7 +593,7 @@ def Update_Kwitansi(request, pk):
     mail = user.email
     pk = pk
     data_isi_kwitansis = isi_kwitansi.objects.filter(id_kwitansi=pk)
-    
+    data_satuanbarang=Satuan_barang.objects.all()
     
     data_kwitansis = kwitansi.objects.get(id=pk)
     isikontrakss = isi_kontrak.objects.all()
@@ -624,6 +636,7 @@ def Update_Kwitansi(request, pk):
         'mail': mail,
         'rows': isikontrakss, 
         'rows1': data_isi_kwitansis,
+        'rows2': data_satuanbarang,
         'data_kwitansis': data_kwitansis,
         'pk': pk
     }
@@ -856,16 +869,25 @@ def Create_SuratJ(request, pk):
     
     surJ=np.array(surJ)
     surJ=surJ.astype(str)
+    a=[]
     tahun= datetime.date.today().year
     print(tahun)
     jumlah_SuratJ=SJalan.objects.filter(tanggal__year = tahun).count()+1
 
-    if jumlah_SuratJ not in surJ:
+    for nomor in surJ:
+        nomor=nomor.split('/',4)[3]
+        a.append(nomor)
+    a.append(0)
+    a=np.array(a)
+    a=a.astype(int)
+
+    if jumlah_SuratJ not in a:
         kode='AUNIS/SJ/'+str(tahun)+'/'+str(jumlah_SuratJ)
     else:
-        kode='AUNIS/SJ/'+str(tahun)+'/'+str(surJ.min()+1)
+        kode=min(set(range(max(a) + 2)) - set(a))
+        kode='AUNIS/K/'+str(tahun)+'/'+str(kode)
     print(kode)
-    
+
     if request.method == 'POST':
         form = SJalanForm(request.POST)
         

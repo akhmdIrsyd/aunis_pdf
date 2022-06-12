@@ -96,8 +96,14 @@
                        <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang" value={{row1.id_isikontrak}}>
                       </div>
                       <div class="form-group col-md-1">
-                        {% if forloop.counter == 1 %} <label for="inputCity">Satuan</label> {% endif %}
-                        {{ form1.satuan }}
+                        {% if forloop.counter == 1 %} <label for="satuan">Satuan</label> {% endif %}
+                        <select id="satuan" data-select2-id="{{ row1.id }}" class="form-control" name="satuan{{ row1.id }}" required style="width:100%">
+                          <option id="ayy" selected disabled>-- Pilih Satuan --</option>
+                          {% for row2 in rows2 %}
+                            <option id="{{ row2.id }}" value="{{ row2.id }}" {% if row2.id == row1.satuan %} selected {% endif %}>{{ row2.nama_satuan }}</option>
+                          {% endfor %}
+                          
+                        </select>
                       </div>
                       <div class="form-group col-md-1">
                         {% if forloop.counter == 1 %} <label for="nomor_dos">Jumlah</label> {% endif %}
@@ -198,11 +204,16 @@
                     $(wrapper).append(`
                       <div class="row">
                         <div class="form-group col-md-6">
-                          <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang" >
+                          <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang">
                         </div>
                         <div class="form-group col-md-1">
-                        {{ form1.satuan }}
-                      </div>
+                          <select id="satuan${uid}" data-select2-id="${uid}" class="form-control" style="width:100%" name="satuan" required>
+                            <option id="ayy" selected disabled>-- Pilih Satuan --</option>
+                            {% for row2 in rows2 %}
+                              <option id="{{ row2.id }}" value="{{ row2.id }}">{{ row2.nama_satuan }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
                       <div class="form-group col-md-1">
                         <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
                       </div>
@@ -215,7 +226,7 @@
                       </div>
                     `);
 
-                    $('#id_isikontrak'+uid).select2();
+                    $('#satuan'+uid).select2();
                 }
             });
 
@@ -230,7 +241,7 @@
         // select
     $(document).ready(function() {
         $('.zxc').select2({
-            placeholder: 'Pilih barang'
+            placeholder: 'satuan'
         });
 
         $('#id_tanggal').val(function(){

@@ -97,10 +97,10 @@
                       </div>
                       <div class="form-group col-md-1">
                         {% if forloop.counter == 1 %} <label for="satuan">Satuan</label> {% endif %}
-                        <select id="satuan" data-select2-id="{{ row1.id }}" class="form-control" name="satuan{{ row1.id }}" required style="width:100%">
+                        <select id="satuan" data-select2-id="{{ row2.id }}" class="form-control zxc" name="satuan{{ row2.id }}" required style="width:100%">
                           <option id="ayy" selected disabled>-- Pilih Satuan --</option>
                           {% for row2 in rows2 %}
-                            <option id="{{ row2.id }}" value="{{ row2.id }}" {% if row2.id == row1.satuan %} selected {% endif %}>{{ row2.nama_satuan }}</option>
+                            <option id="{{ row2.id }}" value="{{ row2.id }}" {% if row1.satuan == row2.id %} selected {% endif %}>{{ row2.nama_satuan }}</option>
                           {% endfor %}
                           
                         </select>
@@ -207,7 +207,7 @@
                           <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang">
                         </div>
                         <div class="form-group col-md-1">
-                          <select id="satuan${uid}" data-select2-id="${uid}" class="form-control" style="width:100%" name="satuan" required>
+                          <select id="satuan${uid}" data-select2-id="${uid}" class="form-control zxc" style="width:100%" name="satuan" required>
                             <option id="ayy" selected disabled>-- Pilih Satuan --</option>
                             {% for row2 in rows2 %}
                               <option id="{{ row2.id }}" value="{{ row2.id }}">{{ row2.nama_satuan }}</option>

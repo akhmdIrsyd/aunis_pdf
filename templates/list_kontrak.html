@@ -69,7 +69,8 @@
                  <td>{{ row.file_pdf | slice_path }}</td>
                  <td>{{ row.date_upload }}</td>
                  <td align="center">
-                   <button class="btn btn-sm btn-info m-1" data-bs-toggle="modal" data-bs-target="#view_kontrak">
+                   <button class="btn btn-sm btn-info m-1 doc-btn" id="doc-btn{{forloop.counter}}" data-name="{{ row.file_pdf | slice_path }}">
+                    {% comment %} <button class="btn btn-sm btn-info m-1 doc-btn" data-bs-toggle="modal" id="doc-btn{{forloop.counter}}" data-bs-target="#view_kontrak" data-name="{{ row.file_pdf | slice_path }}"> {% endcomment %}
                      <i class="me-2 mdi mdi-file"></i> Dokumen
                    </button>
                    <a href="{% url 'pdf_detail' pk=row.pk %}" class="btn btn-sm btn-success text-white m-1" role="button">
@@ -120,7 +121,7 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <iframe src="media/uploads/-_PO_AUNIS_2021.09.03.pdf" style="height:60vh"></iframe>
+            <iframe style="height:60vh" id="doc-view"></iframe>
 
           </div>
         </div>
@@ -153,6 +154,23 @@
 {% block extrascript %}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
+
+$('.doc-btn').click(function(){
+  // media/uploads/-_PO_AUNIS_2021.09.03.pdf
+  
+  let url = 'media/uploads/'+$(this).data('name')
+  console.log(url)
+  $.get(url)
+    .done(function(data){
+      $('#doc-view').attr('src', url);
+      $('#view_kontrak').modal('show');
+    })
+    .fail(function(data){
+      alert("Dokumen Tidak Tersedia")
+    })
+})
+
+
 $('.hapus').click(function(){
   event.preventDefault()
   let id = $(this).attr('data-id');

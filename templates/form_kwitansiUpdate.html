@@ -95,21 +95,21 @@
                         {% if forloop.counter == 1 %} <label for="id_isikontrak">Barang</label> {% endif %}
                        <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang" value={{row1.id_isikontrak}}>
                       </div>
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-2">
+                        
                         {% if forloop.counter == 1 %} <label for="satuan">Satuan</label> {% endif %}
-                        <select id="satuan" data-select2-id="{{ row2.id }}" class="form-control zxc" name="satuan{{ row2.id }}" required style="width:100%">
-                          <option id="ayy" selected disabled>-- Pilih Satuan --</option>
+                        <select id="satuan{{row1.id}}" class="form-control zxc" name="satuan{{ row2.id }}" required style="width:100%">
+                          <option selected disabled>-- Pilih Satuan --</option>
                           {% for row2 in rows2 %}
-                            <option id="{{ row2.id }}" value="{{ row2.id }}" {% if row1.satuan == row2.id %} selected {% endif %}>{{ row2.nama_satuan }}</option>
+                            <option value="{{ row2.id }}" {% if row1.satuan_id == row2.id %} selected {% endif %}>{{ row2.nama_satuan }}</option>
                           {% endfor %}
-                          
                         </select>
                       </div>
                       <div class="form-group col-md-1">
                         {% if forloop.counter == 1 %} <label for="nomor_dos">Jumlah</label> {% endif %}
                         <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah" value={{row1.jumlah}}>
                       </div>
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-2">
                         {% if forloop.counter == 1 %} <label for="inputCity">Harga</label> {% endif %}
                         <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga" value={{row1.harga}}>
                       </div>
@@ -206,18 +206,18 @@
                         <div class="form-group col-md-6">
                           <input type="text" name="id_isikontrak" class="form-control" id="id_isikontrak" placeholder="Nama Barang">
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                           <select id="satuan${uid}" data-select2-id="${uid}" class="form-control zxc" style="width:100%" name="satuan" required>
-                            <option id="ayy" selected disabled>-- Pilih Satuan --</option>
+                            <option selected disabled>-- Pilih Satuan --</option>
                             {% for row2 in rows2 %}
-                              <option id="{{ row2.id }}" value="{{ row2.id }}">{{ row2.nama_satuan }}</option>
+                              <option value="{{ row2.id }}">{{ row2.nama_satuan }}</option>
                             {% endfor %}
                           </select>
                         </div>
                       <div class="form-group col-md-1">
                         <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
                       </div>
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-2">
                         <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
                       </div> 
                         <div class="form-group col-md-1">
@@ -226,7 +226,9 @@
                       </div>
                     `);
 
-                    $('#satuan'+uid).select2();
+                    $('#satuan'+uid).select2({
+                      placeholder: 'Pilih Satuan'
+                    });
                 }
             });
 
@@ -241,7 +243,7 @@
         // select
     $(document).ready(function() {
         $('.zxc').select2({
-            placeholder: 'satuan'
+            placeholder: 'Pilih Satuan'
         });
 
         $('#id_tanggal').val(function(){

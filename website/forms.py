@@ -44,7 +44,7 @@ class isi_KwitansiForm(forms.ModelForm):
         model = isi_kwitansi
         fields = ['id_isikontrak','satuan','jumlah','harga']
         widgets = {
-            'satuan': forms.Select(attrs={'class':'form-control'}),
+            'satuan': forms.Select(attrs={'class':'form-control zxc'}),
         }
 
 

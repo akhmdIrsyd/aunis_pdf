@@ -474,7 +474,7 @@ def Delete_perusahaan(request, pk):
 #list Kwitansi
 @login_required(login_url='login')
 def list_kwitansi(request):
-    Data_kwitansi = kwitansi.objects.all().order_by('-tanggal')
+    Data_kwitansi = kwitansi.objects.all().order_by('-tanggal', '-id')
     
     context = {
         'rows': Data_kwitansi,
@@ -487,7 +487,6 @@ def kwitansi_detail(request, pk):
     Data_kwitansi = kwitansi.objects.filter(id=pk)
     # Data_kontrak = kontrak.objects.filter(id=pk)
     Data_isikwitansi = isi_kwitansi.objects.filter(id_kwitansi=pk)
-
     list_namabarang=[]
     #for kwitansis in Data_isikwitansi:
     #    nama_barang = kwitansis.id_isikontrak.nama_barang
@@ -551,6 +550,7 @@ def Create_kwitansi(request):
         kode='AUNIS/K/'+str(tahun)+'/'+str(kode)
     print(kode)
     
+
     if request.method == 'POST':
         form = KwitansiForm(request.POST)
         form1 = isi_KwitansiForm(request.POST)
@@ -562,7 +562,7 @@ def Create_kwitansi(request):
             kwitansis.penerima = form.cleaned_data.get('penerima')
             kwitansis.tanggal = form.cleaned_data.get('tanggal')
             kwitansis.save()
-
+            
             data_kwitansis = kwitansi.objects.get(no_kwitansi=kode)
             for i in range(len(satuans)):
                 isi_kwitansis = isi_kwitansi()
@@ -578,11 +578,15 @@ def Create_kwitansi(request):
     else:
         form = KwitansiForm()
         form1 = isi_KwitansiForm(request.POST)
+
+    satuansz = Satuan_barang.objects.all()
+    
     context = {
         'form': form,
         'form1': form1,
         'mail': mail,
         'rows': isikontrakss,
+        'satuansz': satuansz,
     }
     return render(request, 'form_kwitansi.html', context)
 
@@ -630,6 +634,7 @@ def Update_Kwitansi(request, pk):
         form = KwitansiForm()
         form1 = isi_KwitansiForm()
     #print(data_isiSJalans.query)
+
     context = {
         'form': form,
         'form1': form1,

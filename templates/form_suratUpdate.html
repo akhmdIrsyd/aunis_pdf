@@ -106,11 +106,11 @@
                       </div>
                       <div class="form-group col-md-2">
                         {% if forloop.counter == 1 %} <label for="inputCity">Jumlah</label> {% endif %}
-                        <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah" value={{row1.jumlah}}>
+                        <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah" required value={{row1.jumlah}}>
                       </div>
                       <div class="form-group col-md-2">
                         {% if forloop.counter == 1 %} <label for="nomor_dos">Nomor Dos</label> {% endif %}
-                        <input type="number" name="nomor_dos" class="form-control" id="nomor_dos" placeholder="Nomor Dos" value={{row1.nomor_dos}}>
+                        <input type="number" name="nomor_dos" class="form-control" id="nomor_dos" required placeholder="Nomor Dos" value={{row1.nomor_dos}}>
                       </div>
                       {% if forloop.counter != 1 %}
                       <div class="form-group col-md-2">
@@ -210,10 +210,10 @@
                           </select>
                         </div>
                         <div class="form-group col-md-2">
-                          <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
+                          <input type="number" name="jumlah" class="form-control" id="jumlah" required placeholder="Jumlah">
                         </div>
                         <div class="form-group col-md-2">
-                          <input type="number" name="nomor_dos" class="form-control" id="nomor_dos" placeholder="Nomor Dos">
+                          <input type="number" name="nomor_dos" class="form-control" id="nomor_dos" required placeholder="Nomor Dos">
                         </div>
                         <div class="form-group col-md-2">
                           <a href="#" class="remove_field btn btn-sm btn-danger"><i class="mdi mdi-close"></i></a>

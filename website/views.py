@@ -1017,11 +1017,13 @@ def Create_kontrakManual(request):
     jumlahs = request.POST.getlist('jumlah')
     hargas = request.POST.getlist('harga')
     totals = request.POST.getlist('total')
-    id_perusahaan = request.POST.getlist('id_perusahaan')
-    suppliers = request.POST.getlist('supplier')
-    tgl_orders = request.POST.getlist('tgl_order')
-    waktus = request.POST.getlist('waktu')
-    tgl_penyerahans = request.POST.getlist('tgl_penyerahan')
+
+    id_perusahaan = request.POST.get('id_perusahaan')
+    suppliers = request.POST.get('supplier')
+    tgl_orders = request.POST.get('tgl_order')
+    waktus = request.POST.get('waktu')
+    tgl_penyerahans = request.POST.get('tgl_penyerahan')
+
     #status = request.POST.getlist('status')
     file_pdfs = request.POST.get('file_pdf')
     if request.method == 'POST':
@@ -1029,12 +1031,12 @@ def Create_kontrakManual(request):
 
         if form.is_valid():    
             pdf=kontrak()
-            pdf.file_pdf = "uploads/"+kode+".pdf"
+            pdf.file_pdf = file_pdfs
             pdf.kode = kode
             pdf.save()
             #kode_kontrak = form.cleaned_data.get('kode')
             Data_kontraks = kontrak.objects.get(kode=kode)
-            for i in range(len(tgl_penyerahans)):
+            for i in range(len(Code_Purchases)):
 
                 isi_kontraks=isi_kontrak()
                 isi_kontraks.id_kontrak = Data_kontraks
@@ -1046,12 +1048,12 @@ def Create_kontrakManual(request):
                 isi_kontraks.jumlah = jumlahs[i]
                 isi_kontraks.harga = hargas[i]
                 isi_kontraks.total = totals[i]
-                perusahaans = perusahaan.objects.filter(id=id_perusahaan[i])
+                perusahaans = perusahaan.objects.filter(id=id_perusahaan)
                 isi_kontraks.id_perusahaan = perusahaans[i]
                 isi_kontraks.supplier = "AUNIS PRINT OFFSET"
-                isi_kontraks.tgl_order = tgl_orders[i]
-                isi_kontraks.waktu = waktus[i]
-                isi_kontraks.tgl_penyerahan = tgl_penyerahans[i]
+                isi_kontraks.tgl_order = tgl_orders
+                isi_kontraks.waktu = waktus
+                isi_kontraks.tgl_penyerahan = tgl_penyerahans
                 #isi_kontraks.status = status[i]
 
                 isi_kontraks.save()

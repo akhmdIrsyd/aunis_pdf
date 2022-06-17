@@ -53,7 +53,7 @@
                   
                   {% comment %} {{ form }} {% endcomment %}
                  
-                  <div class="input_fields_wrap">
+                  <div class="input">
                     <div class="row">
                       <div class="form-group">
                         <label for="Satuan" class="col-md-2">Nama Kontrak</label>
@@ -61,6 +61,28 @@
                       </div>
                     </div>
                   </div>
+
+                      <div class="form-group col-md-1 ">
+                        <label for="id_perusahaan">Nama Perusahaan</label>
+                        <select id="id_perusahaan" class="form-control zxc" name="id_perusahaan" required style="width:100%">
+                          {% for row in rows %}
+                            <option value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      
+                      <div class="form-group col-md-2">
+                        <label for="jumlah">Tgl Order</label>
+                        <input type="date" name="tgl_order" class="form-control" id="tgl_order" placeholder="Tgl Order">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="harga">Waktu</label>
+                        <input type="text" name="waktu" class="form-control" id="waktu" placeholder="Waktu">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="harga">Tgl Penyerahan</label>
+                        <input type="date" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="Tgl Penyerahan">
+                      </div>
 
                   <div class="input_fields_wrap">
                     <div class="card-body">
@@ -92,37 +114,17 @@
                       </div>
                       <div class="form-group col-md-1">
                         <label for="Satuan">Jumlah</label>
-                        <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
+                        <input type="number" name="jumlah" class="form-control" id="jumlah" required placeholder="Jumlah">
                       </div>
                       <div class="form-group col-md-2">
                         <label for="Satuan">Harga</label>
-                        <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
+                        <input type="number" name="harga" class="form-control" id="harga" required placeholder="Harga">
                       </div>
-                      <div class="form-group col-md-2">
+                      <div class="form-group col-md-1">
                         <label for="Satuan">Total</label>
                         <input type="number" name="total" class="form-control" id="total" placeholder="Total" readonly>
                       </div>
-                      <div class="form-group col-md-6">
-                        <label for="id_perusahaan">Nama Perusahaan</label>
-                        <select id="id_perusahaan" class="form-control zxc" name="id_perusahaan" required style="width:100%">
-                          {% for row in rows %}
-                            <option value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
                       
-                      <div class="form-group col-md-2">
-                        <label for="jumlah">Tgl Order</label>
-                        <input type="date" name="tgl_order" class="form-control" id="tgl_order" placeholder="Tgl Order">
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="harga">Waktu</label>
-                        <input type="text" name="waktu" class="form-control" id="waktu" placeholder="Waktu">
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="harga">Tgl Penyerahan</label>
-                        <input type="date" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="Tgl Penyerahan">
-                      </div>
                     </div>
                     {% comment %} <div class="row">
                       <div class="col-6">
@@ -212,58 +214,30 @@
                     $(wrapper).append(`
                       <div class="row">
                         <div class="form-group col-md-2">
-                          <label for="Satuan">Code Purchase</label>
                           <input type="text" name="Code_Purchase" class="form-control" id="Code_Purchase" placeholder="Code Purchase">
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="Satuan">No Kontrak</label>
                           <input type="text" name="no_kontrak" class="form-control" id="no_kontrak" placeholder="No Kontrak">
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="Satuan">Nama Barang</label>
                           <input type="text" name="nama_barang" class="form-control" id="nama_barang" placeholder="Nama Barang">
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="Satuan">Spesifikasi</label>
                           <input type="text" name="spesifikasi" class="form-control" id="spesifikasi" placeholder="Spesifikasi">
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="Satuan">Satuan</label>
                           <input type="text" name="satuan" class="form-control" id="satuan" placeholder="Satuan">
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="Satuan">Jumlah</label>
-                          <input type="number" name="jumlah" class="form-control" id="jumlah" placeholder="Jumlah">
+                          <input type="number" name="jumlah" class="form-control" id="jumlah" required placeholder="Jumlah">
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="Satuan">Harga</label>
-                          <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
+                          <input type="number" name="harga" class="form-control" id="harga" required placeholder="Harga">
                         </div>
-                        <div class="form-group col-md-2">
-                          <label for="Satuan">Total</label>
+                        <div class="form-group col-md-1">
                           <input type="number" name="total" class="form-control" id="total" placeholder="Total" readonly>
                         </div>
-                        <div class="form-group col-md-6">
-                          <label for="id_perusahaan${uid}">Nama Perusahaan</label>
-                          <select id="id_perusahaan${uid}" class="form-control zxc" name="id_perusahaan" required style="width:100%">
-                            {% for row in rows %}
-                              <option value="{{ row.id }}">{{ row.nama_perusahaan }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
                         
-                        <div class="form-group col-md-2">
-                          <label for="jumlah">Tgl Order</label>
-                          <input type="date" name="tgl_order" class="form-control" id="tgl_order" placeholder="Tgl Order">
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="harga">Waktu</label>
-                          <input type="text" name="waktu" class="form-control" id="waktu" placeholder="Waktu">
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="harga">Tgl Penyerahan</label>
-                          <input type="date" name="tgl_penyerahan" class="form-control" id="tgl_penyerahan" placeholder="Tgl Penyerahan">
-                        </div>
                         <div class="form-group col-md-1">
                           <a href="#" class="remove_field btn btn-sm btn-danger"><i class="mdi mdi-close"></i></a>
                         </div>

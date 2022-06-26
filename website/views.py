@@ -509,7 +509,7 @@ def kwitansi_detail(request, pk):
         'rows': Data_kwitansi[0],
         'rows2': df,
         'total':total,
-        'pajak':pajak,
+        'pajak':int(pajak),
         'totalall':int(totalall),
         
     }

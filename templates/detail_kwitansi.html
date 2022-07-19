@@ -66,23 +66,23 @@
                  <td>{{ row2.2 }}</td>
                  <td style="text-align:right">{{ row2.4 }}</td>
                  <td>{{ row2.7 }}</td>
-                 <td style="text-align:right">{{ row2.5 | intcomma }}</td>
-                 <td style="text-align:right">{{ row2.6 | intcomma }}</td>
+                 <td style="text-align:right">Rp. {{ row2.5 | intcomma }}</td>
+                 <td style="text-align:right">Rp. {{ row2.6 | intcomma }}</td>
               </tr>
               {% endfor %}
             </tbody>
             <tfoot>
               <tr>
                 <td colspan="5" style="text-align:center"><b>TOTAL</b></td>
-                <td style="text-align:right"><b>{{ total | intcomma }}</b></td>
+                <td style="text-align:right"><b>Rp. {{ total | intcomma }}</b></td>
               </tr>
               <tr>
                 <td colspan="5" style="text-align:center"><b>PPN (11%)</b></td>
-                <td style="text-align:right"><b>{{ pajak | intcomma }}</b></td>
+                <td style="text-align:right"><b>Rp. {{ pajak | intcomma }}</b></td>
               </tr>
               <tr>
                 <td colspan="5" style="text-align:center"><b>TOTAL TERMASUK PPN (11%)</b></td>
-                <td style="text-align:right"><b>{{ totalall | intcomma }}</b></td>
+                <td style="text-align:right"><b>Rp. {{ totalall | intcomma }}</b></td>
               </tr>
             </tfoot>
           </table>

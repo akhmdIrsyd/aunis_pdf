@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2022 at 11:49 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.3
+-- Generation Time: Jul 12, 2022 at 02:10 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -149,7 +148,8 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$216000$ayiVwexyICb6$JLYtF3zDt1p9T5DHPuowueGYF7ybVXLXlHV5hAqS2Kc=', '2022-06-06 13:47:04.659393', 1, 'admin', '', '', 'admin@mail.com', 1, 1, '2022-06-06 13:46:36.631541');
+(1, 'pbkdf2_sha256$216000$cRYQJc96qKn4$5EBce+v9EuXK3VrSln6Lo5daRYiJ/O+Ha9soN6GOM2c=', '2022-06-16 15:44:41.344632', 1, 'aunis', '', '', 'aunis@gmail.com', 1, 1, '2022-06-16 15:41:53.221997'),
+(2, 'pbkdf2_sha256$216000$GiCMlwAZuD4l$iDFHRMtXvVDqbBgX4D8ErEPy6IwX5ND22rtqKVqacKU=', '2022-07-12 12:00:31.443723', 1, 'admin', '', '', 'admin@mail.com', 1, 1, '2022-06-25 06:04:59.592447');
 
 -- --------------------------------------------------------
 
@@ -197,10 +197,10 @@ CREATE TABLE `django_admin_log` (
 --
 
 INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
-(1, '2022-06-06 13:49:22.450385', '1', 'BUKU', 1, '[{\"added\": {}}]', 11, 1),
-(2, '2022-06-06 13:49:27.791117', '2', 'PCS', 1, '[{\"added\": {}}]', 11, 1),
-(3, '2022-06-06 13:49:33.016820', '3', 'BOX', 1, '[{\"added\": {}}]', 11, 1),
-(4, '2022-06-06 13:49:38.333840', '4', 'LBR', 1, '[{\"added\": {}}]', 11, 1);
+(1, '2022-06-25 06:27:08.100511', '1', 'BOX', 1, '[{\"added\": {}}]', 11, 2),
+(2, '2022-06-25 06:27:13.712071', '2', 'PCS', 1, '[{\"added\": {}}]', 11, 2),
+(3, '2022-06-25 06:28:10.157765', '3', 'LBR', 1, '[{\"added\": {}}]', 11, 2),
+(4, '2022-06-25 06:28:27.414844', '4', 'BUKU', 1, '[{\"added\": {}}]', 11, 2);
 
 -- --------------------------------------------------------
 
@@ -253,26 +253,26 @@ CREATE TABLE `django_migrations` (
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2022-06-06 13:46:07.281186'),
-(2, 'auth', '0001_initial', '2022-06-06 13:46:07.708190'),
-(3, 'admin', '0001_initial', '2022-06-06 13:46:08.308244'),
-(4, 'admin', '0002_logentry_remove_auto_add', '2022-06-06 13:46:08.459245'),
-(5, 'admin', '0003_logentry_add_action_flag_choices', '2022-06-06 13:46:08.471243'),
-(6, 'contenttypes', '0002_remove_content_type_name', '2022-06-06 13:46:08.566451'),
-(7, 'auth', '0002_alter_permission_name_max_length', '2022-06-06 13:46:08.668453'),
-(8, 'auth', '0003_alter_user_email_max_length', '2022-06-06 13:46:08.694455'),
-(9, 'auth', '0004_alter_user_username_opts', '2022-06-06 13:46:08.707451'),
-(10, 'auth', '0005_alter_user_last_login_null', '2022-06-06 13:46:08.758449'),
-(11, 'auth', '0006_require_contenttypes_0002', '2022-06-06 13:46:08.762489'),
-(12, 'auth', '0007_alter_validators_add_error_messages', '2022-06-06 13:46:08.772452'),
-(13, 'auth', '0008_alter_user_username_max_length', '2022-06-06 13:46:08.791450'),
-(14, 'auth', '0009_alter_user_last_name_max_length', '2022-06-06 13:46:08.809845'),
-(15, 'auth', '0010_alter_group_name_max_length', '2022-06-06 13:46:08.828845'),
-(16, 'auth', '0011_update_proxy_permissions', '2022-06-06 13:46:08.840879'),
-(17, 'auth', '0012_alter_user_first_name_max_length', '2022-06-06 13:46:08.860841'),
-(18, 'sessions', '0001_initial', '2022-06-06 13:46:08.918875'),
-(19, 'website', '0001_initial', '2022-06-06 13:46:09.051901'),
-(20, 'website', '0002_auto_20220606_2046', '2022-06-06 13:46:09.607406');
+(1, 'contenttypes', '0001_initial', '2022-06-16 15:41:06.103095'),
+(2, 'auth', '0001_initial', '2022-06-16 15:41:06.240550'),
+(3, 'admin', '0001_initial', '2022-06-16 15:41:06.545559'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2022-06-16 15:41:06.658932'),
+(5, 'admin', '0003_logentry_add_action_flag_choices', '2022-06-16 15:41:06.666959'),
+(6, 'contenttypes', '0002_remove_content_type_name', '2022-06-16 15:41:06.717125'),
+(7, 'auth', '0002_alter_permission_name_max_length', '2022-06-16 15:41:06.764282'),
+(8, 'auth', '0003_alter_user_email_max_length', '2022-06-16 15:41:06.779331'),
+(9, 'auth', '0004_alter_user_username_opts', '2022-06-16 15:41:06.789364'),
+(10, 'auth', '0005_alter_user_last_login_null', '2022-06-16 15:41:06.838527'),
+(11, 'auth', '0006_require_contenttypes_0002', '2022-06-16 15:41:06.841537'),
+(12, 'auth', '0007_alter_validators_add_error_messages', '2022-06-16 15:41:06.848561'),
+(13, 'auth', '0008_alter_user_username_max_length', '2022-06-16 15:41:06.864616'),
+(14, 'auth', '0009_alter_user_last_name_max_length', '2022-06-16 15:41:06.878659'),
+(15, 'auth', '0010_alter_group_name_max_length', '2022-06-16 15:41:06.895716'),
+(16, 'auth', '0011_update_proxy_permissions', '2022-06-16 15:41:06.905750'),
+(17, 'auth', '0012_alter_user_first_name_max_length', '2022-06-16 15:41:06.921802'),
+(18, 'sessions', '0001_initial', '2022-06-16 15:41:06.942872'),
+(19, 'website', '0001_initial', '2022-06-16 15:41:07.032168'),
+(20, 'website', '0002_auto_20220606_2046', '2022-06-16 15:41:07.363262');
 
 -- --------------------------------------------------------
 
@@ -291,7 +291,12 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('ku15nbntll4w64ov096m7emwmidw8ip6', '.eJxVjMsOwiAQRf-FtSEULA-X7v0GMsMMUjWQlHZl_HfbpAvd3nPOfYsI61Li2nmOE4mLGMTpd0NIT647oAfUe5Op1WWeUO6KPGiXt0b8uh7u30GBXrZaI1kAjeBHE4z2hIkTD3rMlh05lSlYpLNRpF1WiWwgh2FTFXurIInPFwXqOJQ:1nyD4S:Su7EitUO2tBaASJjU-YAp4z-jzGP8JHAruiKuyre-sw', '2022-06-20 13:47:04.663372');
+('fb3mil9fu2arze2ovt0esyfxgp289vnc', '.eJxVjMsOwiAQRf-FtSEMZQZw6b7fQIaHUjU0Ke3K-O_apAvd3nPOfYnA21rD1ssSpizOQovT7xY5PUrbQb5zu80yzW1dpih3RR60y3HO5Xk53L-Dyr1-a5_ZXZPXUdlk0SIgF4LoAJNnxUDGUTREYKJGMIRqsICDpWQyUzHi_QHKZjax:1o5oUB:Q8ln2nzNmY4kIARxhuguInTab8CLQ23_lzMVv-qnsh0', '2022-07-11 13:09:03.450300'),
+('igz4pw8axlthlc1wnjanzlm87kf1f8sj', '.eJxVjEEOwiAQRe_C2hCgUygu3fcMZGAGqRqalHZlvLtt0oVu33v_v0XAbS1ha7yEicRVaHH5ZRHTk-sh6IH1Pss013WZojwSedomx5n4dTvbv4OCrexrTJmdN7G3GQ0ydACMxoLPCrXnpLQi0tr2w44ypxQHmw3lDkiBc058vgDKOGU:1o1rfl:-fOV6FTTqZBn6cdck2ipjcVW1n6XEL6TJJcYUmmXQ8k', '2022-06-30 15:44:41.356671'),
+('ji56doazvy758e8yehv8w0ht84cafdww', '.eJxVjMsOwiAQRf-FtSEMZQZw6b7fQIaHUjU0Ke3K-O_apAvd3nPOfYnA21rD1ssSpizOQovT7xY5PUrbQb5zu80yzW1dpih3RR60y3HO5Xk53L-Dyr1-a5_ZXZPXUdlk0SIgF4LoAJNnxUDGUTREYKJGMIRqsICDpWQyUzHi_QHKZjax:1o4yvB:h9bDoOWRWT8aLCnL5Y_Kjd5Q2VeUh8v3qsBQ2TrLiFU', '2022-07-09 06:05:29.305723'),
+('me8ukkw2r6h3z95prfku3964tgxziwye', '.eJxVjMsOwiAQRf-FtSEMZQZw6b7fQIaHUjU0Ke3K-O_apAvd3nPOfYnA21rD1ssSpizOQovT7xY5PUrbQb5zu80yzW1dpih3RR60y3HO5Xk53L-Dyr1-a5_ZXZPXUdlk0SIgF4LoAJNnxUDGUTREYKJGMIRqsICDpWQyUzHi_QHKZjax:1o4yxu:hS-hYz3TmH47z4MStsvsIVv-_2O0w5Ksk6LfJcLUGKY', '2022-07-09 06:08:18.209371'),
+('tah9xynm60xk7r7utn6w66ofnerhkmrg', '.eJxVjMsOwiAQRf-FtSEMZQZw6b7fQIaHUjU0Ke3K-O_apAvd3nPOfYnA21rD1ssSpizOQovT7xY5PUrbQb5zu80yzW1dpih3RR60y3HO5Xk53L-Dyr1-a5_ZXZPXUdlk0SIgF4LoAJNnxUDGUTREYKJGMIRqsICDpWQyUzHi_QHKZjax:1o4yzU:IBxQ6zVAOya9dosMcqHC1FcDd3MXaQb1FjQ5bn5tQCs', '2022-07-09 06:09:56.199473'),
+('tpzmocivhl3onvmea6tjorxq72hdbe8f', '.eJxVjMsOwiAQRf-FtSEMZQZw6b7fQIaHUjU0Ke3K-O_apAvd3nPOfYnA21rD1ssSpizOQovT7xY5PUrbQb5zu80yzW1dpih3RR60y3HO5Xk53L-Dyr1-a5_ZXZPXUdlk0SIgF4LoAJNnxUDGUTREYKJGMIRqsICDpWQyUzHi_QHKZjax:1oBEZ5:Ls4B6E0iincgRofcYuTOZFIccpkXWenn-ffbpfX0VLY', '2022-07-26 12:00:31.458773');
 
 -- --------------------------------------------------------
 
@@ -323,29 +328,16 @@ CREATE TABLE `website_isi_kontrak` (
 --
 
 INSERT INTO `website_isi_kontrak` (`id`, `no_kontrak`, `Code_Purchase`, `nama_barang`, `spesifikasi`, `satuan`, `jumlah`, `harga`, `total`, `supplier`, `tgl_order`, `waktu`, `tgl_penyerahan`, `status`, `id_kontrak_id`, `id_perusahaan_id`) VALUES
-(1, 'GCNS-M- 21788-06', '210821010', 'Buku Inspeksi Gulungan Baja Hot Rolling 热轧钢卷摊开检验记录表', 'Kertas HVS A4, cetak vertikal satu sisi,50 lembar/buku bercover, jilid atas versi rekod (hekter)A4纸;单面印刷;每本50张;需要 封面;不易撕;上方装订', 'Buku 本', 200, 8250, 1650000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(2, 'IRNC-M- 21665-03', '210815028', 'Tabel Catatan Inspeksi Harian Mesin Penggulung Bagian Belakang 出口段卷取机日点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,横版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(3, 'IRNC-M- 21665-04', '210815029', 'Tabel Catatan Inspeksi Harian Mesin Las Bagian Depan 入口段焊机日焊机点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,横版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(4, 'IRNC-M- 21665-04', '210815030', 'Tabel Catatan Inspeksi Harian Mesin pembuka gulungan Bagian Depan 入口段开卷机点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,横版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(5, 'IRNC-M- 21665-04', '210815031', 'Tabel Catatan Inspeksi Harian Tungku Anil Bagian Depan 入口段退火炉日点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,横版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(6, 'IRNC-M- 21665-04', '210815032', 'Buku Rekod Pertukaran Shift 交接班记录本', 'Kertas HVS A4, cetak vertikal timbal balik,41 lembar/buku,bercover, jilid kiri, rekod (hekter) 92页(41张),正反面打印,A4纸,竖版', 'Buku 本', 100, 8610, 861000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(7, 'IRNC-M- 21665-04', '210815033', 'Daftar Pemeriksaan Zona Asam 2 酸区点检记录本二', 'Kertas HVS A4, cetak vertikal timbal balik,41 lembar/buku,bercover, jilid kiri, rekod (hekter) 92页(41张),正反面打印,A4纸,竖版', 'Buku 本', 60, 8610, 516600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(8, 'IRNC-M- 21665-04', '210815034', 'Tabel Catatan Pemeriksaan Peralatan 设备点检记录表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,竖版', 'Buku 本', 50, 3360, 168000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(9, 'IRNC-M- 21665-05', '210815035', 'Tabel Operasi Perawatan Pelumasan Peralatan 液压润滑点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,竖版', 'Buku 本', 50, 3360, 168000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(10, 'IRNC-M- 21665-05', '210815036', 'BUKU REKOD PERTULARAN SHIFT KERJA 交接班记录', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,竖版', 'Buku 本', 50, 3360, 168000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(11, 'ITSS-M- 211271-04', '210901002', 'Transfer catatan inspeksi dan transfer dua truk flatbed 平板车点检本', 'Kertas HVS A4, cetak vertikal; timbal balik,34 lembar/buku bercover , jilid kiri versi rekod (hekter)A4纸张,双面印刷,每 本34张,需要封面,不易撕,左侧钉装', 'Buku 本', 700, 7140, 4998000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 2),
-(12, 'GCNS-M- 21788-06', '210821011', 'Buku Record Gulungan Baja Hot Rolling 热轧钢卷初判检验记录表', 'Kertas HVS A4, cetak vertikal satu sisi,50 lembar/buku bercover, jilid atas versi rekod (hekter)A4纸;单面印刷;每本50张;需要 封面;不易撕;上方装订', 'Buku 本', 100, 8250, 825000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(13, 'ITSS-M- 211271-04', '210901003', 'Tabel Inspeksi Derek Mobil untuk Bagian Transportasi 2 汽车吊点检本', 'Kertas HVS A4, cetak horizontal; timbal balik,34 lembar/buku bercover , jilid kiri versi rekod (hekter)A4纸张,双面印刷,每 本34张,需要封面,不易撕,左侧钉装', 'Buku 本', 200, 7140, 1428000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 2),
-(14, 'GCNS-M- 21788-06', '210821012', 'Buku Pemeriksaan Layar Gulungan Baja Hot Rolling 热轧钢卷表检仪检验记录表', 'Kertas HVS A4, cetak vertikal satu sisi,50 lembar/buku bercover, jilid atas versi rekod (hekter)A4纸;单面印刷;每本50张;需要 封面;不易撕;上方装订', 'Buku 本', 150, 8250, 1237500, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(15, 'GCNS-M- 21788-06', '210821014', 'Catatn Pengecekan Gulungan Baja Putih 白皮记录表', 'Kertas HVS A4, cetak vertikal timbal balik,60 lembar/buku bercover, jilid kiri versi rekod (hekter)A4纸;双面印刷;每本 60张;需要封面;易撕;左侧装订', 'Buku 本', 200, 12600, 2520000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(16, 'GCNS-M- 21788-06', '210821015', 'Buku Cacatan Shift Sebelum / Sesudah 班前会记录本', 'Kertas HVS A4, cetak vertikal timbal balik,50 lembar/buku bercover, jilid kiri versi rekod (hekter) A4纸;双面印刷;每本50张;需要封面; 不易撕;左侧装订', 'Buku 本', 50, 10500, 525000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(17, 'GCNS-M- 21788-06', '210821016', 'Rekapan Pemeriksaan Kualitas Pemotongan Baja YongQing Indo 分条记录表', 'Kertas HVS A4, cetak satu sisi,60 lembar/buku bercover, jilid kiri versi nota (mudah sobek) A4纸;单面印刷;每本60张;需要封面; 易撕;左侧装订', 'Buku 本', 100, 9900, 990000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 1),
-(18, 'ITSS-M- 211271-04', '210825014', 'Rekod Rapat Pra Kerja班前会记 录本', 'Kertas HVS A4, cetak vertikal timbal balik,30 lembar/buku bercover, jilid kiri versi rekod (hekter)规格:A4纸;纸张方向:纵 向;印刷类别:双面印刷;装订页数:30 (不含封面)', 'Buku 本', 1000, 6300, 6300000, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 2),
-(19, 'IRNC-M- 21665-03', '210815026', 'Daftar Pemeriksaan Zona Asam 酸区现场点检表', 'Kertas HVS A4, cetak vertikal timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,竖版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(20, 'IRNC-M- 21665-03', '210815027', 'Tabel Catatan Inspeksi Harian Shot Blasting Bagian Tengah 中间段抛丸机点检表', 'Kertas HVS A4, cetak horizontal; timbal balik,16 lembar/buku bercover , jilid kiri versi rekod (hekter)32页(16张),正反面 打印,A4纸,横版', 'Buku 本', 60, 3360, 201600, 'TOKO AUNIS PRINT OFFSET', '2021-09-03', '45', '2021-10-18', 0, 1, 3),
-(22, 'asd', 'ass', 'Buku Inspeksi Gulungan Baja Hot Rolling ', 'Kertas HVS A4, cetak vertikal satu sisi', 'asd', 1, 2, 2, 'AUNIS PRINT OFFSET', '2022-06-22', '12', '2022-06-20', 0, 3, 2),
-(23, 'asd', 'assvvv', 'Buku Inspeksi Gulungan Baja Hot Rolling ', 'as', '123', 12, 2, 24, 'AUNIS PRINT OFFSET', '2022-06-19', '12', '2022-06-12', 0, 4, 1),
-(24, 'asd', 'assvvv', 'daeeee', 'Kertas HVS A4, cetak vertikal satu sisi', '123', 1, 1, 1, 'AUNIS PRINT OFFSET', '2022-06-27', '1', '2022-06-28', 0, 5, 2);
+(38, 'BSI-SW-22003', '220614017', 'Materai 印花税票', 'Denominasi/面额： RP 10,00', 'Lembar 张', 500, 10000, 5000000, 'AUNIS PRINT OFFSET', '2022-06-16', '3', '2022-07-12', 1, 21, 1),
+(39, 'ITSS-M-211271-28', '220624110', '1.Buku Record Pertukaran Shift Kerja 交接班记录本', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 100, 10920, 1092000, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 1, 22, 1),
+(40, 'ITSS-M-211271-28', '220624111', '2.Catatan Inspeksi Alat di Produksi 1 一车间主设备设备点巡检记录 表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 1, 22, 1),
+(41, 'ITSS-M-211271-28', '220624112', '3.Catatan Inspeksi Alat di Produksi 2 二车间主设备设备点巡检记录 表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 1, 22, 1),
+(42, 'ITSS-M-211271-28', '220624113', '4.Catatan Inspeksi Alat Bantu di Produksi 1 一车间辅助设备设备点巡检记 录表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1),
+(43, 'ITSS-M-211271-28', '220624114', '5.Catatan Inspeksi Alat Bantu di Produksi 2 二车间辅助设备设备点巡检记 录表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1),
+(44, 'ITSS-M-211271-29', '220624115', '6.Tabel Inspeksi Alat Blower di Produksi 1 一车间风机设备点巡检表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1),
+(45, 'ITSS-M-211271-29', '220624116', '7.Tabel Inspeksi Alat Blower di Produksi 2 二车间风机设备点巡检表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1),
+(46, 'ITSS-M-211271-29', '220624117', '8.Catatan Inspeksi Dinamo di Produksi 1 一车间电机检查记录表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1),
+(47, 'ITSS-M-211271-29', '220624118', '9.Catatan Inspeksi Dinamo di Produksi 2 二车间电机检查记录表', 'Spesifikasi: Kertas A4;Kategori pencetakan: pencetakan dua sisi;Mengikat lembar: 50 lembar;Metode penjilidan: Penjilidan kiri dengan hekter, diperlukan Sampul( tidak mudah sobek) 规格:A4;纸张方向:纵向;印刷类别:双面印刷;装订页数:100;装订 方向:左侧', 'Buku/本', 30, 10920, 327600, 'TOKO AUNIS PRINT OFFSET', '2022-07-02', '15', '2022-07-17', 0, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -367,12 +359,9 @@ CREATE TABLE `website_isi_kwitansi` (
 --
 
 INSERT INTO `website_isi_kwitansi` (`id`, `id_isikontrak`, `jumlah`, `harga`, `id_kwitansi_id`, `satuan_id`) VALUES
-(2, 'CACSAC', 2, 3, 4, 1),
-(3, 'lmlmlm', 13, 3, 4, 4),
-(5, 'CACSAC', 3, 2, 6, 1),
-(6, 'adf', 2, 2, 15, 1),
-(7, 'adf', 12, 1, 15, 1),
-(9, 'CACSAC', 2, 3, 19, 1);
+(2, 'barang1', 15, 13, 4, 4),
+(3, 'BUKU ALBUM', 10, 10000, 5, 2),
+(4, 'PULPEN', 1, 30000, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -387,16 +376,6 @@ CREATE TABLE `website_isi_sjalan` (
   `id_SJalan_id` int(11) NOT NULL,
   `id_isikontrak_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `website_isi_sjalan`
---
-
-INSERT INTO `website_isi_sjalan` (`id`, `jumlah`, `nomor_dos`, `id_SJalan_id`, `id_isikontrak_id`) VALUES
-(1, 1, 21, 1, 4),
-(2, 11, 212, 1, 1),
-(3, 2, 3, 3, 1),
-(4, 12, 21, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -416,10 +395,8 @@ CREATE TABLE `website_kontrak` (
 --
 
 INSERT INTO `website_kontrak` (`id`, `file_pdf`, `kode`, `date_upload`) VALUES
-(1, 'uploads/-_PO_AUNIS_2021.09.03_rSOgQi8.pdf', '45a28bb5-0c99-46f4-948b-6c45cd6ff6b6', '2022-06-06'),
-(3, 'uploads/kontrak2', '52257883-5040-49fc-8029-c6d1a4c2c6e3', '2022-06-08'),
-(4, 'uploads/kontrak2', 'b5f269b9-2772-4f36-885a-c776e801bd91', '2022-06-08'),
-(5, 'uploads/0d0ccf4d-feba-4182-8ca1-01b15f36e793.pdf', '0d0ccf4d-feba-4182-8ca1-01b15f36e793', '2022-06-08');
+(21, 'BSI-SW-22003', '91a68735-aba1-4eb9-b4ee-02e9e0e0a2f6', '2022-07-12'),
+(22, 'uploads/PO_AUNIS_2022_JULY_02.pdf', '26a32609-48e4-433d-aa63-ea9855266d0e', '2022-07-12');
 
 -- --------------------------------------------------------
 
@@ -439,11 +416,8 @@ CREATE TABLE `website_kwitansi` (
 --
 
 INSERT INTO `website_kwitansi` (`id`, `no_kwitansi`, `penerima`, `tanggal`) VALUES
-(4, '1', '31441', '2022-06-07'),
-(6, '3', 'qwqwqw', '2022-06-10'),
-(15, '4', '31441dava', '2022-06-22'),
-(16, '2', '31441dava', '2022-06-22'),
-(19, 'AUNIS/K/2022/5', '31441', '2022-06-03');
+(4, 'AUNIS/K/2022/1', 'PT. MATAKAR KENDARI', '2022-06-17'),
+(5, 'AUNIS/K/2022/2', 'KEJAKSAAN NEGERI KENDARI', '2022-06-16');
 
 -- --------------------------------------------------------
 
@@ -464,9 +438,16 @@ CREATE TABLE `website_perusahaan` (
 --
 
 INSERT INTO `website_perusahaan` (`id`, `kode_perusahaan`, `nama_perusahaan`, `alamat`, `npwp`) VALUES
-(1, 'GCNS', 'GCNS', '', NULL),
-(2, 'ITSS', 'ITSS', '', NULL),
-(3, 'IRNC', 'IRNC', '', NULL);
+(1, 'ITSS', 'PT.INDONESIA TSINGSHAN STAINLESS STEEL', 'GEDUNG IMIP, JL. BATU MULIA 8 RT. 007 RW. 007 MERUYA UTARA, KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '71.706.475.2-014.000'),
+(2, 'IRNC', 'PT.INDONESIA RUIPU NICKEL AND CHROME ALLOY', 'GEDUNG IMIP, JALAN BATU MULIA 8 RT. 007 RW. 007 MERUYA UTARA KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620IRNC', '74.613.637.3-012.000'),
+(3, 'PT. GCNS', 'PT.INDONESIA GUANG CHING NICKEL AND STAINLESS STEE', 'GEDUNG IMIP JL. BATU MULIA NO. 8 RT. 007 RW. 007 MERUYA UTARA, KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '70.725.476.9-014.000'),
+(4, 'PT. CSI', 'PT.CAHAYA SMELTER INDONESIA', 'GEDUNG IMIP, JL. BATU MULIA 8, RT. 007 RW. 007, MERUYA UTARA, KEMBANGAN, KOTA ADM. JAKARTA BARAT, DKI JAKARTA, 11620', '85.936.483.8-014.000'),
+(5, 'PT. HNI', 'PT.HENGJAYA NICKEL INDUSTRY', 'GEDUNG IMIP, JL. BATU MULIA 8, RT. 007 RW. 007, MERUYA UTARA, KEMBANGAN, KOTA ADM. JAKARTA BARAT, DKI JAKARTA, 11620', '83.831.548.9-014.000'),
+(6, 'PT. IMIP', 'PT.INDONESIA MOROWALI INDUSTRIAL PARK', 'GEDUNG IMIP JL BATU MULIA NO. 8 RT. 007 RW. 007 MERUYA UTARA KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '03.310.985.1-014.000'),
+(7, 'PT. RNI', 'PT.RANGER NICKEL INDUSTRY', 'GEDUNG IMIP, JL. BATU MULIA NO. 8, RT. 007 RW. 007, MERUYA UTARA, KEMBANGAN, KOTA ADM. JAKARTA BARAT, DKI JAKARTA, 11620', '85.460.461.8-067.000'),
+(8, 'PT. SMI', 'PT.SULAWESI MINING INVESTMENT', 'GEDUNG IMIP JALAN BATU MULIA NO.8 RT. 007 RW. 007 MERUYA UTARA KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '02.983.141.9-046.000'),
+(9, 'PT. TSI', 'PT.TSINGSHAN STEEL INDONESIA', 'GEDUNG IMIP, JL BATU MULIA 8 MERUYA UTARA KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '80.774.920.5-014.000'),
+(10, 'PT. MPM', 'PT.MOROWALI POWER MANDIRI', 'GEDUNG IMIP, JL BATU MULIA 8 MERUYA UTARA KEMBANGAN KOTA ADM. JAKARTA BARAT DKI JAKARTA 11620', '86.867.359.1-014.000');
 
 -- --------------------------------------------------------
 
@@ -484,10 +465,10 @@ CREATE TABLE `website_satuan_barang` (
 --
 
 INSERT INTO `website_satuan_barang` (`id`, `nama_satuan`) VALUES
-(1, 'BUKU'),
+(1, 'BOX'),
 (2, 'PCS'),
-(3, 'BOX'),
-(4, 'LBR');
+(3, 'LBR'),
+(4, 'BUKU');
 
 -- --------------------------------------------------------
 
@@ -503,16 +484,6 @@ CREATE TABLE `website_sjalan` (
   `id_kontrak_id` int(11) NOT NULL,
   `pemesan_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `website_sjalan`
---
-
-INSERT INTO `website_sjalan` (`id`, `no_surat`, `no_hp`, `tanggal`, `id_kontrak_id`, `pemesan_id`) VALUES
-(1, '1', '213ddd', '2022-06-17', 1, 2),
-(3, '2', 'ffdf', '2022-06-08', 1, 3),
-(4, 'AUNIS/SJ/2022/3', 'ffdf', '2022-06-10', 1, 1),
-(5, 'AUNIS/SJ/2022/4', '213ddd', '2022-06-11', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -703,7 +674,7 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT for table `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `auth_user_groups`
@@ -739,37 +710,37 @@ ALTER TABLE `django_migrations`
 -- AUTO_INCREMENT for table `website_isi_kontrak`
 --
 ALTER TABLE `website_isi_kontrak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `website_isi_kwitansi`
 --
 ALTER TABLE `website_isi_kwitansi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `website_isi_sjalan`
 --
 ALTER TABLE `website_isi_sjalan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `website_kontrak`
 --
 ALTER TABLE `website_kontrak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `website_kwitansi`
 --
 ALTER TABLE `website_kwitansi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `website_perusahaan`
 --
 ALTER TABLE `website_perusahaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `website_satuan_barang`

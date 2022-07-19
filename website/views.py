@@ -190,7 +190,7 @@ def pdf_detail(request, pk):
         pr = Data_isikontraks.filter(id__in=list_of_id_for_action)
         
         info = pr.first()
-    #print(info)
+        print(info)
         px = perusahaan.objects.get(kode_perusahaan=info.id_perusahaan)
     #px="ss"
     #print(px)
@@ -533,7 +533,8 @@ def Create_kwitansi(request):
     kwitansissw=np.array(kwitansiss)
     kwitansiss=kwitansissw.astype(str)
     
-    tahun= datetime.date.today().year
+    tahun = datetime.date.today().year
+    bulan = datetime.date.today().month
     jumlah_kwitansi=kwitansi.objects.filter(tanggal__year = tahun).count()+1
     a=[]
     for nomor in kwitansiss:
@@ -544,10 +545,10 @@ def Create_kwitansi(request):
     a=a.astype(int)
     
     if jumlah_kwitansi not in a :
-        kode='AUNIS/K/'+str(tahun)+'/'+str(jumlah_kwitansi)
+        kode = str(jumlah_kwitansi)+'/'+'AUNIS/K/'+str(bulan)+'/'+str(tahun)
     else:
         kode=min(set(range(max(a) + 2)) - set(a))
-        kode='AUNIS/K/'+str(tahun)+'/'+str(kode)
+        kode = str(kode)+'/'+'AUNIS/K/'+str(bulan)+'/'+str(tahun)
     print(kode)
     
 
@@ -876,6 +877,7 @@ def Create_SuratJ(request, pk):
     surJ=surJ.astype(str)
     a=[]
     tahun= datetime.date.today().year
+    bulan = datetime.date.today().month
     print(tahun)
     jumlah_SuratJ=SJalan.objects.filter(tanggal__year = tahun).count()+1
 
@@ -888,9 +890,10 @@ def Create_SuratJ(request, pk):
 
     if jumlah_SuratJ not in a:
         kode='AUNIS/SJ/'+str(tahun)+'/'+str(jumlah_SuratJ)
+        kode = str(jumlah_SuratJ)+'/'+'AUNIS/SJ/'+str(bulan)+'/'+str(tahun)
     else:
         kode=min(set(range(max(a) + 2)) - set(a))
-        kode='AUNIS/K/'+str(tahun)+'/'+str(kode)
+        kode = str(kode)+'/'+'AUNIS/SJ/'+str(bulan)+'/'+str(tahun)
     print(kode)
 
     if request.method == 'POST':
@@ -1048,8 +1051,8 @@ def Create_kontrakManual(request):
                 isi_kontraks.jumlah = jumlahs[i]
                 isi_kontraks.harga = hargas[i]
                 isi_kontraks.total = totals[i]
-                perusahaans = perusahaan.objects.filter(id=id_perusahaan)
-                isi_kontraks.id_perusahaan = perusahaans[i]
+                perusahaans = perusahaan.objects.get(id=id_perusahaan)
+                isi_kontraks.id_perusahaan = perusahaans
                 isi_kontraks.supplier = "AUNIS PRINT OFFSET"
                 isi_kontraks.tgl_order = tgl_orders
                 isi_kontraks.waktu = waktus

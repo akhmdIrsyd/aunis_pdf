@@ -10,6 +10,13 @@ def slice_path(value):
 def po_number(value):
     return str(value).split("-")[-1]
 
+
+@register.filter
+def kon_number(value):
+    s = str(value).split("-")[:3]
+    listToStr = '-'.join([str(elem) for elem in s])
+    return listToStr
+
 @register.filter
 def if_null(value):
     if(value):

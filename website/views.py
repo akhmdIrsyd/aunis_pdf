@@ -182,6 +182,7 @@ def pdf_detail(request, pk):
     
     px=[]
     info=[]
+    kode=""
     if request.method == 'POST':
         list_of_id_for_action = request.POST.getlist('items')
         list_of_obj = isi_kontrak.objects.filter(pk__in=list_of_id_for_action)
@@ -192,14 +193,39 @@ def pdf_detail(request, pk):
         info = pr.first()
         print(info)
         px = perusahaan.objects.get(kode_perusahaan=info.id_perusahaan)
-    #px="ss"
-    #print(px)
+
+        surJ = SJalan.objects.values_list('no_surat', flat=True)
+
+        surJ = np.array(surJ)
+        surJ = surJ.astype(str)
+        a = []
+        tahun = datetime.date.today().year
+        bulan = datetime.date.today().month
+        print(tahun)
+        jumlah_SuratJ = SJalan.objects.filter(tanggal__year=tahun).count()
+
+        for nomor in surJ:
+            nomor = nomor.split('/', 4)[3]
+            a.append(nomor)
+        a.append(0)
+        a = np.array(a)
+        a = a.astype(int)
+
+        if jumlah_SuratJ not in a:
+            kode = str(jumlah_SuratJ)+'-'+'UD-APO/'+str(bulan)+'/'+str(tahun)
+        else:
+            kode = min(set(range(max(a) + 2)) - set(a))
+            kode = str(kode)+'-'+'UD-APO/'+str(bulan)+'/'+str(tahun)
+        print(kode)
+        #px="ss"
+        #print(px)
     context = {
         'rows': Data_isikontraks,
         'doc': Data_kontrak,
         'print': pr,
         'info': info,
-        'perus': px
+        'perus': px,
+        "no_invoice":kode
     }
     # return render(request, 'test.html', context)
     return render(request, 'detail_kontrak.html', context)
@@ -538,7 +564,7 @@ def Create_kwitansi(request):
     jumlah_kwitansi=kwitansi.objects.filter(tanggal__year = tahun).count()+1
     a=[]
     for nomor in kwitansiss:
-        nomor=nomor.split('/',4)[3]
+        nomor = nomor.split('/')[0]
         a.append(nomor)
     a.append(0)
     a=np.array(a)
@@ -874,22 +900,22 @@ def Create_SuratJ(request, pk):
     surJ=SJalan.objects.values_list('no_surat', flat=True)
     
     surJ=np.array(surJ)
-    surJ=surJ.astype(str)
+    surJs=surJ.astype(str)
     a=[]
     tahun= datetime.date.today().year
     bulan = datetime.date.today().month
     print(tahun)
     jumlah_SuratJ=SJalan.objects.filter(tanggal__year = tahun).count()+1
 
-    for nomor in surJ:
-        nomor=nomor.split('/',4)[3]
+    for nomor in surJs:
+        nomor=nomor.split('/')[0]
         a.append(nomor)
+    print(a)
     a.append(0)
     a=np.array(a)
-    a=a.astype(int)
+    a = a.astype(int)
 
     if jumlah_SuratJ not in a:
-        kode='AUNIS/SJ/'+str(tahun)+'/'+str(jumlah_SuratJ)
         kode = str(jumlah_SuratJ)+'/'+'AUNIS/SJ/'+str(bulan)+'/'+str(tahun)
     else:
         kode=min(set(range(max(a) + 2)) - set(a))

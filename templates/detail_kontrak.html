@@ -185,7 +185,7 @@
               <b>
                 {% load po_number %}
                 {% load if_null %}
-                <span id="z1">No Kontrak : {{ info.no_kontrak }} </span> <br>
+                <span id="z1">No Kontrak : {{ info.no_kontrak | kon_number }} </span> <br>
                 <span id="z2">No. PO : {{ info.no_kontrak | po_number }} </span> <br><br><br>
                 
                 <span><b>Pembeli: </b></span><br>
@@ -199,7 +199,7 @@
                 <tr>
                   <td><b>No</b></td>
                   <td><b>: </b></td>
-                  <td><b id="SET_NO"></b></td>
+                  <td><b id="SET_NO">{{no_invoice}}</b></td>
                 </tr>
                 <tr>
                   <td><b>Tanggal</b></td>

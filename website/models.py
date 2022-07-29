@@ -18,7 +18,7 @@ def file_size(value):  # add this to some file where you can import it from
 
 class perusahaan(models.Model):
     kode_perusahaan = models.CharField(max_length=50, unique=True)
-    nama_perusahaan = models.CharField(max_length=50)
+    nama_perusahaan = models.CharField(max_length=100)
     alamat = models.TextField(max_length=255, blank=True, null=True, default='')
     npwp = models.CharField(max_length=50, blank=True, null=True, default='')
 
